@@ -88,3 +88,65 @@ When documenting your function, ensure each section of the function card templat
 -   Keep the function card updated to reflect any changes in functionality, usage, or environment.
 
 This structured approach to documentation via function cards enhances code readability, maintainability, and usability, significantly benefiting both the original developers and others who may work with the code in the future.
+
+
+Sample function card
+
+    ******************************************************************************* 
+    * Function name : <FunctionName> 
+    * * Aliases : <AnyAliases> 
+    * ******************************************************************************* 
+    * * Description : <BriefDescriptionOfWhatTheFunctionDoes> 
+    * ******************************************************************************* 
+    * * Parameters : * <ParameterName> : <DataType> - <Description> (Default: <DefaultValue>) 
+    * ******************************************************************************* 
+    * * Return Value : <DescribeReturnValueAndMeaning> 
+    * * Overloads : <ListAnyOverloadsIfApplicable> 
+    * ******************************************************************************* 
+    * * Creation Date : <DateCreated> Last Update : <LastUpdatedDate> 
+    * * Created by : <AuthorName> 
+    * ******************************************************************************* 
+    * * Version : <VersionNumber> 
+    * * Change History : 
+    * * Date <YYYY-MM-DD> : <ChangeDescription> V<VersionNumber> 
+    * ******************************************************************************* 
+    * * Repository : <URLToCodeRepositoryOrDocumentation> 
+    * * Dependencies : <AnyDependenciesTheFunctionHas> 
+    * * Configuration Files: <PathsAndDescriptionsOfConfigurationFiles> 
+    * * Environment Variables: <ListAndDescribeEnvironmentVariables> 
+    * ******************************************************************************* 
+    * * Functional state : <CurrentStateOfWorkingOrNot> 
+    * * Compatible : <CompatibilityInformation> 
+    * * Test Coverage: <DescriptionOfTestCoverage> 
+    * ******************************************************************************* 
+    * * Usage Examples : * <Example1> * <Example2> 
+    * ******************************************************************************* 
+    * * Theory of Operation : 
+    * * <DetailedDescriptionOfHowTheFunctionWorksInternally> 
+    * ******************************************************************************* 
+    * * Function Assumptions : * <AnyAssumptionsMadeByTheFunction> 
+    * ******************************************************************************* 
+    * * Error handling : * <HowErrorsAreHandled> 
+    * * Side Effects : * <AnySideEffectsOfUsingTheFunction> 
+    * * Security Considerations : * <AnySecurityRisksOrConsiderations> 
+    * * Performance Considerations : * <AnyPerformanceImpactsOrConsiderations> 
+    * ******************************************************************************* 
+    * * Internationalization and Localization: <SupportDetails> 
+    * * Accessibility: <AccessibilityFeaturesOrConsiderations> 
+    * * Thread Safety: <ThreadSafetyInformation> 
+    * * Memory Management: <MemoryManagementDetails> 
+    * ******************************************************************************* 
+    * * Related Tools and Libraries: <RelatedResources> 
+    * * See Also : * <RelatedFunctionsOrDocumentation> 
+    * ******************************************************************************* 
+    * * FAQs: * <FrequentlyAskedQuestionsAndAnswers> 
+    * ******************************************************************************* 
+    * * User Feedback: <HowUsersCanProvideFeedbackOrReportBugs> 
+    * * Contact Information: <AuthorOrMaintainerContactInfo> 
+    * ******************************************************************************* 
+    * * Ethical Considerations: <EthicalUseAndPotentialMisuse> 
+    * * License : <LicenseUnderWhichTheFunctionIsReleased> 
+    * ******************************************************************************* 
+    * * Examples Repository: <LinkToExamples> 
+    * *******************************************************************************
+
