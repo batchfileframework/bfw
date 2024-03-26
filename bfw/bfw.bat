@@ -37,6 +37,7 @@ set "_CreateBFWlink_fileorigin=%~dpnx0"
 if "[%~1]" EQU "[CreateBFWlink]" shift
 set "_CreateBFWlink_Output=%~2"
 if not defined _CreateBFWlink_Output set "_CreateBFWlink_Output=%~dp0"
+echo echo Call :CreateLink "%_CreateBFWlink_fileorigin%" "%~1.bat"
 Call :CreateLink "%_CreateBFWlink_fileorigin%" "%~1.bat"
 GoTo :EOF
 
