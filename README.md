@@ -5,13 +5,13 @@ Features
 
 Features
 
-    Function Library: A rich set of pre-defined functions covering a wide range of common scripting tasks, from file manipulation to network operations.
-    Array Simulation: Utilizes a convention-based approach to mimic array structures, enabling complex data handling and manipulation.
-    Enhanced Error Handling: Offers robust error detection and handling mechanisms to improve script reliability.
-    Modular Design: Encourages modular scripting with support for including external batch files, facilitating code reuse and organization.
-    Consistent Coding Style: Comes with a detailed style guide to promote coding consistency and best practices among batch file developers.
-    Help Functionality: Each script function includes a -help option, providing users with usage information and examples directly from the command line.
-    Array and Variable Management: Guidelines for effective management of variables and simulated arrays, ensuring efficient data storage and access.
+    - Function Library: A rich set of pre-defined functions covering a wide range of common scripting tasks, from file manipulation to network operations.
+    - Array Simulation: Utilizes a convention-based approach to mimic array structures, enabling complex data handling and manipulation.
+    - Enhanced Error Handling: Offers robust error detection and handling mechanisms to improve script reliability.
+    - Modular Design: Encourages modular scripting with support for including external batch files, facilitating code reuse and organization.
+    - Consistent Coding Style: Comes with a detailed style guide to promote coding consistency and best practices among batch file developers.
+    - Help Functionality: Each script function includes a -help option, providing users with usage information and examples directly from the command line.
+    - Array and Variable Management: Guidelines for effective management of variables and simulated arrays, ensuring efficient data storage and access.
 
 ### Getting Started
 
