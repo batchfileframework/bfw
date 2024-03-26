@@ -15,7 +15,7 @@ GoTo :EOF
 :Install
 
 echo Installation of bfw
-echo checking if bfw already installed, if yes, do you wish to update y/n -> call :Update if yes, exit if no
+echo checking if bfw already installed, if yes, do you wish to update y/n - call :Update if yes, exit if no
 
 GoTo :EOF
 
@@ -33,10 +33,11 @@ REM ---- Custom functions
 
 ::Usage Call :CreateBFWlink FunctionName OutputFolder
 :CreateBFWlink
+set "_CreateBFWlink_fileorigin=%~dpnx0"
 if "[%~1]" EQU "[CreateBFWlink]" shift
 set "_CreateBFWlink_Output=%~2"
 if not defined _CreateBFWlink_Output set "_CreateBFWlink_Output=%~dp0"
-Call :CreateLink "%~dpnx0" "%~1.bat"
+Call :CreateLink "%_CreateBFWlink_fileorigin%" "%~1.bat"
 GoTo :EOF
 
 
