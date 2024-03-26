@@ -49,3 +49,49 @@ Your `-help` function should adhere to a template that systematically presents i
 -   **Version Information**: Consider including version information within the help content, allowing users to quickly ascertain the version of the tool they are using.
 
 By adhering to these guidelines, you will create help functions that significantly enhance the user experience, offering clear, helpful, and actionable information that encourages correct and efficient use of your command-line tools.
+
+Sample help function
+
+    :function-help 
+    echo ******************************************************************************* 
+    echo * Function Name: <FunctionName> 
+    echo * Description: <BriefDescriptionOfWhatTheFunctionDoes> 
+    echo ******************************************************************************* 
+    echo * Usage: 
+    echo * <FunctionName> <Parameter1> <Parameter2> ... <ParameterN> 
+    echo * 
+    echo * Parameters: 
+    echo * <Parameter1> - <DescriptionOfParameter1> 
+    echo * <Parameter2> - <DescriptionOfParameter2> 
+    echo * ... 
+    echo * <ParameterN> - <DescriptionOfParameterN> 
+    echo * 
+    echo * Options: 
+    echo * <Option1> - <DescriptionOfOption1> 
+    echo * <Option2> - <DescriptionOfOption2> 
+    echo * ... 
+    echo * <OptionN> - <DescriptionOfOptionN> 
+    echo ******************************************************************************* 
+    echo * Examples: 
+    echo * 1. <ExampleUsage1> 
+    echo * <ExampleDescription1> 
+    echo * 
+    echo * 2. <ExampleUsage2> 
+    echo * <ExampleDescription2> 
+    echo * 
+    echo * ... 
+    echo * 
+    echo * N. <ExampleUsageN> 
+    echo * <ExampleDescriptionN> 
+    echo ******************************************************************************* 
+    echo * Additional Notes: 
+    echo * <AnyAdditionalInformationOrNotesRelatedToTheFunction> 
+    echo ******************************************************************************* 
+    echo * See Also: 
+    echo * - <RelatedFunctionOrDocumentation1> 
+    echo * - <RelatedFunctionOrDocumentation2> 
+    echo * ... 
+    echo * - <RelatedFunctionOrDocumentationN> 
+    echo ******************************************************************************* 
+    goto :EOF
+
