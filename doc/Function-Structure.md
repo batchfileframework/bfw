@@ -7,7 +7,7 @@ This guide outlines the conventions for declaring and organizing functions withi
 
 Each function in our codebase is composed of four critical sections: the Preamble, Body, End, and Postscript. These sections are designed to clearly separate the function's purpose, implementation, conclusion, and supplementary information.
 
-
+![function structure example](https://github.com/batchfileframework/BatchfileFrameWork/blob/main/doc/function-structure-example.png)
 
 ### Preamble
 
