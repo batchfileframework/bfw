@@ -97,9 +97,22 @@ By following these guidelines, you can effectively leverage BFW to enhance your 
 ------------
 
 
-### Documentation
+## Table of Contents
 
-For comprehensive documentation, including a list of available functions, coding style guidelines, and best practices, refer to the Wiki.
+1.  **[Coding Style Guide - Batch Functions](https://github.com/batchfileframework/BatchfileFrameWork/blob/main/doc/Function-Structure.md)**
+    -   Overview of conventions for declaring and organizing batch functions.
+2.  **[Handling Pseudo-Arrays in Batch Scripting](https://github.com/batchfileframework/BatchfileFrameWork/blob/main/doc/Pseudo-Arrays.md)**
+    -   Guidelines for simulating arrays in batch scripts for enhanced data manipulation.
+3.  **[Advanced Coding Style and Practices](https://github.com/batchfileframework/BatchfileFrameWork/blob/main/doc/Coding-Style.md)**
+    -   Deep dive into variable management, function structure, and naming conventions.
+4.  **[Understanding the Function Call Mechanism in BFW](https://github.com/batchfileframework/BatchfileFrameWork/blob/main/doc/How-bfd-works.md)**
+    -   Detailed explanation of BFW's dynamic function calling system based on script names and arguments.
+5.  **[Explained with `IsDrive`: A BFW Function Example](https://github.com/batchfileframework/BatchfileFrameWork/blob/main/doc/BFW-Explained-With-IsDrive.md)**
+    -   A practical example illustrating how BFW functions are structured and executed, using `IsDrive` as a case study.
+6.  **[Documenting Functions with Function Cards](https://github.com/batchfileframework/BatchfileFrameWork/blob/main/doc/Function-Cards.md)**
+    -   How to create detailed function cards for comprehensive documentation and easy reference.
+7.  **[Incorporating Help Functions in Your Tools](https://github.com/batchfileframework/BatchfileFrameWork/blob/main/doc/Help-Function.md)**
+    -   Best practices for designing informative help functions for command-line tools.
 
 ### Contributing
 
