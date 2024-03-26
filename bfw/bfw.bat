@@ -33,6 +33,7 @@ REM ---- Custom functions
 
 ::Usage Call :CreateBFWlink FunctionName OutputFolder
 :CreateBFWlink
+if "[%~1]" EQU "[CreateBFWlink]" shift
 set "_CreateBFWlink_Output=%~2"
 if not defined _CreateBFWlink_Output set "_CreateBFWlink_Output=%~dp0"
 Call :CreateLink "%~dpnx0" "%~1.bat"
