@@ -20,7 +20,7 @@ Installing BFW is straightforward and can be accomplished with a single command.
 Open a command prompt and enter the following command:
 
 
-    curl --location --fail https://github.com/batchfileframework/BatchfileFrameWork/raw/master/bfw/bfw.bat -o bfw.bat & bfw.bat install
+    curl --location --fail https://github.com/batchfileframework/BatchfileFrameWork/raw/main/bfw/bfw.bat -o bfw.bat & bfw.bat install
 
 This command performs several actions to set up BFW on your system:
 
