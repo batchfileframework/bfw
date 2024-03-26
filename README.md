@@ -134,6 +134,47 @@ BFW is released under the GPL-3.0 license. See the LICENSE file for more details
     Special thanks to the batch file community for valuable insights and contributions.
     This project is inspired by the need for standardized practices in batch file development.
 
+    https://ss64.com/nt/
+    https://www.dostips.com/
+    https://www.tutorialspoint.com/batch_script/index.htm
+    https://stackoverflow.com/questions/tagged/batch-file
+    https://www.robvanderwoude.com/batchfiles.php
+    https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-xp/bb490869(v=technet.10)?redirectedfrom=MSDN
+    https://rosettacode.org/wiki/Category:Batch_File
+    https://groups.google.com/g/alt.msdos.batch
+    https://groups.google.com/g/alt.msdos.batch.nt
+    http://www.ericphelps.com/batch/
+    https://home.csulb.edu/~murdock/dosindex.html
+    https://web.archive.org/web/20240000000000*/https://www.fpschultze.de/batstuff.html
+    https://web.archive.org/web/20240000000000*/http://purl.oclc.org/net/Batfiles/
+    https://www.computerhope.com/batch.htm
+    https://www.geeksforgeeks.org/writing-windows-batch-script/
+    https://en.wikipedia.org/wiki/Batch_file
+    https://en.wikipedia.org/wiki/List_of_DOS_commands
+    https://web.archive.org/web/20120419153526/http://www.netikka.net/tsneti/http/tsnetihttpprog.php#cmdscript
+    https://www.geoffdoesstuff.com/windows-batch-scripts
+    https://www.trytoprogram.com/batch-file-commands/
+    https://jpsoft.com/batch-debugging.html
+    https://community.spiceworks.com/t/help-me-to-create-batch-file/582612
+    https://fossbytes.com/complete-windows-cmd-commands-list-index/
+    https://fossbytes.com/what-is-a-batch-file-in-windows-how-to-create-a-batch-file/
+    https://github.com/Justin-Lund/IT-Support-Batch-Files
+    https://learn.openwaterfoundation.org/owf-learn-windows-shell/useful-batch-files/useful-batch-files/
+    https://www.makeuseof.com/tag/use-windows-batch-file-commands-automate-repetitive-tasks/
+    https://study.com/academy/lesson/batch-file-comments-arguments.html
+    https://medium.com/@rjaloudi/mastering-automation-a-comprehensive-guide-to-creating-10-powerful-batch-files-on-windows-ad626d2b3b15
+    https://learn.openwaterfoundation.org/owf-learn-windows-shell/best-practices/best-practices/
+    https://en.wikipedia.org/wiki/List_of_DOS_commands
+    https://technet.microsoft.com/en-us/library/cc749839.aspx
+    http://www.drdos.com/dosdoc/
+    https://www.mdgx.com/secrets.htm
+    https://github.com/microsoft/MS-DOS
+    https://web.archive.org/web/20130612114615/http://fd-doc.sourceforge.net/wiki/index.php
+    http://www.computerhope.com/msdos.htm
+    http://www.windows-commandline.com/windows-cmd-commands-reference/
+    http://www.textfiles.com/hacking/MICROSOFT/dosundoc.txt
+    https://stackoverflow.com/questions/48420074/was-echo-on-or-off-when-my-windows-bat-was-called
+    
 ### Contact
 
 For questions, suggestions, or contributions, please contact the project maintainer at your.email@example.com.
