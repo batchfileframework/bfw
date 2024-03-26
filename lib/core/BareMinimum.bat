@@ -2,5 +2,6 @@
 
 :setup
 :main
+:end
 
 GoTo :EOF
