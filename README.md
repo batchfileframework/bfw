@@ -174,6 +174,8 @@ BFW is released under the GPL-3.0 license. See the LICENSE file for more details
     http://www.windows-commandline.com/windows-cmd-commands-reference/
     http://www.textfiles.com/hacking/MICROSOFT/dosundoc.txt
     https://stackoverflow.com/questions/48420074/was-echo-on-or-off-when-my-windows-bat-was-called
+
+    REPL.BAT https://stackoverflow.com/questions/60034/how-can-you-find-and-replace-text-in-a-file-using-the-windows-command-line-envir/16735079#16735079
     
 ### Contact
 
