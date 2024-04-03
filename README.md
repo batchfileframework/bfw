@@ -143,6 +143,7 @@ BFW is released under the GPL-3.0 license. See the LICENSE file for more details
     https://rosettacode.org/wiki/Category:Batch_File
     https://groups.google.com/g/alt.msdos.batch
     https://groups.google.com/g/alt.msdos.batch.nt
+    https://alt.msdos.batch.nt.narkive.com/
     http://www.ericphelps.com/batch/
     https://home.csulb.edu/~murdock/dosindex.html
     https://web.archive.org/web/20240000000000*/https://www.fpschultze.de/batstuff.html
