@@ -1,6 +1,9 @@
 @echo off
 
 :setup
+
+set "_IFLE_ExclusionList=main setup macro end loop loop2 loop3 loop4 skip skip1 skip2 skip2 skip3 skip4 test test1 test2 test3 cleanup argument params args next prev iteration pre post 0 1 2 3 4 5 6 7 8 9 subloop matchfound nomatch found index list arguments preamble test4 test5 test6 start reset"
+
 :main
 
 for %%a in ( %* ) do ( for %%b in ( /h /? -h -? help --help ) do ( if "[%%a]" EQU "[%%b]" ( Call :%~n0-help & exit /b 1 ) ) )
@@ -8,9 +11,23 @@ for %%a in ( %* ) do ( if "[%%a]" EQU "[demo]" ( Call :%~n0-demo & exit /b 1 ) )
 if "[%~1]" EQU "[]" ( echo %~n0 needs at least one argument & exit /b 1 )
 REM if "[%~1]" EQU "[]" if "[%~2]" EQU "[]" ( echo %~n0 needs at least two argument & exit /b 1 )
 
-if "[%~n0]" EQU "[bfw]" ( Call :%~1 %* ) else ( Call :%~n0 %* )
+if "[%~n0]" EQU "[bfw]" ( Call :ShiftedArgumentCaller %* ) else ( Call :%~n0 %* )
+
+:end
 
 GoTo :EOF
+
+REM TODO
+listfunction batchfile functionname functionname2 func* *
+AppendFunctionToFile  batchfile functionname functionname2 func* *
+
+
+
+:ShiftedArgumentCaller
+set _ShiftedArgumentCaller_function=%~1
+shift
+set "_ShiftedArgumentCaller_function=" & GoTo :%_ShiftedArgumentCaller_function%
+
 
 :Install
 
@@ -42,6 +59,102 @@ Call :CreateLink "%_CreateBFWlink_fileorigin%" "%~1.bat"
 GoTo :EOF
 
 
+::Usage Call :GetLabels BatchFile optional LabelName
+:PritnFunctionLabels
+REM set "_GetLabels_output=%~2"
+REM if "[%~3]" EQU "[]" ( set "_GetLabels_output_rows=%_GetLabels_output%.rows" ) else ( set "_GetLabels_output_rows=%~3" )
+REM for /f delims^=^ eol^= %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%~1" ^| findstr /N "^"') do (
+for /f delims^=^ eol^= %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%~1" ^| findstr /N "^"') do (
+	
+	REM for /f "tokens=1,2,3* delims=:" %%f in ("%%a") do set /a "%_GetLabels_output%.ubound=%%f" & REM set %_GetLabels_output%[%%f]=%%g
+	REM for /f "tokens=1,2,3* delims=:" %%f in ("%%a") do set %_GetLabels_output_rows%[%%g].type=label
+	for /f "tokens=1,2,3* delims=:" %%f in ("%%a") do for /f "tokens=1,2*" %%z in ("%%h") do set %_GetLabels_output%[%%f].name=%%~z
+	
+	<nul set /p =%_EchoArray_prefix%!%_EchoArray_input%[%_EchoArray_index_actual%]%_EchoArray_suffix%! 
+	REM for /f "tokens=1,2,3* delims=:" %%f in ("%%a") do for /f "tokens=1,2*" %%z in ("%%h") do set %_GetLabels_output%.name[%%~z]=%%g
+	REM for /f "tokens=1,2,3* delims=:" %%f in ("%%a") do for /f "tokens=1,2*" %%z in ("%%h") do set %_GetLabels_output_rows%[%%g]=%%~z
+	)
+set /a "%_GetLabels_output%.lbound=1" & set "_GetLabels_output=" & set "_GetLabels_output_rows="
+GoTo :EOF
+
+::Usage Call :EchoFileLine filename 3 4 5 6 7 ... N
+:EchoFileLine
+set "_EchoFileLine_prefix=_EFL"
+set "_EFL_File=%~1"
+:EchoFileLine-arg
+set "_EFL_LineList=%_EFL_LineList% /C:"%~2:""
+if "[%~3]" NEQ "[]" ( shift & GoTo :EchoFileLine-arg )
+Setlocal enabledelayedexpansion
+for /f delims^=^ eol^= %%a in (' ^( type "%_EFL_File%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^| %SystemRoot%\System32\findstr /B %_EFL_LineList% ^) 2^>nul ') do ( 
+	set _EFL_buffer=%%a
+	if defined _EFL_buffer echo(!_EFL_buffer:*:=!
+	) 
+endlocal
+Call :ClearVariablesByPrefix %_EchoFileLine_prefix% _EchoFileLine_prefix & GoTo :EOF
+
+::Usage Call :AppendFileLineToFile inputfile outputfile 3 4 5 6 7 ... N
+:AppendFileLineToFile
+set "_AppendFileLineToFile_prefix=_AFLTF"
+set "_AFLTF_InputFile=%~1"
+set "_AFLTF_OutputFile=%~2"
+:AppendFileLineToFile-arg
+set "_AFLTF_LineList=%_AFLTF_LineList% /C:"%~3:""
+if "[%~3]" NEQ "[]" ( shift & GoTo :AppendFileLineToFile-arg )
+Setlocal enabledelayedexpansion
+for /f delims^=^ eol^= %%a in (' ^( type "%_AFLTF_InputFile%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^| %SystemRoot%\System32\findstr /B %_AFLTF_LineList% ^) 2^>nul ') do ( 
+	set _AFLTF_buffer=%%a
+	if defined _AFLTF_buffer >>"%_AFLTF_OutputFile%" echo(!_AFLTF_buffer:*:=!
+	) 
+endlocal
+Call :ClearVariablesByPrefix %_EchoFileLine_prefix% _EchoFileLine_prefix & GoTo :EOF
+
+::Usage Call :DeleteLine filename StartRow EndRow
+::This function will delete specified lines of text in a file
+::row arguments should be single numbers or tuplets in the format  ##-## example  2555-2565 
+:DeleteLine
+set "_DL_prefix=_DL"
+set "_DL_Filename=%~1"
+set /a _DL_StartRow=%~2
+set /a _DL_EndRow=%~3 2>nul
+if not defined _DL_EndRow set /a _DL_EndRow=%_DL_StartRow%
+if not exist "%temp%\bfw\backup" md "%temp%\bfw\backup"
+if not exist "%temp%\bfw\working" md "%temp%\bfw\working"
+for /d %%i in ("%_DL_Filename%") do set "_DL_name=%%~ni"
+for /d %%i in ("%_DL_Filename%") do set "_DL_ext=%%~xi"
+set "_DL_TempFile=%date%-%time::=.%"
+set "_DL_TempFile=%_DL_TempFile: =%"
+copy "%_DL_Filename%" "%temp%\bfw\backup\%_DL_name%.%_DL_TempFile%%_DL_ext%.bak"
+set "_DL_TempFile=%temp%\bfw\working\%_DL_name%.%_DL_TempFile%%_DL_ext%.bak"
+Setlocal enabledelayedexpansion
+for /f delims^=^ eol^= %%a in (' ^( type "%_DL_Filename%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^) 2^>nul ') do ( 
+	REM for /f "tokens=1,* delims=:" %%f in ("%%a") do echo 1 a%%a f%%f
+	for /f "tokens=1 delims=:" %%f in ("%%a") do if %%f GEQ %_DL_StartRow% GoTo :DeleteLine-start-skip
+	set _DL_buffer=%%a
+	REM for /f "tokens=1,* delims=:" %%f in ("%%a") do echo 2 a%%a f%%f
+	if defined _DL_buffer >>"%_DL_TempFile%" echo(!_DL_buffer:*:=!
+	) 
+:DeleteLine-start-skip
+endlocal
+set /a _DL_skip=%_DL_EndRow%
+Setlocal enabledelayedexpansion
+for /f skip^=%_DL_skip%^ delims^=^ eol^= %%a in (' ^( type "%_DL_Filename%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^) 2^>nul ') do (
+	REM for /f "tokens=1,* delims=:" %%f in ("%%a") do echo 3 a%%a f%%f
+	set _DL_buffer=%%a
+	if defined _DL_buffer >>"%_DL_TempFile%" echo(!_DL_buffer:*:=!
+	) 
+endlocal
+echo move -y "%_DL_TempFile%" "%_DL_Filename%"
+Call :ClearVariablesByPrefix %_DL_prefix% _DL_prefix & GoTo :EOF
+
+
+
+
+
+
+
+
+
+
 REM ---- Batch file function manipulation
 
 ::Usage Call :CreateShortcut FileOrigin ShortcutFile
@@ -55,6 +168,11 @@ GoTo :EOF
 ::Usage Call :CreateLink FileOrigin LinkFile
 :CreateLink
 mklink "%~2" "%~1"
+GoTo :EOF
+
+::Usage Call :CreateHardLink FileOrigin LinkFile
+:CreateHardLink
+mklink /h "%~2" "%~1"
 GoTo :EOF
 
 ::Usage Call :ListFunctions BatchFile 
