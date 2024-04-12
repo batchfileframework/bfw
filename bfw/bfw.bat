@@ -20,7 +20,7 @@ GoTo :EOF
 REM TODO
 listfunction batchfile functionname functionname2 func* *
 AppendFunctionToFile  batchfile functionname functionname2 func* *
-
+symlinkify
 
 
 :ShiftedArgumentCaller
@@ -34,6 +34,12 @@ set "_ShiftedArgumentCaller_function=" & GoTo :%_ShiftedArgumentCaller_function%
 echo Installation of bfw
 echo checking if bfw already installed, if yes, do you wish to update y/n - call :Update if yes, exit if no
 
+create %userprofile%\bfw if it does not exist
+add %userprofile%\bfw to user path environement var if not already there
+copy bfw file to %userprofile%\bfw
+update in console %PATH% to add %userprofile%\bfw if not already there
+
+
 GoTo :EOF
 
 :Update
@@ -43,7 +49,24 @@ echo should be updating right now
 echo but it is not
 echo because I have not written it
 
+just download new bfw.bat
+
 GoTo :EOF
+
+:uninstall
+
+delete bfw.bat
+remove %userprofile%\bfw from path env variable
+update console %path% to remove %userprofile%\bfw if present
+
+GoTo :EOF
+
+
+
+
+
+
+
 
 
 REM ---- Custom functions
@@ -60,7 +83,7 @@ GoTo :EOF
 
 
 ::Usage Call :GetLabels BatchFile optional LabelName
-:PritnFunctionLabels
+:PrintFunctionLabels
 REM set "_GetLabels_output=%~2"
 REM if "[%~3]" EQU "[]" ( set "_GetLabels_output_rows=%_GetLabels_output%.rows" ) else ( set "_GetLabels_output_rows=%~3" )
 REM for /f delims^=^ eol^= %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%~1" ^| findstr /N "^"') do (
@@ -77,20 +100,48 @@ for /f delims^=^ eol^= %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%~1" 
 set /a "%_GetLabels_output%.lbound=1" & set "_GetLabels_output=" & set "_GetLabels_output_rows="
 GoTo :EOF
 
-::Usage Call :EchoFileLine filename 3 4 5 6 7 ... N
+
+echoline
+get argument
+if argument contains a -, split in start and stop
+skip to start
+print until stop
+
+::Usage Call :EchoFileLine filename 3 4-1000 5 6 7-10 ... N N-M
 :EchoFileLine
 set "_EchoFileLine_prefix=_EFL"
 set "_EFL_File=%~1"
 :EchoFileLine-arg
-set "_EFL_LineList=%_EFL_LineList% /C:"%~2:""
-if "[%~3]" NEQ "[]" ( shift & GoTo :EchoFileLine-arg )
+for /f "delims=- tokens=1,2" %%a in ("%~2") do ( set "_EFL_Start=%%a" & set "_EFL_Stop=%%b"  )
+if not defined _EFL_Stop set /a _EFL_Stop=%_EFL_Start%
 Setlocal enabledelayedexpansion
-for /f delims^=^ eol^= %%a in (' ^( type "%_EFL_File%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^| %SystemRoot%\System32\findstr /B %_EFL_LineList% ^) 2^>nul ') do ( 
+if %_EFL_Start% GTR 1 set /a "_EFL_skip=%_EFL_Start%-1"
+if %_EFL_Start% GTR 1 ( set "_EFL_skip=skip^=%_EFL_skip%^" ) else ( set "_EFL_skip=" )
+for /f %_EFL_skip% delims^=^ eol^= %%a in (' ^( type "%_EFL_File%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^) 2^>nul ') do ( 
+	for /f "delims=:" %%f in ("%%a") do if %%f GTR %_EFL_Stop% GoTo :EchoFileLine-end
 	set _EFL_buffer=%%a
 	if defined _EFL_buffer echo(!_EFL_buffer:*:=!
 	) 
-endlocal
+:EchoFileLine-end
+if "[%~3]" NEQ "[]" ( shift & GoTo :EchoFileLine-arg )
 Call :ClearVariablesByPrefix %_EchoFileLine_prefix% _EchoFileLine_prefix & GoTo :EOF
+
+
+
+REM ::Usage Call :EchoFileLine filename 3 4 5 6 7 ... N
+REM :EchoFileLine
+REM set "_EchoFileLine_prefix=_EFL"
+REM set "_EFL_File=%~1"
+REM :EchoFileLine-arg
+REM set "_EFL_LineList=%_EFL_LineList% /C:"%~2:""
+REM if "[%~3]" NEQ "[]" ( shift & GoTo :EchoFileLine-arg )
+REM Setlocal enabledelayedexpansion
+REM for /f delims^=^ eol^= %%a in (' ^( type "%_EFL_File%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^| %SystemRoot%\System32\findstr /B %_EFL_LineList% ^) 2^>nul ') do ( 
+	REM set _EFL_buffer=%%a
+	REM if defined _EFL_buffer echo(!_EFL_buffer:*:=!
+	REM ) 
+REM endlocal
+REM Call :ClearVariablesByPrefix %_EchoFileLine_prefix% _EchoFileLine_prefix & GoTo :EOF
 
 ::Usage Call :AppendFileLineToFile inputfile outputfile 3 4 5 6 7 ... N
 :AppendFileLineToFile
