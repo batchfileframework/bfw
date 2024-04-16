@@ -6,14 +6,27 @@ set "_IFLE_ExclusionList=main setup macro end loop loop2 loop3 loop4 skip skip1 
 
 :main
 
+
+
 for %%a in ( %* ) do ( for %%b in ( /h /? -h -? help --help ) do ( if "[%%a]" EQU "[%%b]" ( Call :%~n0-help & exit /b 1 ) ) )
 for %%a in ( %* ) do ( if "[%%a]" EQU "[demo]" ( Call :%~n0-demo & exit /b 1 ) ) 
 if "[%~1]" EQU "[]" ( echo %~n0 needs at least one argument & exit /b 1 )
 REM if "[%~1]" EQU "[]" if "[%~2]" EQU "[]" ( echo %~n0 needs at least two argument & exit /b 1 )
 
+
+
 if "[%~n0]" EQU "[bfw]" ( Call :ShiftedArgumentCaller %* ) else ( Call :%~n0 %* )
 
+REM echo last
+REM if "[%~n0]" EQU "[bfw]" ( 
+	REM Call :ShiftedArgumentCaller %*
+	REM ) else ( 
+	REM Call :%~n0 %* 
+	REM )
+
 :end
+
+set "_IFLE_ExclusionList="
 
 GoTo :EOF
 
@@ -22,12 +35,25 @@ listfunction batchfile functionname functionname2 func* *
 AppendFunctionToFile  batchfile functionname functionname2 func* *
 symlinkify
 
+REAL TODO
+make install work
+make bfw creation work
+
+make bfw creation work
+listfunction
+createnakedfunction sourcebatch destbatch function1 function2 functionN
+insertbfwframework functionselectorfunction -> batch
+delete sourcebatch function2
+movefunction to row number or to after/before existing function
+function to REM a function ?
+
+
 
 :ShiftedArgumentCaller
 set _ShiftedArgumentCaller_function=%~1
 shift
 set "_ShiftedArgumentCaller_function=" & GoTo :%_ShiftedArgumentCaller_function%
-
+GoTo :EOF
 
 :Install
 
@@ -62,7 +88,11 @@ update console %path% to remove %userprofile%\bfw if present
 GoTo :EOF
 
 
+:testfun1
 
+echo Yes, this is dog
+
+GoTo :EOF
 
 
 
@@ -108,7 +138,7 @@ skip to start
 print until stop
 
 ::Usage Call :EchoFileLine filename 3 4-1000 5 6 7-10 ... N N-M
-:EchoFileLine
+:EchoFileLine 
 set "_EchoFileLine_prefix=_EFL"
 set "_EFL_File=%~1"
 :EchoFileLine-arg
@@ -142,6 +172,52 @@ REM for /f delims^=^ eol^= %%a in (' ^( type "%_EFL_File%" ^| %SystemRoot%\Syste
 	REM ) 
 REM endlocal
 REM Call :ClearVariablesByPrefix %_EchoFileLine_prefix% _EchoFileLine_prefix & GoTo :EOF
+
+::Usage Call :EchoFileLine filename 3 4-1000 5 6 7-10 ... N N-M
+:EchoFileLine 
+set "_EchoFileLine_prefix=_EFL"
+set "_EFL_File=%~1"
+:EchoFileLine-arg
+for /f "delims=- tokens=1,2" %%a in ("%~2") do ( set "_EFL_Start=%%a" & set "_EFL_Stop=%%b"  )
+if not defined _EFL_Stop set /a _EFL_Stop=%_EFL_Start%
+Setlocal enabledelayedexpansion
+if %_EFL_Start% GTR 1 set /a "_EFL_skip=%_EFL_Start%-1"
+if %_EFL_Start% GTR 1 ( set "_EFL_skip=skip^=%_EFL_skip%^" ) else ( set "_EFL_skip=" )
+for /f %_EFL_skip% delims^=^ eol^= %%a in (' ^( type "%_EFL_File%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^) 2^>nul ') do ( 
+	for /f "delims=:" %%f in ("%%a") do if %%f GTR %_EFL_Stop% GoTo :EchoFileLine-end
+	set _EFL_buffer=%%a
+	if defined _EFL_buffer echo(!_EFL_buffer:*:=!
+	) 
+:EchoFileLine-end
+if "[%~3]" NEQ "[]" ( shift & GoTo :EchoFileLine-arg )
+Call :ClearVariablesByPrefix %_EchoFileLine_prefix% _EchoFileLine_prefix & GoTo :EOF
+
+
+
+
+::Usage Call :AppendFileLineToFile inputfile outputfile 3 4 5 6 7 ... N
+:AppendFileLineToFile
+set "_AppendFileLineToFile_prefix=_AFLTF"
+set "_AFLTF_InputFile=%~1"
+set "_AFLTF_OutputFile=%~2"
+:AppendFileLineToFile-arg
+for /f "delims=- tokens=1,2" %%a in ("%~2") do ( set "_EFL_Start=%%a" & set "_EFL_Stop=%%b"  )
+if not defined _EFL_Stop set /a _EFL_Stop=%_EFL_Start%
+
+
+
+Setlocal enabledelayedexpansion
+if %_EFL_Start% GTR 1 set /a "_EFL_skip=%_EFL_Start%-1"
+if %_EFL_Start% GTR 1 ( set "_EFL_skip=skip^=%_EFL_skip%^" ) else ( set "_EFL_skip=" )
+for /f %_EFL_skip% delims^=^ eol^= %%a in (' ^( type "%_EFL_File%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^) 2^>nul ') do ( 
+	for /f "delims=:" %%f in ("%%a") do if %%f GTR %_EFL_Stop% GoTo :AppendFileLineToFile-end
+	set _AFLTF_buffer=%%a
+	if defined _AFLTF_buffer >>"%_AFLTF_OutputFile%" echo(!_AFLTF_buffer:*:=!
+	) 
+endlocal
+:AppendFileLineToFile-end
+if "[%~3]" NEQ "[]" ( shift & GoTo :EchoFileLine-arg )
+Call :ClearVariablesByPrefix %_EchoFileLine_prefix% _EchoFileLine_prefix & GoTo :EOF
 
 ::Usage Call :AppendFileLineToFile inputfile outputfile 3 4 5 6 7 ... N
 :AppendFileLineToFile
@@ -208,13 +284,86 @@ Call :ClearVariablesByPrefix %_DL_prefix% _DL_prefix & GoTo :EOF
 
 REM ---- Batch file function manipulation
 
+
 ::Usage Call :CreateShortcut FileOrigin ShortcutFile
-:CreateShortcut
-powershell -command New-Item -ItemType SymbolicLink -Path "%~d2" -Name "%~n1.lnk" -Value "%~1"
+:CreateShortcut 
+echo powershell -ExecutionPolicy Bypass -NoLogo -NonInteractive -Command "$ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut('%~2'); $S.TargetPath = '%~1'; $S.Save()"
+powershell -ExecutionPolicy Bypass -NoLogo -NonInteractive -Command "$ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut('%~2'); $S.TargetPath = '%~1'; $S.Save()"
 GoTo :EOF
 
-:CreateHardlink
+REM ::Usage Call :PrintShortcutProperties ShortcutFile
+REM :PrintShortcutProperties
+REM powershell -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -Command PutCommandHere
+REM GoTo :EOF
+
+:: Usage Call :PrintShortcutProperties "ShortcutFile"
+:PrintShortcutProperties
+powershell -ExecutionPolicy Bypass -NoLogo -NonInteractive -Command "$shortcutPath = '%~1'; $shell = New-Object -ComObject WScript.Shell; $shortcut = $shell.CreateShortcut($shortcutPath); Write-Output ('Target Path: ' + $shortcut.TargetPath); Write-Output ('Working Directory: ' + $shortcut.WorkingDirectory); Write-Output ('Arguments: ' + $shortcut.Arguments); Write-Output ('Description: ' + $shortcut.Description); Write-Output ('Hotkey: ' + $shortcut.Hotkey); Write-Output ('Icon Location: ' + $shortcut.IconLocation); Write-Output ('Window Style: ' + $shortcut.WindowStyle); Write-Output ('Relative Path: ' + $shortcut.RelativePath);"
 GoTo :EOF
+
+
+
+REM ::Usage Call :CreateShortcut FileOrigin ShortcutFile
+REM :CreateShortcut
+REM echo arguments %*
+REM echo arg1 0%~0 1%~1 2%~2 3%~3 
+REM echo powershell -command New-Item -ItemType SymbolicLink -Path "%~dp2" -Name "%~n2.lnk" -Value "%~1"
+REM powershell -command New-Item -ItemType SymbolicLink -Path "%~dp2" -Name "%~n2.lnk" -Value "%~1"
+REM GoTo :EOF
+
+:: Usage: Call :IsPathRelative FilePath && echo Is relative || echo Is NOT relative
+:IsPathRelative
+if "[%~1]" EQU "[%~dpnx1]" ( exit /b 1 ) else ( exit /b 0 )
+
+::Usage Call :GetFileName FilePath Filename
+:GetFileName
+set "%~2=%~nx1"
+if "[%~3]" NEQ "[]" if "[%~4]" NEQ "[]" ( shift & shift & GoTo :GetFileName )
+GoTo :EOF
+
+::Usage Call :GetFileExtension FilePath FileExtension
+:GetFileExtension
+set "%~2=%~x1"
+if "[%~3]" NEQ "[]" if "[%~4]" NEQ "[]" ( shift & shift & GoTo :GetFileExtension )
+GoTo :EOF
+
+::Usage Call :GetAbsoluteFilePath FilePath AbsolutePath
+:GetAbsoluteFilePath
+set "%~2=%~dpnx1"
+if "[%~3]" NEQ "[]" if "[%~4]" NEQ "[]" ( shift & shift & GoTo :GetAbsoluteFilePath )
+GoTo :EOF
+
+::Usage Call :GetAbsolutePath FilePath AbsolutePath
+:GetAbsolutePath
+set "%~2=%~dp1"
+if "[%~3]" NEQ "[]" if "[%~4]" NEQ "[]" ( shift & shift & GoTo :GetAbsolutePath )
+GoTo :EOF
+
+::Usage Call :NoTrailingBackslash PathVariable
+::Will remove trailing backslash, if there is one 
+:NoTrailingBackslash
+call set "_NoTrailingBackslash_Input=%%%~1%%"
+if "[%_NoTrailingBackslash_Input:~-1%]" EQU "[\]" set "%~1="
+GoTo :EOF
+
+:IsPathRelative-demo
+
+set _TestFile1=IsPathRelative-testfile.txt
+Call :GetAbsoluteFilePath "%_TestFile1%" _AbsolutePath_TestFile1
+
+echo _TestFile1 = %_TestFile1%
+Call :IsPathRelative "%_TestFile1%" && echo Is relative || echo Is NOT relative
+echo _AbsolutePath_TestFile1 = %_AbsolutePath_TestFile1%
+Call :IsPathRelative "%_AbsolutePath_TestFile1%" && echo Is relative || echo Is NOT relative
+
+set "_TestFile1="
+set "_AbsolutePath_TestFile1="
+
+GoTo :EOF
+
+
+REM :CreateHardlink
+REM GoTo :EOF
 
 ::Usage Call :CreateLink FileOrigin LinkFile
 :CreateLink
