@@ -21,9 +21,15 @@ GoTo :EOF
 objective create bfw.bat
 that contains everything to make bfw.bat
 
+bfw AddFunctionToBatch bfw.bat core/FunctionSwitcher.bat function\ShiftedArgumentCaller function\AddFunctionToBatch function\ListFunctions (plus dependencies) textfile\AppendFileLineToFile
+
 :CoreFunctionCopier
 :AddFunctionToBatch
 :ListFunctions
+#:GetFunctionDependency
+#:ChangeCallsToInternal
+#:FulfillIncludesStatements
+
 
 :ShiftedArgumentCaller
 set _ShiftedArgumentCaller_function=%~1
