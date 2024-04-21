@@ -1,0 +1,1 @@
+function still in the planning stage, mostly just pseudocode description of function and expected usage
