@@ -2,52 +2,21 @@
 
 :setup
 
-set "_IFLE_ExclusionList=main setup macro end loop loop2 loop3 loop4 skip skip1 skip2 skip2 skip3 skip4 test test1 test2 test3 cleanup argument params args next prev iteration pre post 0 1 2 3 4 5 6 7 8 9 subloop matchfound nomatch found index list arguments preamble test4 test5 test6 start reset"
+REM set "_IFLE_ExclusionList=main setup macro end loop loop2 loop3 loop4 skip skip1 skip2 skip2 skip3 skip4 test test1 test2 test3 cleanup argument params args next prev iteration pre post 0 1 2 3 4 5 6 7 8 9 subloop matchfound nomatch found index list arguments preamble test4 test5 test6 start reset"
 
 :main
-
-
 
 for %%a in ( %* ) do ( for %%b in ( /h /? -h -? help --help ) do ( if "[%%a]" EQU "[%%b]" ( Call :%~n0-help & exit /b 1 ) ) )
 for %%a in ( %* ) do ( if "[%%a]" EQU "[demo]" ( Call :%~n0-demo & exit /b 1 ) ) 
 if "[%~1]" EQU "[]" ( echo %~n0 needs at least one argument & exit /b 1 )
 REM if "[%~1]" EQU "[]" if "[%~2]" EQU "[]" ( echo %~n0 needs at least two argument & exit /b 1 )
-
-
-
 if "[%~n0]" EQU "[bfw]" ( Call :ShiftedArgumentCaller %* ) else ( Call :%~n0 %* )
-
-REM echo last
-REM if "[%~n0]" EQU "[bfw]" ( 
-	REM Call :ShiftedArgumentCaller %*
-	REM ) else ( 
-	REM Call :%~n0 %* 
-	REM )
 
 :end
 
-set "_IFLE_ExclusionList="
+REM set "_IFLE_ExclusionList="
 
 GoTo :EOF
-
-REM TODO
-listfunction batchfile functionname functionname2 func* *
-AppendFunctionToFile  batchfile functionname functionname2 func* *
-symlinkify
-
-REAL TODO
-make install work
-make bfw creation work
-
-make bfw creation work
-listfunction
-createnakedfunction sourcebatch destbatch function1 function2 functionN
-insertbfwframework functionselectorfunction -> batch
-delete sourcebatch function2
-movefunction to row number or to after/before existing function
-function to REM a function ?
-
-
 
 :ShiftedArgumentCaller
 set _ShiftedArgumentCaller_function=%~1
@@ -55,337 +24,77 @@ shift
 set "_ShiftedArgumentCaller_function=" & GoTo :%_ShiftedArgumentCaller_function%
 GoTo :EOF
 
-:Install
+objective create bfw.bat
+that contains everything to make bfw.bat
 
-echo Installation of bfw
-echo checking if bfw already installed, if yes, do you wish to update y/n - call :Update if yes, exit if no
+REM :CoreFunctionCopier
+REM :AddFunctionToBatch
+REM :ListFunctions
 
-create %userprofile%\bfw if it does not exist
-add %userprofile%\bfw to user path environement var if not already there
-copy bfw file to %userprofile%\bfw
-update in console %PATH% to add %userprofile%\bfw if not already there
+REM :install
+REM :uninstall
+REM :update
+
+REM :listfunction
+REM :getfunctionlist
+REM :createnakedfunction
+REM :shortcutify
+REM :symlinkify
+REM :hardlinkify
+
+REM Call :AddFunctionToBatch bfw.new.bat testsource.bat AddFunctionToBatch GetFunctionRows GetLabelRow GetFunctionExit GetFunctionPreambleRow GetFunctionPostscriptRow ClearVariablesByPrefix GetFunctionName GetNextExitRow GetNextFunctionName GetPreviousExitRow GetEOFrow countLines IsFunctionLabelExcluded AppendFileLineToFile 
 
 
+REM source function should be able to be invoked by
+REM sourcebatch then function name
+REM relativepath\sourcebatch.bat:FunctionName
+REM bfw\lib\section\sourcebatch.bat:FunctionName .bat is optional bfw\lib\section can be omitted to just bfw\sourcebatch
+REM just the FunctionName if not found in the current sourcebatch, then search all files in bfw\lib\
+REM FOR NOW JUST MATCH FILE AND FUNCTION
+:: NOPREAMBLE NOPOSTSCRIPT PREAMBLEONLY POSTSCRIPTONLY FUNCTIONONLY UNPACK PLUSDEPENDENCIES
+::Usage Call :AddFunctionToBatch DestinationBatch SourceBatch FunctionName1 FunctionName2 ... FunctionNameN
+:AddFunctionToBatch
+set "_AddFunctionToBatch_prefix=_AFTB
+set "_AFTB_output=%~1"
+:AddFunctionToBatch-args
+if "[%~2]" EQU "[UNPACK]" ( set "_AFTB_Unpack=true" & shift & GoTo :AddFunctionToBatch-args )
+Call :ClearVariablesByPrefix _AFTB_FunctionRows
+Call :IsFile "%~2" && ( set "_AFTB_SourceBatch=%~2" & shift & GoTo :AddFunctionToBatch-args ) || set "_AFTB_FunctionName=%~2"
+REM if defined bfw.root
+REM determine quel fichier
+REM ficher dans repertoire courrant
+REM ou fichier dans bfw\lib ?
+if "[%_AFTB_FunctionName%]" EQU "[CORE]" ( Call :GetBatchCore "%_AFTB_SourceBatch%" _AFTB_FunctionRows & GoTo :AddFunctionToBatch-end )
+Call :GetFunctionRows "%_AFTB_SourceBatch%" "%_AFTB_FunctionName%" _AFTB_FunctionRows
+if "[%_AFTB_Unpack%]" EQU "[true]" ( set /a _AFTB_FunctionRows.preamble=%_AFTB_FunctionRows.start%+1 & set /a _AFTB_FunctionRows.postscript=%_AFTB_FunctionRows.exit%-1 & set "_AFTB_Unpack=" )
+:AddFunctionToBatch-end
+Call :AppendFileLineToFile "%_AFTB_SourceBatch%" "%_AFTB_output%" %_AFTB_FunctionRows.preamble%-%_AFTB_FunctionRows.postscript%
+if "[%~3]" NEQ "[]" ( shift & GoTo :AddFunctionToBatch-args )
+Call :ClearVariablesByPrefix %_AddFunctionToBatch_prefix% _AddFunctionToBatch_prefix  & GoTo :EOF
+
+::Usage Call :GetLastToken InputString OutputLastToken
+:GetLastToken
+for %%a in (%~1) do set %~2=%%a
 GoTo :EOF
 
-:Update
-
-echo this is the bfw update function
-echo should be updating right now
-echo but it is not
-echo because I have not written it
-
-just download new bfw.bat
-
-GoTo :EOF
-
-:uninstall
-
-delete bfw.bat
-remove %userprofile%\bfw from path env variable
-update console %path% to remove %userprofile%\bfw if present
-
-GoTo :EOF
-
-
-:testfun1
-
-echo Yes, this is dog
-
-GoTo :EOF
-
-
-
-
-
-
-REM ---- Custom functions
-
-::Usage Call :CreateBFWlink FunctionName OutputFolder
-:CreateBFWlink
-set "_CreateBFWlink_fileorigin=%~dpnx0"
-if /i "[%~1]" EQU "[CreateBFWlink]" shift
-set "_CreateBFWlink_Output=%~2"
-if not defined _CreateBFWlink_Output set "_CreateBFWlink_Output=%~dp0"
-echo echo Call :CreateLink "%_CreateBFWlink_fileorigin%" "%~1.bat"
-Call :CreateLink "%_CreateBFWlink_fileorigin%" "%~1.bat"
-GoTo :EOF
-
-
-::Usage Call :GetLabels BatchFile optional LabelName
-:PrintFunctionLabels
-REM set "_GetLabels_output=%~2"
-REM if "[%~3]" EQU "[]" ( set "_GetLabels_output_rows=%_GetLabels_output%.rows" ) else ( set "_GetLabels_output_rows=%~3" )
-REM for /f delims^=^ eol^= %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%~1" ^| findstr /N "^"') do (
-for /f delims^=^ eol^= %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%~1" ^| findstr /N "^"') do (
-	
-	REM for /f "tokens=1,2,3* delims=:" %%f in ("%%a") do set /a "%_GetLabels_output%.ubound=%%f" & REM set %_GetLabels_output%[%%f]=%%g
-	REM for /f "tokens=1,2,3* delims=:" %%f in ("%%a") do set %_GetLabels_output_rows%[%%g].type=label
-	for /f "tokens=1,2,3* delims=:" %%f in ("%%a") do for /f "tokens=1,2*" %%z in ("%%h") do set %_GetLabels_output%[%%f].name=%%~z
-	
-	<nul set /p =%_EchoArray_prefix%!%_EchoArray_input%[%_EchoArray_index_actual%]%_EchoArray_suffix%! 
-	REM for /f "tokens=1,2,3* delims=:" %%f in ("%%a") do for /f "tokens=1,2*" %%z in ("%%h") do set %_GetLabels_output%.name[%%~z]=%%g
-	REM for /f "tokens=1,2,3* delims=:" %%f in ("%%a") do for /f "tokens=1,2*" %%z in ("%%h") do set %_GetLabels_output_rows%[%%g]=%%~z
-	)
-set /a "%_GetLabels_output%.lbound=1" & set "_GetLabels_output=" & set "_GetLabels_output_rows="
-GoTo :EOF
-
-
-echoline
-get argument
-if argument contains a -, split in start and stop
-skip to start
-print until stop
-
-::Usage Call :EchoFileLine filename 3 4-1000 5 6 7-10 ... N N-M
-:EchoFileLine 
-set "_EchoFileLine_prefix=_EFL"
-set "_EFL_File=%~1"
-:EchoFileLine-arg
-for /f "delims=- tokens=1,2" %%a in ("%~2") do ( set "_EFL_Start=%%a" & set "_EFL_Stop=%%b"  )
-if not defined _EFL_Stop set /a _EFL_Stop=%_EFL_Start%
-Setlocal enabledelayedexpansion
-if %_EFL_Start% GTR 1 set /a "_EFL_skip=%_EFL_Start%-1"
-if %_EFL_Start% GTR 1 ( set "_EFL_skip=skip^=%_EFL_skip%^" ) else ( set "_EFL_skip=" )
-for /f %_EFL_skip% delims^=^ eol^= %%a in (' ^( type "%_EFL_File%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^) 2^>nul ') do ( 
-	for /f "delims=:" %%f in ("%%a") do if %%f GTR %_EFL_Stop% GoTo :EchoFileLine-end
-	set _EFL_buffer=%%a
-	if defined _EFL_buffer echo(!_EFL_buffer:*:=!
-	) 
-:EchoFileLine-end
-if "[%~3]" NEQ "[]" ( shift & GoTo :EchoFileLine-arg )
-Call :ClearVariablesByPrefix %_EchoFileLine_prefix% _EchoFileLine_prefix & GoTo :EOF
-
-
-
-REM ::Usage Call :EchoFileLine filename 3 4 5 6 7 ... N
-REM :EchoFileLine
-REM set "_EchoFileLine_prefix=_EFL"
-REM set "_EFL_File=%~1"
-REM :EchoFileLine-arg
-REM set "_EFL_LineList=%_EFL_LineList% /C:"%~2:""
-REM if "[%~3]" NEQ "[]" ( shift & GoTo :EchoFileLine-arg )
-REM Setlocal enabledelayedexpansion
-REM for /f delims^=^ eol^= %%a in (' ^( type "%_EFL_File%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^| %SystemRoot%\System32\findstr /B %_EFL_LineList% ^) 2^>nul ') do ( 
-	REM set _EFL_buffer=%%a
-	REM if defined _EFL_buffer echo(!_EFL_buffer:*:=!
-	REM ) 
-REM endlocal
-REM Call :ClearVariablesByPrefix %_EchoFileLine_prefix% _EchoFileLine_prefix & GoTo :EOF
-
-::Usage Call :EchoFileLine filename 3 4-1000 5 6 7-10 ... N N-M
-:EchoFileLine 
-set "_EchoFileLine_prefix=_EFL"
-set "_EFL_File=%~1"
-:EchoFileLine-arg
-for /f "delims=- tokens=1,2" %%a in ("%~2") do ( set "_EFL_Start=%%a" & set "_EFL_Stop=%%b"  )
-if not defined _EFL_Stop set /a _EFL_Stop=%_EFL_Start%
-Setlocal enabledelayedexpansion
-if %_EFL_Start% GTR 1 set /a "_EFL_skip=%_EFL_Start%-1"
-if %_EFL_Start% GTR 1 ( set "_EFL_skip=skip^=%_EFL_skip%^" ) else ( set "_EFL_skip=" )
-for /f %_EFL_skip% delims^=^ eol^= %%a in (' ^( type "%_EFL_File%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^) 2^>nul ') do ( 
-	for /f "delims=:" %%f in ("%%a") do if %%f GTR %_EFL_Stop% GoTo :EchoFileLine-end
-	set _EFL_buffer=%%a
-	if defined _EFL_buffer echo(!_EFL_buffer:*:=!
-	) 
-:EchoFileLine-end
-if "[%~3]" NEQ "[]" ( shift & GoTo :EchoFileLine-arg )
-Call :ClearVariablesByPrefix %_EchoFileLine_prefix% _EchoFileLine_prefix & GoTo :EOF
-
-
-
-
-::Usage Call :AppendFileLineToFile inputfile outputfile 3 4 5 6 7 ... N
-:AppendFileLineToFile
-set "_AppendFileLineToFile_prefix=_AFLTF"
-set "_AFLTF_InputFile=%~1"
-set "_AFLTF_OutputFile=%~2"
-:AppendFileLineToFile-arg
-for /f "delims=- tokens=1,2" %%a in ("%~2") do ( set "_EFL_Start=%%a" & set "_EFL_Stop=%%b"  )
-if not defined _EFL_Stop set /a _EFL_Stop=%_EFL_Start%
-
-
-
-Setlocal enabledelayedexpansion
-if %_EFL_Start% GTR 1 set /a "_EFL_skip=%_EFL_Start%-1"
-if %_EFL_Start% GTR 1 ( set "_EFL_skip=skip^=%_EFL_skip%^" ) else ( set "_EFL_skip=" )
-for /f %_EFL_skip% delims^=^ eol^= %%a in (' ^( type "%_EFL_File%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^) 2^>nul ') do ( 
-	for /f "delims=:" %%f in ("%%a") do if %%f GTR %_EFL_Stop% GoTo :AppendFileLineToFile-end
-	set _AFLTF_buffer=%%a
-	if defined _AFLTF_buffer >>"%_AFLTF_OutputFile%" echo(!_AFLTF_buffer:*:=!
-	) 
-endlocal
-:AppendFileLineToFile-end
-if "[%~3]" NEQ "[]" ( shift & GoTo :EchoFileLine-arg )
-Call :ClearVariablesByPrefix %_EchoFileLine_prefix% _EchoFileLine_prefix & GoTo :EOF
-
-::Usage Call :AppendFileLineToFile inputfile outputfile 3 4 5 6 7 ... N
-:AppendFileLineToFile
-set "_AppendFileLineToFile_prefix=_AFLTF"
-set "_AFLTF_InputFile=%~1"
-set "_AFLTF_OutputFile=%~2"
-:AppendFileLineToFile-arg
-set "_AFLTF_LineList=%_AFLTF_LineList% /C:"%~3:""
-if "[%~3]" NEQ "[]" ( shift & GoTo :AppendFileLineToFile-arg )
-Setlocal enabledelayedexpansion
-for /f delims^=^ eol^= %%a in (' ^( type "%_AFLTF_InputFile%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^| %SystemRoot%\System32\findstr /B %_AFLTF_LineList% ^) 2^>nul ') do ( 
-	set _AFLTF_buffer=%%a
-	if defined _AFLTF_buffer >>"%_AFLTF_OutputFile%" echo(!_AFLTF_buffer:*:=!
-	) 
-endlocal
-Call :ClearVariablesByPrefix %_EchoFileLine_prefix% _EchoFileLine_prefix & GoTo :EOF
-
-::Usage Call :DeleteLine filename StartRow EndRow
-::This function will delete specified lines of text in a file
-::row arguments should be single numbers or tuplets in the format  ##-## example  2555-2565 
-:DeleteLine
-set "_DL_prefix=_DL"
-set "_DL_Filename=%~1"
-set /a _DL_StartRow=%~2
-set /a _DL_EndRow=%~3 2>nul
-if not defined _DL_EndRow set /a _DL_EndRow=%_DL_StartRow%
-if not exist "%temp%\bfw\backup" md "%temp%\bfw\backup"
-if not exist "%temp%\bfw\working" md "%temp%\bfw\working"
-for /d %%i in ("%_DL_Filename%") do set "_DL_name=%%~ni"
-for /d %%i in ("%_DL_Filename%") do set "_DL_ext=%%~xi"
-set "_DL_TempFile=%date%-%time::=.%"
-set "_DL_TempFile=%_DL_TempFile: =%"
-copy "%_DL_Filename%" "%temp%\bfw\backup\%_DL_name%.%_DL_TempFile%%_DL_ext%.bak"
-set "_DL_TempFile=%temp%\bfw\working\%_DL_name%.%_DL_TempFile%%_DL_ext%.bak"
-Setlocal enabledelayedexpansion
-for /f delims^=^ eol^= %%a in (' ^( type "%_DL_Filename%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^) 2^>nul ') do ( 
-	REM for /f "tokens=1,* delims=:" %%f in ("%%a") do echo 1 a%%a f%%f
-	for /f "tokens=1 delims=:" %%f in ("%%a") do if %%f GEQ %_DL_StartRow% GoTo :DeleteLine-start-skip
-	set _DL_buffer=%%a
-	REM for /f "tokens=1,* delims=:" %%f in ("%%a") do echo 2 a%%a f%%f
-	if defined _DL_buffer >>"%_DL_TempFile%" echo(!_DL_buffer:*:=!
-	) 
-:DeleteLine-start-skip
-endlocal
-set /a _DL_skip=%_DL_EndRow%
-Setlocal enabledelayedexpansion
-for /f skip^=%_DL_skip%^ delims^=^ eol^= %%a in (' ^( type "%_DL_Filename%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^) 2^>nul ') do (
-	REM for /f "tokens=1,* delims=:" %%f in ("%%a") do echo 3 a%%a f%%f
-	set _DL_buffer=%%a
-	if defined _DL_buffer >>"%_DL_TempFile%" echo(!_DL_buffer:*:=!
-	) 
-endlocal
-echo move -y "%_DL_TempFile%" "%_DL_Filename%"
-Call :ClearVariablesByPrefix %_DL_prefix% _DL_prefix & GoTo :EOF
-
-
-
-
-
-
-
-
-
-
-REM ---- Batch file function manipulation
-
-
-::Usage Call :CreateShortcut FileOrigin ShortcutFile
-:CreateShortcut 
-echo powershell -ExecutionPolicy Bypass -NoLogo -NonInteractive -Command "$ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut('%~2'); $S.TargetPath = '%~1'; $S.Save()"
-powershell -ExecutionPolicy Bypass -NoLogo -NonInteractive -Command "$ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut('%~2'); $S.TargetPath = '%~1'; $S.Save()"
-GoTo :EOF
-
-REM ::Usage Call :PrintShortcutProperties ShortcutFile
-REM :PrintShortcutProperties
-REM powershell -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -Command PutCommandHere
-REM GoTo :EOF
-
-:: Usage Call :PrintShortcutProperties "ShortcutFile"
-:PrintShortcutProperties
-powershell -ExecutionPolicy Bypass -NoLogo -NonInteractive -Command "$shortcutPath = '%~1'; $shell = New-Object -ComObject WScript.Shell; $shortcut = $shell.CreateShortcut($shortcutPath); Write-Output ('Target Path: ' + $shortcut.TargetPath); Write-Output ('Working Directory: ' + $shortcut.WorkingDirectory); Write-Output ('Arguments: ' + $shortcut.Arguments); Write-Output ('Description: ' + $shortcut.Description); Write-Output ('Hotkey: ' + $shortcut.Hotkey); Write-Output ('Icon Location: ' + $shortcut.IconLocation); Write-Output ('Window Style: ' + $shortcut.WindowStyle); Write-Output ('Relative Path: ' + $shortcut.RelativePath);"
-GoTo :EOF
-
-
-
-REM ::Usage Call :CreateShortcut FileOrigin ShortcutFile
-REM :CreateShortcut
-REM echo arguments %*
-REM echo arg1 0%~0 1%~1 2%~2 3%~3 
-REM echo powershell -command New-Item -ItemType SymbolicLink -Path "%~dp2" -Name "%~n2.lnk" -Value "%~1"
-REM powershell -command New-Item -ItemType SymbolicLink -Path "%~dp2" -Name "%~n2.lnk" -Value "%~1"
-REM GoTo :EOF
-
-:: Usage: Call :IsPathRelative FilePath && echo Is relative || echo Is NOT relative
-:IsPathRelative
-if "[%~1]" EQU "[%~dpnx1]" ( exit /b 1 ) else ( exit /b 0 )
-
-::Usage Call :GetFileName FilePath Filename
-:GetFileName
-set "%~2=%~nx1"
-if "[%~3]" NEQ "[]" if "[%~4]" NEQ "[]" ( shift & shift & GoTo :GetFileName )
-GoTo :EOF
-
-::Usage Call :GetFileExtension FilePath FileExtension
-:GetFileExtension
-set "%~2=%~x1"
-if "[%~3]" NEQ "[]" if "[%~4]" NEQ "[]" ( shift & shift & GoTo :GetFileExtension )
-GoTo :EOF
-
-::Usage Call :GetAbsoluteFilePath FilePath AbsolutePath
-:GetAbsoluteFilePath
-set "%~2=%~dpnx1"
-if "[%~3]" NEQ "[]" if "[%~4]" NEQ "[]" ( shift & shift & GoTo :GetAbsoluteFilePath )
-GoTo :EOF
-
-::Usage Call :GetAbsolutePath FilePath AbsolutePath
-:GetAbsolutePath
-set "%~2=%~dp1"
-if "[%~3]" NEQ "[]" if "[%~4]" NEQ "[]" ( shift & shift & GoTo :GetAbsolutePath )
-GoTo :EOF
-
-::Usage Call :NoTrailingBackslash PathVariable
-::Will remove trailing backslash, if there is one 
-:NoTrailingBackslash
-call set "_NoTrailingBackslash_Input=%%%~1%%"
-if "[%_NoTrailingBackslash_Input:~-1%]" EQU "[\]" set "%~1="
-GoTo :EOF
-
-:IsPathRelative-demo
-
-set _TestFile1=IsPathRelative-testfile.txt
-Call :GetAbsoluteFilePath "%_TestFile1%" _AbsolutePath_TestFile1
-
-echo _TestFile1 = %_TestFile1%
-Call :IsPathRelative "%_TestFile1%" && echo Is relative || echo Is NOT relative
-echo _AbsolutePath_TestFile1 = %_AbsolutePath_TestFile1%
-Call :IsPathRelative "%_AbsolutePath_TestFile1%" && echo Is relative || echo Is NOT relative
-
-set "_TestFile1="
-set "_AbsolutePath_TestFile1="
-
-GoTo :EOF
-
-
-REM :CreateHardlink
-REM GoTo :EOF
-
-::Usage Call :CreateLink FileOrigin LinkFile
-:CreateLink
-mklink "%~2" "%~1"
-GoTo :EOF
-
-::Usage Call :CreateHardLink FileOrigin LinkFile
-:CreateHardLink
-mklink /h "%~2" "%~1"
-GoTo :EOF
-
-::Usage Call :ListFunctions BatchFile 
-::Prints out a list of all non-excluded functions
-:ListFunctions
-set "_ListFunctions_prefix=_LF"
-set "_LF_BatchFile=%~1"
-Call :GetLabelsOnly "%_LF_BatchFile%" _LF.labels
-Call :RemoveNonFunctionLabels _LF.labels
-REM Call :CompactArray _LF.labels
-Call :EchoArray _LF.labels VERTICALMODE .name
-REM Call :ClearVariablesByPrefix %_ListFunctions_prefix% _ListFunctions_prefix
-GoTo :EOF
+::Usage Call :IsLastToken InputString SearchString optional OutputValue
+:IsLastToken
+set "_IsLastToken_result=false"
+if defined %~1 call set _IsLastToken_input=%%%~1%%
+if not defined _IsLastToken_input set "_IsLastToken_input=%~1"
+set "_IsLastToken_input=%_IsLastToken_input:-= %"
+set "_IsLastToken_input=%_IsLastToken_input::= %"
+for %%a in (%_IsLastToken_input%) do if "[%%a]" EQU "[%~2]" set "_IsLastToken_result=true"
+set "_IsLastToken_input=" & set "_IsLastToken_result=" & if "[%_IsLastToken_result%]" EQU "[true]" ( exit /b 0 ) else ( exit /b 1 )
+
+REM for AddFunctionToBatch
+::Usage Call :AddFunctionToBatch DestinationBatch SourceBatch FunctionName1 FunctionName2 ... FunctionNameN
+set destination
+for each argument
+if argument is a .bat, set as sourcebatch shift+next
+if argument starts with bfw\, source is in %bfw.root%\lib\ set sourcebatch shift+next
+search source batch for function rows
+copy (append) function rows content to destination batch
 
 
 ::Usage Call :GetLabels BatchFile LabelObjectArray optional RowsArray
@@ -402,104 +111,70 @@ for /f delims^=^ eol^= %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%~1" 
 set /a "%_GetLabels_output%.lbound=1" & set "_GetLabels_output=" & set "_GetLabels_output_rows="
 GoTo :EOF
 
-::Usage Call :RemoveNonFunctionLabels ListOfLabels .rowsArray
-:RemoveNonFunctionLabels
-set "_RemoveNonFunctionLabels_prefix=_RNFL"
-set "_RNFL_Labels=%~1"
-call set "_RNFL_Labels_lbound=%%%~1.lbound%%"
-call set "_RNFL_Labels_ubound=%%%~1.ubound%%"
-if "[%_RNFL_Labels_lbound%]" EQU "[]" set /a "_RNFL_Labels_lbound=0"
-set "_RNFL_Rows=%~2"
-set /a "_RNFL_Index=%_RNFL_Labels_lbound%"
-:RemoveNonFunctionLabels-loop
-Call set "_RNFL_CurrentLabel=%%%_RNFL_Labels%[%_RNFL_Index%].name%%" & call set "_RNFL_CurrentRow=%%%_RNFL_Labels%[%_RNFL_Index%]%%" 
-Call :IsFunctionLabelExcluded %_RNFL_CurrentLabel% && ( set "%_RNFL_Rows%[%_RNFL_CurrentRow%]=" & set "%_RNFL_Rows%[%_RNFL_CurrentRow%].type=" &  set "%_RNFL_Labels%[%_RNFL_Index%]=" & set "%_RNFL_Labels%[%_RNFL_Index%].name=" & set "%_RNFL_Labels%.name[%_RNFL_CurrentLabel%]=" )
-set /a "_RNFL_Index+=1"
-if %_RNFL_Index% LEQ %_RNFL_Labels_ubound% GoTo :RemoveNonFunctionLabels-loop
-Call :ClearVariablesByPrefix %_RemoveNonFunctionLabels_prefix% _RemoveNonFunctionLabels
-GoTo :EOF
 
-::Usage Call :IsFunctionLabelExcluded FunctionLabel ExclusionList
-:IsFunctionLabelExcluded
-set "_IFLE_input=%~1"
-set "_IFLE_input=%_IFLE_input:-= %"
-set "_IFLE_input=%_IFLE_input::= %"
-set "_IFLE_ExclusionList=%~2"
-if "[%_IFLE_ExclusionList%]" EQU "[]" set "_IFLE_ExclusionList=main setup end loop loop2 loop3 loop4 skip skip1 skip2 skip2 skip3 skip4 test test1 test2 test3 cleanup argument params args next prev iteration pre post 0 1 2 3 4 5 6 7 8 9 subloop matchfound nomatch found index list arguments preamble test4 test5 test6 start reset"
-for %%a in (%_IFLE_input%) do set _IFLE_last_token=%%a
-for %%a in (%_IFLE_ExclusionList%) do if %%a EQU %_IFLE_last_token% exit /b 0
-if "[%_IFLE_input:~,6%]" EQU "[EndOf_]" exit /b 0
-exit /b 1
+REM FindFunction ?
+REM ::Usage Call :GetFunction batchfile OutputArray optional FunctionSearchPattern
+REM :GetFunction
+REM set "_GetFunction_prefix=_GF"
+REM for /f delims^=^ eol^= %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%~1" ^| findstr /N "^"') do (
+	REM )
+REM GoTo :EOF
 
+::Usage Call :IsFile optional _OutputVar File1 File2 ... FileN && IsFile || IsNotFile
+:IsFile
+set "_IsFile_buffer=%~1"
+if /i "[%_IsFile_buffer:~0,10%]" EQU "[_OutputVar]" ( set "_IsFile_output=%~1" & shift )
+set "_IsFile_buffer="
+:IsFile-loop
+set "_IsFile_Filename=%~a1"
+if "[%_IsFile_Filename:~0,1%]" EQU "[-]" ( set "_IsFile_result=true" ) else ( set "_IsFile_result=false" )
+if "[%_IsFile_output%]" NEQ "[]" set "%_IsFile_output%=%_IsFile_result%"
+if "[%_IsFile_result%]" EQU "[true]" if "[%~2]" NEQ "[]" ( shift & GoTo :IsFile-loop )
+set "_IsFile_Filename=" & set "_IsFile_output=" & set "_IsFile_result=" & if "[%_IsFile_result%]" EQU "[true]" ( exit /b 0 ) else ( exit /b 1 )
 
-REM ----- general purpose functions -----
+::Usage Call :GetFunctionRows BatchFile FunctionName OutputObject
+:GetFunctionRows
+set "_GetFunctionRows_prefix=_GFR"
+set "_GFR_BatchFile=%~1"
+set "_GFR_FunctionName=%~2"
+set "_GFR_OutputObject=%~3"
+Set "%_GFR_OutputObject%.name=%_GFR_FunctionName%"
+Call :GetLabelRow "%_GFR_BatchFile%" %_GFR_FunctionName% %_GFR_OutputObject%.start
+Call :GetFunctionExit "%_GFR_BatchFile%" %%%_GFR_OutputObject%.start%% %_GFR_OutputObject%.exit
+Call :GetFunctionPreambleRow "%_GFR_BatchFile%" %%%_GFR_OutputObject%.start%% %_GFR_OutputObject%.preamble
+Call :GetFunctionPostscriptRow "%_GFR_BatchFile%" %%%_GFR_OutputObject%.start%% %_GFR_OutputObject%.postscript
+Call :ClearVariablesByPrefix %_GetFunctionRows_prefix% _GetFunctionRows_prefix  & GoTo :EOF
 
-REM functional
-REM add echo array "verticalmode" (no LF between array elements)
-::Usage Call :EchoArray InputArray optional LINENUMBERS optional SHOWVARNAME optional .Suffix optional IndexRange
-:EchoArray
-set "_EchoArray_input=%~1"
-call set /a "_EchoArray_lbound=%%%~1.lbound" 2>nul
-if "[%_EchoArray_lbound%]" EQU "[]" set /a "_EchoArray_lbound=0"
-call set /a "_EchoArray_ubound=%%%~1.ubound"
-set /a "_EchoArray_index=%_EchoArray_lbound%"
-shift
-:EchoArray-arguments
-set "_EchoArray_buffer=%~1"
-if not defined _EchoArray_buffer GoTo :EchoArray-arguments-end
-if "[%_EchoArray_buffer:~,1%]" EQU "[.]" ( set "_EchoArray_suffix=%_EchoArray_buffer%" & shift & GoTo :EchoArray-arguments )
-if "[%_EchoArray_buffer%]" EQU "[LINENUMBERS]" ( set "_EchoArray_showlinenumbers=true" & shift & GoTo :EchoArray-arguments )
-if "[%_EchoArray_buffer%]" EQU "[SHOWVARNAME]" ( set "_EchoArray_showvariablename=true" & shift & GoTo :EchoArray-arguments )
-if "[%_EchoArray_buffer%]" EQU "[VERTICALMODE]" ( set "_EchoArray_verticalmode=true" & shift & GoTo :EchoArray-arguments )
-REM if "[%~1]" NEQ "[]" if not defined _EchoArray_IndexList.lbound set /a "_EchoArray_IndexList.lbound=1"
-if "[%~1]" NEQ "[]" ( Call :GetIndexArray _EchoArray_IndexList "%~1" & shift & GoTo :EchoArray-arguments )
-:EchoArray-arguments-end
-if defined _EchoArray_IndexList.ubound set /a "_EchoArray_ubound=%_EchoArray_IndexList.ubound%"
-setlocal enabledelayedexpansion
-:EchoArray-loop
-if not defined _EchoArray_IndexList.ubound ( set "_EchoArray_index_actual=%_EchoArray_index%" ) else ( set "_EchoArray_index_actual=!_EchoArray_IndexList[%_EchoArray_index%]!" )
-if defined _EchoArray_showlinenumbers set _EchoArray_prefix=%_EchoArray_index%:
-if defined _EchoArray_showvariablename set _EchoArray_prefix=%_EchoArray_input%[%_EchoArray_index_actual%]:
-if defined _EchoArray_showvariablename if defined _EchoArray_showlinenumbers set _EchoArray_prefix=%_EchoArray_index%:%_EchoArray_input%[%_EchoArray_index_actual%]:
-if not defined _EchoArray_verticalmode GoTo :EchoArray-normalmode-loop-next
-<nul set /p =%_EchoArray_prefix%!%_EchoArray_input%[%_EchoArray_index_actual%]%_EchoArray_suffix%! 
-GoTo :EchoArray-loop-next
-:EchoArray-normalmode-loop-next
-REM echo(%_EchoArray_prefix%%_EchoArray_input%[%_EchoArray_index_actual%]%_EchoArray_suffix%
-echo(%_EchoArray_prefix%!%_EchoArray_input%[%_EchoArray_index_actual%]%_EchoArray_suffix%!
-:EchoArray-loop-next
-set /a "_EchoArray_index+=1"
-if %_EchoArray_index% LEQ %_EchoArray_ubound% GoTo :EchoArray-loop
-:EchoArray-loop-end
-endlocal
-Call :ClearVariablesByPrefix _EchoArray
-GoTo :EOF
+::Usage Call :GetLabelRow BatchFile FunctionName optional OutputRow
+:GetLabelRow
+for /f delims^=:^ tokens^=1 %%a in ('%SystemRoot%\System32\findstr /I /N "^:%~2" "%~1" ^| findstr /I /V "::%~2[a-zA-Z0-9\-\/\?\!\@\%%\$\#\^\*\)\{\}\[\]\:\_]"') do ( if "[%~3]" NEQ "[]" set "%~3=%%a" & exit /b %%a )
+exit /b 0
 
-REM ToDo add range limits, at least lbound, if ubound, then ubound adjuster at the end will need work
-REM maybe arr[] arr[].suffix or arr[].* ?
-REM maybe add ability to output to a new compacted array, instead of moving elements of current array ?
-REM tentative ::Usage Call :CompactArray InputArray optional OutputArray
-REM tentative ::Usage Call :CompactArray InputArray optional OutputArray optional lbound=X optional ubound=Y
-REM tentative ::Usage Call :CompactArray InputArray[].mysuffix optional OutputArray optional lbound=X optional ubound=Y
-::Usage Call :CompactArray InputArray
-:CompactArray
-set "_CompactArray_prefix=_CA
-set "_CA_Input=%~1"
-call set "_CA_Input_lbound=%%%_CA_Input%.lbound%%"
-call set "_CA_Input_ubound=%%%_CA_Input%.ubound%%"
-if "[%_CA_Input_lbound%]" EQU "[]" set "_CA_Input_lbound=0"
-set /a "_CA_Index=%_CA_Input_lbound%"
-set /a "_CA_Previous=%_CA_Index%-1"
-if defined %_CA_Input%[%_CA_Index%] ( set /a "_CA_LastEmptyElement=%_CA_Index%+1" ) else ( set /a "_CA_LastEmptyElement=%_CA_Index%" )
-:CompactArray-loop
-REM if defined %_CA_Input%[%_CA_Index%] if %_CA_LastEmptyElement% LEQ %_CA_Previous% ( echo :MoveObject %_CA_Input%[%_CA_Index%] %_CA_Input%[%_CA_LastEmptyElement%] "_CA_LastEmptyElement+=1 %_CA_LastEmptyElement%" )
-if defined %_CA_Input%[%_CA_Index%] if %_CA_LastEmptyElement% LEQ %_CA_Previous% ( Call :MoveObject %_CA_Input%[%_CA_Index%] %_CA_Input%[%_CA_LastEmptyElement%] & set /a "_CA_LastEmptyElement+=1" )
-if defined %_CA_Input%[%_CA_Index%] set /a "_CA_LastEmptyElement=%_CA_Index%+1"
-set /a "_CA_Previous+=1" & set /a "_CA_Index+=1"
-if %_CA_Index% LEQ %_CA_Input_ubound% GoTo :CompactArray-loop
-set /a "%_CA_Input%.ubound=%_CA_LastEmptyElement%-1"
-Call :ClearVariablesByPrefix %_CompactArray_prefix% _CompactArray
-GoTo :EOF
+::Usage Call :GetFunctionExit BatchFile FunctionName or Row optional OutputRow
+:GetFunctionExit
+set "_GetFunctionExit_prefix=_GFE"
+set "_GFE_BatchFile=%~1"
+set "_GFE_Function=%~2"
+set "_GFE_Output=%~3"
+echo.%_GFE_Function%| findstr /r "[^0123456789]" >nul && ( set "_GFE_FunctionName=%_GFE_Function%" & Call :GetLabelRow %_GFE_BatchFile% %_GFE_Function% _GFE_Function ) || Call :GetFunctionName %_GFE_BatchFile% %_GFE_Function% _GFE_FunctionName
+Call :GetNextExitRow %_GFE_BatchFile% %_GFE_Function% _GFE_FunctionNextExit
+Call :GetNextFunctionRow %_GFE_BatchFile% %_GFE_FunctionNextExit% _GFE_FunctionNextFunction
+Call :GetPreviousExitRow %_GFE_BatchFile% %_GFE_FunctionNextFunction% _GFE_FunctionExit
+set /a _GFE_FunctionEOFExit=0 & Call :GetEOFrow %_GFE_BatchFile% %_GFE_FunctionName% _GFE_FunctionEOFExit
+if %_GFE_FunctionEOFExit% GTR 0 set /a _GFE_FunctionExit=%_GFE_FunctionEOFExit%
+if defined _GFE_Output set /a %_GFE_Output%=%_GFE_FunctionExit%
+Call :ClearVariablesByPrefix %_GetFunctionExit_prefix% _GetFunctionExit_prefix & exit /b %_GFE_FunctionExit%
+
+::Usage Call :GetFunctionPreambleRow BatchFile FunctionNameOrRow optional OutputRow
+:GetFunctionPreambleRow
+Call :GetPreviousEmptyRow "%~1" "%~2" "%~3"
+exit /b %errorlevel%
+
+::Usage Call :GetFunctionPostscriptRow BatchFile FunctionNameOrRow optional OutputRow
+:GetFunctionPostscriptRow
+Call :GetFunctionExit "%~1" "%~2" _GFPR_ExitRow
+Call :GetNextEmptyRow "%~1" "%_GFPR_ExitRow%" "%~3"
+set "_GFPR_ExitRow=" & exit /b %errorlevel%
 
 :: Usage Call :ClearVariablesByPrefix myPrefix
 :ClearVariablesByPrefix
@@ -507,18 +182,161 @@ if "[%~1]" NEQ "[]" for /f "tokens=1 delims==" %%a in ('set "%~1" 2^>nul') do se
 if "[%~2]" NEQ "[]" shift & GoTo :ClearVariablesByPrefix
 GoTo :EOF
 
-::Usage Call :ShowCodepage 
-:ShowCodepage
-chcp
-GoTo :EOF
+::Usage Call :GetFunctionName File LineNumber OutputValue
+:GetFunctionName
+for /F "usebackq eol= tokens=1,2 delims=(&:=+ " %%i in (`^(type %~1 ^| findstr /n /r /c:".*" ^| findstr /B /C:"%~2:" ^) 2^>nul`) do ( set "%~3=%%j" & exit /b 0 )
+REM proposed alternative for /F "tokens=2 delims=(&:=+ " %%i in ('%SystemRoot%\System32\findstr.exe /n "" "%~1" ^| %SystemRoot%\System32\findstr.exe /B /C:"%~2:"') do set "%~3=%%i" & exit /b 0
+exit /b 1
 
-::Usage Call :GetCodePage ReturnValue
-:GetCodePage
-for /f "tokens=1,2 delims=:" %%a in ('chcp') do set %1=%%b
-call set %1=%%%1:~1%%
-GoTo :EOF
+::Usage Call :GetBatchCore File optional OutputValue
+::Returns core function final line number
+:GetBatchCore
+Call :GetLabelRow "%~1" End _GetBatchCore_EndRow
+Call :GetNextFunctionRow "%~1" %_GetBatchCore_EndRow% _GetBatchCore_FirstFunction
+Call :GetPreviousExitRow "%~1" %_GetBatchCore_FirstFunction% _GetBatchCore_FirstFunctionExit
+Call :GetNextEmptyRow "%~1" %_GetBatchCore_FirstFunctionExit% _GetBatchCore_CorePostscript
+if "[%~2]" NEQ "[]" ( set /a %~2.preamble=1 & set /a %~2.start=1 & set /a %~2.exit=%_GetBatchCore_FirstFunctionExit% & set /a %~2.postscript=%_GetBatchCore_CorePostscript% )
+set "_GetBatchCore_EndRow=" & set "_GetBatchCore_FirstFunction=" & set "_GetBatchCore_FirstFunctionExit=" & set "_GetBatchCore_CorePostscript=" & exit /b %_GetBatchCore_CorePostscript%
 
-::Usage Call :SetCodePage NewCodePage
-:SetCodePage
-chcp %~1
+::Usage Call :GetNextExitRow BatchFile StartRow optional OutputRow
+:GetNextExitRow
+for /f delims^=:^ tokens^=1 %%a in ('%SystemRoot%\System32\findstr /N /I /C:"goto :EOF" /C:"exit /B" "%~1"') do ( if %%a GTR %~2 ( if "[%~3]" NEQ "[]" set "%~3=%%a" & exit /b %%a ) )
+exit /b 0
+
+:ListFunctions BatchFile optional OutputVariable BatchFile2 ... BatchFileN
+set "_ListFunctions_prefix=_LF"
+Call :IsFile "%~1" && set "_LF_InputFile=%~1" || ( set "_LF_Output=%~1" & if "[%~2]" NEQ "[]" ( shift & GoTo :ListFunctions ) else ( GoTo :ListFunctions-end ) )
+set "_LF_InputFile=%~1"
+:ListFunctions-args
+for /F "usebackq eol= tokens=2 delims=(&:=+ " %%a in (`^(type %_LF_InputFile% ^| findstr /n /r /c:"^:[^:]" ^) 2^>nul`) do ( Call :IsFunctionLabelExcluded %%a || call set "_LF_FunctionList=%%_LF_FunctionList%% %%a" )
+:ListFunctions-end
+if "[%~2]" NEQ "[]" ( shift & GoTo :ListFunctions )
+if defined _LF_Output ( set "%_LF_Output%=%_LF_FunctionList:~1%" ) else ( echo.%_LF_FunctionList:~1% )
+Call :ClearVariablesByPrefix %_ListFunctions_prefix% _ListFunctions_prefix & GoTo :EOF
+
+
+::Usage Call :GetNextFunctionName BatchFile StartRow optional OutputRow
+::Usage Call :GetNextFunctionRow BatchFile StartRow optional OutputRow
+:GetNextFunctionName
+set "_GNFR_ReturnName=true"
+:GetNextFunctionRow
+set "_GetNextFunctionRow_prefix=_GNFR"
+set "_GNFR_BatchFile=%~1"
+set "_GNFR_StartRow=%~2"
+set "_GNFR_Output=%~3"
+:GetNextFunctionRow-args
+for /f delims^=:^ tokens^=1 %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%_GNFR_BatchFile%"') do ( if %%a GTR %_GNFR_StartRow% ( set /a _GNFR_current=%%a & GoTo :GetNextFunctionRow-exit-loop ) )
+Call :countLines _GNFR_current "%_GNFR_BatchFile%" 2>nul
+set /a _GNFR_current-=1 & GoTo :GetNextFunctionRow-skip
+:GetNextFunctionRow-exit-loop
+Call :GetFunctionName "%~1" %_GNFR_current% _GNFR_current_FunctionName
+Call :IsFunctionLabelExcluded _GNFR_current_FunctionName && ( set /a _GNFR_StartRow=%_GNFR_current% & GoTo :GetNextFunctionRow-args )
+:GetNextFunctionRow-skip
+if "[%~3]" NEQ "[]" set "%~3=%_GNFR_current%" 
+if "[%_GNFR_ReturnName%]" EQU "[true]" set "%~3=%_GNFR_current_FunctionName%" 
+Call :ClearVariablesByPrefix %_GetNextFunctionRow_prefix% _GetNextFunctionRow_prefix  & exit /b %_GNFR_current%
+
+::Usage Call :GetPreviousExitRow BatchFile StartRow optional OutputRow
+:GetPreviousExitRow
+set "_GPER_previous="
+for /f delims^=:^ tokens^=1 %%a in ('%SystemRoot%\System32\findstr /N /I /C:"goto :EOF" /C:"exit /B" "%~1"') do ( ( if %%a LSS %~2 set /a _GPER_previous=%%a ) & if %%a GEQ %~2 ( GoTo :GetPreviousExitRow-exit-loop ) )
+:GetPreviousExitRow-exit-loop
+if "[%~3]" NEQ "[]" call set "%~3=%_GPER_previous%"
+set "_GPER_previous=" & exit /b %_GPER_previous%
+
+::Usage Call :GetEOFrow BatchFile FunctionName optional OutputRow
+:GetEOFrow
+for /f delims^=:^ tokens^=1 %%a in ('%SystemRoot%\System32\findstr /N /I /C:"EndOf_%~2" "%~1"') do ( if "[%~3]" NEQ "[]" set "%~3=%%a" & exit /b %%a )
+exit /b 0
+
+::Usage Call :countLines returnvariable filename
+::counts the number of lines in a file
+:countLines result= "%file%"
+setLocal disableDelayedExpansion
+(set "lc=0" & call)
+for /f "delims=:" %%N in ('
+    cmd /d /a /c type "%~2" ^^^& ^<nul set /p "=#" ^| (^
+    2^>nul findStr /n "^" ^&^& echo(^) ^| ^
+    2^>nul findStr /blv 1: ^| 2^>nul findStr /lnxc:" "
+') do (set "lc=%%N" & call;) %= for /f =%
+endlocal & set "%1=%lc%"
+exit /b %errorLevel% %= countLines =%
+https://stackoverflow.com/a/49089494/6104460
+
+::Usage Call :IsFunctionLabelExcluded FunctionLabel optional ExclusionList && IsExcluded || IsNotExcluded
+:IsFunctionLabelExcluded
+set "_IsFunctionLabelExcluded_prefix=_IFLE"
+set /a _IFLE_exit=1
+if defined %~1 call set _IFLE_input=%%%~1%%
+if not defined _IFLE_input set "_IFLE_input=%~1"
+set "_IFLE_input=%_IFLE_input:-= %"
+set "_IFLE_input=%_IFLE_input::= %"
+set "_IFLE_ExclusionList=%~2"
+if "[%_IFLE_ExclusionList%]" EQU "[]" set "_IFLE_ExclusionList=main setup macro end loop loop2 loop3 loop4 skip skip1 skip2 skip2 skip3 skip4 test test1 test2 test3 cleanup argument params args next prev iteration pre post 0 1 2 3 4 5 6 7 8 9 subloop matchfound nomatch found index list arguments preamble test4 test5 test6 start reset"
+for %%a in (%_IFLE_input%) do set _IFLE_last_token=%%a
+REM set _IFLE
+for %%a in (%_IFLE_ExclusionList%) do if %%a EQU %_IFLE_last_token% ( set /a _IFLE_exit=0 & GoTo :IsFunctionLabelExcluded-end ) 
+if "[%_IFLE_input:~,6%]" EQU "[EndOf_]" ( set /a _IFLE_exit=0 & GoTo :IsFunctionLabelExcluded-end ) 
+:IsFunctionLabelExcluded-end
+Call :ClearVariablesByPrefix %_IsFunctionLabelExcluded_prefix% _IsFunctionLabelExcluded_prefix  & exit /b %_IFLE_exit%
+
+::Usage Call :AppendFileLineToFile inputfile outputfile 3 4 50-75 5 6 7 ... N
+:AppendFileLineToFile
+set "_AppendFileLineToFile_prefix=_AFLTF"
+set "_AFLTF_InputFile=%~1"
+set "_AFLTF_OutputFile=%~2"
+:AppendFileLineToFile-arg
+for /f "delims=- tokens=1,2" %%a in ("%~3") do ( set "_AFLTF_Start=%%a" & set "_AFLTF_Stop=%%b"  )
+if not defined _AFLTF_Stop set /a _AFLTF_Stop=%_AFLTF_Start%
+Setlocal enabledelayedexpansion
+if %_AFLTF_Start% GTR 1 set /a "_AFLTF_skip=%_AFLTF_Start%-1"
+if %_AFLTF_Start% GTR 1 ( set "_AFLTF_skip=skip^=%_AFLTF_skip%^" ) else ( set "_AFLTF_skip=" )
+for /f %_AFLTF_skip% delims^=^ eol^= %%a in (' ^( type "%_AFLTF_InputFile%" ^| %SystemRoot%\System32\findstr /N /R /C:".*" ^) 2^>nul ') do ( 
+	for /f "delims=:" %%f in ("%%a") do if %%f GTR %_AFLTF_Stop% GoTo :AppendFileLineToFile-end
+	set _AFLTF_buffer=%%a
+	if defined _AFLTF_buffer >>"%_AFLTF_OutputFile%" echo(!_AFLTF_buffer:*:=!
+	) 
+endlocal
+:AppendFileLineToFile-end
+if "[%~4]" NEQ "[]" ( shift & GoTo :AppendFileLineToFile-arg )
+Call :ClearVariablesByPrefix %_AppendFileLineToFile_prefix% _AppendFileLineToFile_prefix & GoTo :EOF
+
+::Usage Call :GetPreviousEmptyRow BatchFile StartRow optional OutputRow
+:GetPreviousEmptyRow
+set "_GPEW_previous="
+for /f delims^=:^ tokens^=1 %%a in ('%SystemRoot%\System32\findstr /N "^$" "%~1"') do ( ( if %%a LSS %~2 set /a _GPEW_previous=%%a ) & if %%a GEQ %~2 ( GoTo :GetPreviousEmptyRow-exit-loop ) )
+exit /b 0
+:GetPreviousEmptyRow-exit-loop
+if "[%~3]" NEQ "[]" call set "%~3=%_GPEW_previous%"
+set "_GPEW_previous=" & exit /b %_GPEW_previous%
+
+::Usage Call :GetNextEmptyRow BatchFile StartRow optional OutputRow
+:GetNextEmptyRow
+for /f delims^=:^ tokens^=1 %%a in ('%SystemRoot%\System32\findstr /N "^$" "%~1"' ) do ( if %%a GTR %~2 ( if "[%~3]" NEQ "[]" set "%~3=%%a" & exit /b %%a ) )
+Call :countLines _GetNextEmptyRow_lastrow "%~1"
+set /a _GetNextEmptyRow_lastrow+=1
+if "[%~3]" NEQ "[]" set "%~3=%_GetNextEmptyRow_lastrow%"
+exit /b %_GetNextEmptyRow_lastrow%
+
+:BFWFunctionSwitcher-text
+@echo off
+
+:setup
+
+REM set "_IFLE_ExclusionList=main setup macro end loop loop2 loop3 loop4 skip skip1 skip2 skip2 skip3 skip4 test test1 test2 test3 cleanup argument params args next prev iteration pre post 0 1 2 3 4 5 6 7 8 9 subloop matchfound nomatch found index list arguments preamble test4 test5 test6 start reset"
+
+:main
+
+for %%a in ( %* ) do ( for %%b in ( /h /? -h -? help --help ) do ( if "[%%a]" EQU "[%%b]" ( Call :%~n0-help & exit /b 1 ) ) )
+for %%a in ( %* ) do ( if "[%%a]" EQU "[demo]" ( Call :%~n0-demo & exit /b 1 ) ) 
+if "[%~1]" EQU "[]" ( echo %~n0 needs at least one argument & exit /b 1 )
+REM if "[%~1]" EQU "[]" if "[%~2]" EQU "[]" ( echo %~n0 needs at least two argument & exit /b 1 )
+if "[%~n0]" EQU "[bfw]" ( Call :ShiftedArgumentCaller %* ) else ( Call :%~n0 %* )
+
+:end
+
+REM set "_IFLE_ExclusionList="
+
 GoTo :EOF
+:EndOF_BFWFunctionSwitcher-text
+
