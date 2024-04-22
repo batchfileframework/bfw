@@ -1,0 +1,1 @@
+example batch files, for bfw and general batch usage
