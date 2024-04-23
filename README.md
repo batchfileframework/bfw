@@ -17,7 +17,7 @@ Because there was no single big repository of standalone batch functions
 
 ## How do I get it right now ?
 
-    curl --location --fail https://github.com/batchfileframework/BatchfileFrameWork/raw/main/bfw/bfw.bat -o bfw.bat & bfw.bat install
+    curl https://github.com/batchfileframework/BatchfileFrameWork/raw/main/bfw/bfw.bat -o bfw.bat & bfw.bat install
 
 ## What can I do with it ?
 
