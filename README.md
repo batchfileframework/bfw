@@ -1,6 +1,30 @@
 
 # Batchfile Framework (BFW)
 
+## What is THIS ?
+
+A self-contained library of batch functions
+
+You can call them directly from the console
+
+Or from your batch scripts 
+
+## Why is this a thing ?
+
+To help making batch script easier
+
+Because there was no single big repository of standalone batch functions
+
+## How do I get it right now ?
+
+    curl --location --fail https://github.com/batchfileframework/BatchfileFrameWork/raw/main/bfw/bfw.bat -o bfw.bat & bfw.bat install
+
+## How does it work ?
+
+dunno
+
+## Previous explanation
+
 Is a batch file that helps you create other batch files
 It is also a set of conventions (yet unwritten) on how to create re-usable batch functions
 
@@ -72,7 +96,8 @@ Create function which creates shortcuts or symlink or hardlink, with the name of
 
 
 
-now the AI fluff
+### now the AI fluff explanation
+
 # Batchfile Framework (BFW)
 
 The Batchfile Framework (BFW) is an extensive collection aimed at centralizing and documenting the myriad of batch files available for Windows. This project focuses on achieving several core objectives:
