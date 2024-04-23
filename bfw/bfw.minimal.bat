@@ -18,7 +18,6 @@ REM set "_IFLE_ExclusionList="
 
 GoTo :EOF
 
-
 :ShiftedArgumentCaller
 set _ShiftedArgumentCaller_function=%~1
 shift
