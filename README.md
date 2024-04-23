@@ -1,6 +1,75 @@
 
 # Batchfile Framework (BFW)
 
+Is a batch file that helps you create other batch files
+It is also a set of conventions (yet unwritten) on how to create re-usable batch functions
+
+The first part of this is the bfw function library
+
+This function library contains a function switcher (similar to how busybox works)
+and an array of function which you can call upon in two ways
+
+1. bfw FUNCTIONNAME arg1 arg2 argN
+
+If you give a valid function name as the first parameter, that function will be called and will receive the rest of the parameters
+
+2. functionname.bat arg1 arg2 arg3
+
+If the file is renamed to the name of a function, this function will be called and will receive the rest of the parameters, as if you has celled the function directly
+
+current version can be found here
+
+https://github.com/batchfileframework/BatchfileFrameWork/blob/main/bfw/bfw.minimal.bat
+
+This bfw batch function library, contains all functions necessary to copy batch functions from one batch to another.
+
+Therefore you can ask it to create a copy of itself to demonstrate the functionality
+
+First ask it to listfunctions of itself
+
+    bfw listfunctions bfw.bat
+
+    ShiftedArgumentCaller AddFunctionToBatch IsFile GetFunctionRows GetLabelRow GetFunctionExit GetFunctionPreambleRow GetFunctionPostscriptRow ClearVariablesByPrefix GetFunctionName GetBatchCore GetNextExitRow ListFunctions GetNextFunctionName GetNextFunctionRow GetPreviousExitRow GetEOFrow countLines IsFunctionLabelExcluded AppendFileLineToFile GetPreviousEmptyRow GetNextEmptyRow
+
+Now you can create a new version as follows
+
+    bfw AddFunctionToBatch test\bfw.bat bfw.bat ShiftedArgumentCaller AddFunctionToBatch IsFile GetFunctionRows GetLabelRow GetFunctionExit GetFunctionPreambleRow GetFunctionPostscriptRow ClearVariablesByPrefix GetFunctionName GetBatchCore GetNextExitRow ListFunctions GetNextFunctionName GetPreviousExitRow GetEOFrow countLines IsFunctionLabelExcluded AppendFileLineToFile GetPreviousEmptyRow GetNextEmptyRow
+
+This will create file test\bfw.bat, which should be identical to the first one. 
+
+You ccould shuffled around the functions, it would be then a different file, but with the same functionnality
+
+Next objectives
+
+when a function is called, search %userprofile%\bfw\lib for more source batch
+
+create function which can read a function in a batch, and determine all function it needs to run standalone
+
+create a function which find REM import FunctionName  in a file, and then adds all such dependencies from bfw\lib or named local files
+
+    REM import IsFile
+    REM import localfile.bat:IsDate
+    REM import IsFolder localfile.bat:GetYear localfile.bat:GetDay localfolder\localfile.bat:FormatDate
+
+A function that can find each type of function call
+
+    Call :internal
+    Call external.bat
+    Call %:macrocall% 
+
+Create a function that can change any one type of function call, into another
+
+Create a function that finds all macrocalls, and fulfills the macro variables
+
+
+
+
+
+
+
+now the AI fluff
+# Batchfile Framework (BFW)
+
 The Batchfile Framework (BFW) is an extensive collection aimed at centralizing and documenting the myriad of batch files available for Windows. This project focuses on achieving several core objectives:
 
 - **Comprehensive Documentation:** We strive to provide thorough documentation on the usage of each batch file within the framework, ensuring users can easily understand and implement them in their workflows.
