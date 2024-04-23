@@ -19,9 +19,13 @@ Because there was no single big repository of standalone batch functions
 
     curl --location --fail https://github.com/batchfileframework/BatchfileFrameWork/raw/main/bfw/bfw.bat -o bfw.bat & bfw.bat install
 
+## What can I do with it ?
+
 ## How does it work ?
 
 dunno
+
+
 
 ## Previous explanation
 
