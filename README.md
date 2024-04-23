@@ -37,7 +37,10 @@ Now you can create a new version as follows
 
 This will create file test\bfw.bat, which should be identical to the first one. 
 
-You ccould shuffled around the functions, it would be then a different file, but with the same functionnality
+https://github.com/batchfileframework/BatchfileFrameWork/blob/main/doc/media/bfwdemo1.png
+
+
+You could shuffle around the functions, it would be then a different file, but with the same functionnality
 
 Next objectives
 
