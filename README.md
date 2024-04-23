@@ -64,9 +64,11 @@ Create a function that can change any one type of function call, into another
 
 Create a function that finds all macrocalls, and fulfills the macro variables
 
+Create a proper installer, which downloads bfw.bat standard version as well as the function library and copies them to %userprofile%\bfw , and adds this folder to the user %PATH%
 
+Create a more complete version of bfw with all the best functions out there
 
-
+Create function which creates shortcuts or symlink or hardlink, with the name of all supplied bfw functions and point these to bfw.bat. So that all function can be called directly from the command line.
 
 
 
