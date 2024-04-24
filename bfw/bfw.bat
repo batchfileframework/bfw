@@ -130,17 +130,28 @@ if NORMAL start at preamble end at postscript
 if UNPACK output 1 after function.start and 1 before function.exit
 if NOPROVISIONING don't search %bfw.root%\lib for the function
 
+::Usage Call :ExtractAllBatchFunction SourceBatchFile optional DestionationFolder
+:ExtractAllBatchFunction
+Call :ListFunctions "%~1" _ExtractAllBatchFunction_FunctionList
+if "[%~2]" NEQ "[]" ( set "_ExtractAllBatchFunction_OutputFolder=%~2" ) else ( set "_ExtractAllBatchFunction_OutputFolder=%cd%\" )
+Call :ExtractBatchFunction DESTINATIONFOLDER "%_ExtractAllBatchFunction_OutputFolder%" "%~1" %_ExtractAllBatchFunction_FunctionList%
+set "_ExtractAllBatchFunction_FunctionList=" & set "_ExtractAllBatchFunction_OutputFolder="
+GoTo :EOF
+
 ::Usage Call :ExtractBatchFunction SourceBatchFile FunctionName1 FunctionName2 ... FunctionNameN SourceBatchFile FunctionName1a ...FunctionNameNa
 :ExtractBatchFunction
+set "_ExtractBatchFunction_prefix=_EBF"
 if "[%~1]" EQU "[DESTINATIONFOLDER]" ( set "_EBF_DestinationFolder=%~2" & shift & shift & GoTo :ExtractBatchFunction )
 if "[%~1]" EQU "[DESTINATIONFILE]" ( set "_EBF_DestinationFile=%~2" & shift & shift & GoTo :ExtractBatchFunction )
 Call :IsFile "%~1" && ( set "_EBF_SourceBatch=%~1" & shift & GoTo :ExtractBatchFunction ) || set "_EBF_FunctionName=%~1"
-if not defined _EBF_DestinationFolder set "_EBF_DestinationFolder=%cd%"
-if not defined _EBF_DestinationFile ( set "_EBF_DestinationFilepath=%_EBF_DestinationFolder%%_EBF_DestinationFile%" ) else ( set "_EBF_DestinationFilepath=%_EBF_DestinationFolder%%_EBF_FunctionName%.bat" )
-set _EBF
+if not defined _EBF_DestinationFolder set "_EBF_DestinationFolder=%cd%\"
+if defined _EBF_DestinationFile ( set "_EBF_DestinationFilepath=%_EBF_DestinationFolder%%_EBF_DestinationFile%" ) else ( set "_EBF_DestinationFilepath=%_EBF_DestinationFolder%%_EBF_FunctionName%.bat" )
 Call :AddFunctionToBatch "%_EBF_DestinationFilepath%" "%_EBF_SourceBatch%" "%_EBF_FunctionName%"
-if "[%~1]" NEQ "[%~2]" ( shift & GoTo :ExtractBatchFunction )
-GoTo :EOF
+if "[%~2]" NEQ "[]" ( shift & GoTo :ExtractBatchFunction )
+Call :ClearVariablesByPrefix %_ExtractBatchFunction_prefix% _ExtractBatchFunction_prefix & GoTo :EOF
+
+echo is the problem here
+
 
 :FindBatchDuplicateFunctions :find all function labels, returns list of duplicated labels
 :FindMissingDependencies :check all calls in all functions, for each dependencies, check if it is fulfilled, returns list of unfulfilled dependencies
@@ -160,7 +171,7 @@ REM FOR NOW JUST MATCH FILE AND FUNCTION
 :: NOPREAMBLE NOPOSTSCRIPT PREAMBLEONLY POSTSCRIPTONLY FUNCTIONONLY UNPACK PLUSDEPENDENCIES
 ::Usage Call :PrintBatchFunction DestinationBatch SourceBatch FunctionName1 FunctionName2 ... FunctionNameN
 :PrintBatchFunction
-set "_PrintBatchFunction_prefix=_PBF
+set "_PrintBatchFunction_prefix=_PBF"
 :PrintBatchFunction-args
 if "[%~1]" EQU "[UNPACK]" ( set "_PBF_SwitchUnpack=true" & shift & GoTo :PrintBatchFunction-args )
 if "[%~1]" EQU "[NOPREAMBLE]" ( set "_PBF_SwitchNoPreamble=true" & shift & GoTo :PrintBatchFunction-args )
@@ -197,9 +208,7 @@ Call :ClearVariablesByPrefix %_PrintBatchFunction_prefix% _PrintBatchFunction_pr
 :GetBFWLIBFunction
 if not defined bfw.root exit /b 1
 Call :FindFileByFilename "%bfw.root%\lib" "%FunctionName1%" _GetBFWLIBFunction_FilePath || exit /b 1
-
-
-"%bfw.root%"
+GoTo :EOF
 
 ::Usage Call :FindFile SearchFolder Filename ReturnVariable
 :FindFileByFilename
@@ -337,7 +346,8 @@ set "_GetBatchCore_EndRow=" & set "_GetBatchCore_FirstFunction=" & set "_GetBatc
 for /f delims^=:^ tokens^=1 %%a in ('%SystemRoot%\System32\findstr /N /I /C:"goto :EOF" /C:"exit /B" "%~1"') do ( if %%a GTR %~2 ( if "[%~3]" NEQ "[]" set "%~3=%%a" & exit /b %%a ) )
 exit /b 0
 
-:ListFunctions BatchFile optional OutputVariable BatchFile2 ... BatchFileN
+::Usage Call :ListFunctions BatchFile optional OutputVariable BatchFile2 ... BatchFileN
+:ListFunctions
 set "_ListFunctions_prefix=_LF"
 Call :IsFile "%~1" && set "_LF_InputFile=%~1" || ( set "_LF_Output=%~1" & if "[%~2]" NEQ "[]" ( shift & GoTo :ListFunctions ) else ( GoTo :ListFunctions-end ) )
 set "_LF_InputFile=%~1"
@@ -410,7 +420,7 @@ if "[%_IFLE_ExclusionList%]" EQU "[]" set "_IFLE_ExclusionList=main setup macro 
 for %%a in (%_IFLE_input%) do set _IFLE_last_token=%%a
 REM set _IFLE
 for %%a in (%_IFLE_ExclusionList%) do if %%a EQU %_IFLE_last_token% ( set /a _IFLE_exit=0 & GoTo :IsFunctionLabelExcluded-end ) 
-if "[%_IFLE_input:~,6%]" EQU "[EndOf_]" ( set /a _IFLE_exit=0 & GoTo :IsFunctionLabelExcluded-end ) 
+if "[%_IFLE_input:~,6%]" EQU "[EndOF_]" ( set /a _IFLE_exit=0 & GoTo :IsFunctionLabelExcluded-end ) 
 :IsFunctionLabelExcluded-end
 Call :ClearVariablesByPrefix %_IsFunctionLabelExcluded_prefix% _IsFunctionLabelExcluded_prefix  & exit /b %_IFLE_exit%
 
