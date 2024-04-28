@@ -21,5 +21,3 @@
     exit /b
 )
 REM https://stackoverflow.com/a/5841587
-:ArrayManipulation-DEMO
-
