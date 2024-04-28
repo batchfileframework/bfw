@@ -1,0 +1,1 @@
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run" /v "Gajim" /t REG_SZ /d "\"%ProgramFiles%\Gajim\bin\Gajim.exe\""

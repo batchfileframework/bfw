@@ -1,0 +1,1 @@
+wmic computersystem where caption='%computername%' rename shodan

@@ -1,0 +1,5 @@
+
+:ReturnToInitialFolder
+popd
+GoTo :EOF
+

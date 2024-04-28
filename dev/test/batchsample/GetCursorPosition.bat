@@ -1,0 +1,4 @@
+
+:GetCursorPosition
+GoTo :EOF
+

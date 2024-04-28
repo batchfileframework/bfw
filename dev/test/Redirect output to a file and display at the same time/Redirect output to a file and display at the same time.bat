@@ -1,0 +1,1 @@
+dir | tee directory.txt

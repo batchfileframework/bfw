@@ -1,0 +1,4 @@
+
+:SetPowerCFG
+GoTo :EOF
+

@@ -1,0 +1,4 @@
+
+:FindAllLabelsInAFunctionThatExistInTheFile
+GoTo :EOF
+

@@ -1,0 +1,4 @@
+
+:GetConsoleDimensions
+GoTo :EOF
+

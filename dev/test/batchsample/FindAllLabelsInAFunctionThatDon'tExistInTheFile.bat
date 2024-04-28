@@ -1,0 +1,4 @@
+
+:FindAllLabelsInAFunctionThatDon'tExistInTheFile
+GoTo :EOF
+

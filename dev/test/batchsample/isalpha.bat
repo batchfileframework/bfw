@@ -1,0 +1,4 @@
+
+:isalpha
+GoTo :EOF
+

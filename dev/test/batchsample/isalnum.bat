@@ -1,0 +1,4 @@
+
+:isalnum
+GoTo :EOF
+

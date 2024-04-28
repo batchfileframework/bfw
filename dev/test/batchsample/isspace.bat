@@ -1,0 +1,4 @@
+
+:isspace
+GoTo :EOF
+

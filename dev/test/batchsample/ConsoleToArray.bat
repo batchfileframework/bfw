@@ -1,0 +1,4 @@
+
+:ConsoleToArray
+GoTo :EOF
+

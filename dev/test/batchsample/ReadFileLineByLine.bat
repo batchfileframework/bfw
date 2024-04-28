@@ -1,0 +1,4 @@
+
+:ReadFileLineByLine :EchoFile
+GoTo :EOF
+

@@ -1,0 +1,4 @@
+
+:FindAllLabelsInAFunction
+GoTo :EOF
+

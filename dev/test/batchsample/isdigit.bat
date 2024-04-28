@@ -1,0 +1,4 @@
+
+:isdigit
+GoTo :EOF
+

@@ -1,0 +1,4 @@
+
+:regex
+GoTo :EOF
+
