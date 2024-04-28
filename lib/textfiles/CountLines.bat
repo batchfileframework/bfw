@@ -7,8 +7,9 @@ setLocal disableDelayedExpansion
 for /f "delims=:" %%N in ('
     cmd /d /a /c type "%~2" ^^^& ^<nul set /p "=#" ^| (^
     2^>nul findStr /n "^" ^&^& echo(^) ^| ^
-    findStr /blv 1: ^| 2^>nul findStr /lnxc:" "
+    2^>nul findStr /blv 1: ^| 2^>nul findStr /lnxc:" "
 ') do (set "lc=%%N" & call;) %= for /f =%
 endlocal & set "%1=%lc%"
 exit /b %errorLevel% %= countLines =%
 REM https://stackoverflow.com/a/49089494/6104460
+
