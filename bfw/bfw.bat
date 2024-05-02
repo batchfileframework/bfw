@@ -24,53 +24,7 @@ shift
 set "_ShiftedArgumentCaller_function=" & GoTo :%_ShiftedArgumentCaller_function%
 GoTo :EOF
 
-objective create bfw.bat
-that contains everything to make bfw.bat
 
-REM :CoreFunctionCopier
-REM :AddFunctionToBatch
-REM :ListFunctions
-
-REM :install
-REM :uninstall
-REM :update
-
-REM :listfunction
-REM :getfunctionlist
-REM :createnakedfunction
-REM :shortcutify
-REM :symlinkify
-REM :hardlinkify
-
-REM Call :AddFunctionToBatch bfw.new.bat testsource.bat AddFunctionToBatch GetFunctionRows GetLabelRow GetFunctionExit GetFunctionPreambleRow GetFunctionPostscriptRow ClearVariablesByPrefix GetFunctionName GetNextExitRow GetNextFunctionName GetPreviousExitRow GetEOFrow countLines IsFunctionLabelExcluded AppendFileLineToFile 
-
-
-REM REM source function should be able to be invoked by
-REM REM sourcebatch then function name
-REM REM relativepath\sourcebatch.bat:FunctionName
-REM REM bfw\lib\section\sourcebatch.bat:FunctionName .bat is optional bfw\lib\section can be omitted to just bfw\sourcebatch
-REM REM just the FunctionName if not found in the current sourcebatch, then search all files in bfw\lib\
-REM REM FOR NOW JUST MATCH FILE AND FUNCTION
-REM :: NOPREAMBLE NOPOSTSCRIPT PREAMBLEONLY POSTSCRIPTONLY FUNCTIONONLY UNPACK PLUSDEPENDENCIES
-REM ::Usage Call :AddFunctionToBatch DestinationBatch SourceBatch FunctionName1 FunctionName2 ... FunctionNameN
-REM :AddFunctionToBatch
-REM set "_AddFunctionToBatch_prefix=_AFTB
-REM set "_AFTB_output=%~1"
-REM :AddFunctionToBatch-args
-REM if "[%~2]" EQU "[UNPACK]" ( set "_AFTB_Unpack=true" & shift & GoTo :AddFunctionToBatch-args )
-REM Call :ClearVariablesByPrefix _AFTB_FunctionRows
-REM Call :IsFile "%~2" && ( set "_AFTB_SourceBatch=%~2" & shift & GoTo :AddFunctionToBatch-args ) || set "_AFTB_FunctionName=%~2"
-REM REM if defined bfw.root
-REM REM determine quel fichier
-REM REM ficher dans repertoire courrant
-REM REM ou fichier dans bfw\lib ?
-REM if "[%_AFTB_FunctionName%]" EQU "[CORE]" ( Call :GetBatchCore "%_AFTB_SourceBatch%" _AFTB_FunctionRows & GoTo :AddFunctionToBatch-end )
-REM Call :GetFunctionRows "%_AFTB_SourceBatch%" "%_AFTB_FunctionName%" _AFTB_FunctionRows
-REM if "[%_AFTB_Unpack%]" EQU "[true]" ( set /a _AFTB_FunctionRows.preamble=%_AFTB_FunctionRows.start%+1 & set /a _AFTB_FunctionRows.postscript=%_AFTB_FunctionRows.exit%-1 & set "_AFTB_Unpack=" )
-REM :AddFunctionToBatch-end
-REM Call :AppendFileLineToFile "%_AFTB_SourceBatch%" "%_AFTB_output%" %_AFTB_FunctionRows.preamble%-%_AFTB_FunctionRows.postscript%
-REM if "[%~3]" NEQ "[]" ( shift & GoTo :AddFunctionToBatch-args )
-REM Call :ClearVariablesByPrefix %_AddFunctionToBatch_prefix% _AddFunctionToBatch_prefix  & GoTo :EOF
 
 
 REM source function should be able to be invoked by
@@ -108,27 +62,13 @@ if defined _AFTB_SwitchPostscriptOnly set /a _AFTB_StartLine=%_AFTB_FunctionRows
 if defined _AFTB_SwitchFunctionOnly ( set /a _AFTB_StartLine=%_AFTB_FunctionRows.start% & set /a _AFTB_EndLine=%_AFTB_FunctionRows.exit% )
 if %_AFTB_StartLine% EQU %_AFTB_EndLine% GoTo :AddFunctionToBatch-end
 if defined _AFTB_SwitchUnpack ( set /a _AFTB_StartLine=%_AFTB_FunctionRows.start%+1 & set /a _AFTB_EndLine=%_AFTB_FunctionRows.exit%-1 & set "_AFTB_SwitchUnpack=" )
-REM IF FUNCTION ALREADY IN FILE, DON'T ADD IT
 if exist "%_AFTB_output%" Call :GetLabelRow "%_AFTB_output%" "%_AFTB_FunctionName%" || GoTo :AddFunctionToBatch-end
-REM IF BFW FUNCTION, SourceBatch is DIFFERENT !! _AFTB_BFWFunctionFile
-Call :AppendFileLineToFile "%_AFTB_SourceBatch%" "%_AFTB_output%" %_AFTB_FunctionRows.preamble%-%_AFTB_FunctionRows.postscript%
+if defined _AFTB_BFWFunctionFile ( set "_AFTB_SourceFile=%_AFTB_BFWFunctionFile%" ) else ( set "_AFTB_SourceFile=%_AFTB_SourceBatch%" )
+Call :AppendFileLineToFile "%_AFTB_SourceFile%" "%_AFTB_output%" %_AFTB_FunctionRows.preamble%-%_AFTB_FunctionRows.postscript%
 REM IF PLUSDEPENDENCIES ADD DEPENDENCIES TO FILE by calling :GetBatchFunctionCalls and then calling :AddFunctionToBatch with found functions
 :AddFunctionToBatch-end
 if "[%~3]" NEQ "[]" ( shift & GoTo :AddFunctionToBatch-args )
 Call :ClearVariablesByPrefix %_AddFunctionToBatch_prefix% _AddFunctionToBatch_prefix  & GoTo :EOF
-
-search local folder for FunctionName.bat ?
-search %bfw.root%\lib for FunctionName.bat
-if found change sourcebatch temporarily to that file || but set it back to previous value after
-
-if NOPREAMBLE, start at function.start
-if NOPOSTSCRIPT end at function.exit
-if PREAMBLEONLY start at preamble end at function.start
-if POSTSCRIPTONLY start at function.exit end at postscript
-if FUNCTIONONLY start at function.start end at function.exit
-if NORMAL start at preamble end at postscript
-if UNPACK output 1 after function.start and 1 before function.exit
-if NOPROVISIONING don't search %bfw.root%\lib for the function
 
 ::Usage Call :ExtractAllBatchFunction SourceBatchFile optional DestionationFolder
 :ExtractAllBatchFunction
@@ -146,21 +86,10 @@ if "[%~1]" EQU "[DESTINATIONFILE]" ( set "_EBF_DestinationFile=%~2" & shift & sh
 Call :IsFile "%~1" && ( set "_EBF_SourceBatch=%~1" & shift & GoTo :ExtractBatchFunction ) || set "_EBF_FunctionName=%~1"
 if not defined _EBF_DestinationFolder set "_EBF_DestinationFolder=%cd%\"
 if defined _EBF_DestinationFile ( set "_EBF_DestinationFilepath=%_EBF_DestinationFolder%%_EBF_DestinationFile%" ) else ( set "_EBF_DestinationFilepath=%_EBF_DestinationFolder%%_EBF_FunctionName%.bat" )
+if not defined bfw.silent echo Writing function %_EBF_FunctionName%
 Call :AddFunctionToBatch "%_EBF_DestinationFilepath%" "%_EBF_SourceBatch%" "%_EBF_FunctionName%"
 if "[%~2]" NEQ "[]" ( shift & GoTo :ExtractBatchFunction )
 Call :ClearVariablesByPrefix %_ExtractBatchFunction_prefix% _ExtractBatchFunction_prefix & GoTo :EOF
-
-echo is the problem here
-
-
-:FindBatchDuplicateFunctions :find all function labels, returns list of duplicated labels
-:FindMissingDependencies :check all calls in all functions, for each dependencies, check if it is fulfilled, returns list of unfulfilled dependencies
-:FindDuplicateWords "a series of of words" :returns number of duplicates (1 duplicates)
-:GetDuplicateWords "a series of of words" :returns number of duplicates (1 duplicates) : returns list of duplicated words "of"
-:IsWordDuplicated "myword" "a series of of myword" returns number of times searchword is found in string
-:GetWordCound "searchword" "a series of words" :returns number of times searchword is found in string, if searchword is "", returns total word count
-:DeleteFunction name a function, it gets deleted, there should be a way to specify the function index if there are more than one function matching the name
-
 
 REM source function should be able to be invoked by
 REM sourcebatch then function name
@@ -196,8 +125,8 @@ if defined _PBF_SwitchPostscriptOnly set /a _PBF_StartLine=%_PBF_FunctionRows.ex
 if defined _PBF_SwitchFunctionOnly ( set /a _PBF_StartLine=%_PBF_FunctionRows.start% & set /a _PBF_EndLine=%_PBF_FunctionRows.exit% )
 if %_PBF_StartLine% EQU %_PBF_EndLine% GoTo :PrintBatchFunction-end
 if defined _PBF_SwitchUnpack ( set /a _PBF_StartLine=%_PBF_FunctionRows.start%+1 & set /a _PBF_EndLine=%_PBF_FunctionRows.exit%-1 & set "_PBF_SwitchUnpack=" )
-REM IF BFW FUNCTION, SourceBatch is DIFFERENT !! _PBF_BFWFunctionFile
-Call :PrintFileLine "%_PBF_SourceBatch%" %_PBF_FunctionRows.preamble%-%_PBF_FunctionRows.postscript%
+if defined _AFTB_BFWFunctionFile ( set "_AFTB_SourceFile=%_AFTB_BFWFunctionFile%" ) else ( set "_AFTB_SourceFile=%_AFTB_SourceBatch%" )
+Call :PrintFileLine "%_AFTB_SourceFile%" %_PBF_FunctionRows.preamble%-%_PBF_FunctionRows.postscript%
 REM IF PLUSDEPENDENCIES ADD DEPENDENCIES TO FILE by calling :GetBatchFunctionCalls and then calling :PrintBatchFunction with found functions
 :PrintBatchFunction-end
 if "[%~2]" NEQ "[]" ( shift & GoTo :PrintBatchFunction-args )
@@ -230,16 +159,6 @@ set "_IsLastToken_input=%_IsLastToken_input::= %"
 for %%a in (%_IsLastToken_input%) do if "[%%a]" EQU "[%~2]" set "_IsLastToken_result=true"
 set "_IsLastToken_input=" & set "_IsLastToken_result=" & if "[%_IsLastToken_result%]" EQU "[true]" ( exit /b 0 ) else ( exit /b 1 )
 
-REM for AddFunctionToBatch
-::Usage Call :AddFunctionToBatch DestinationBatch SourceBatch FunctionName1 FunctionName2 ... FunctionNameN
-set destination
-for each argument
-if argument is a .bat, set as sourcebatch shift+next
-if argument starts with bfw\, source is in %bfw.root%\lib\ set sourcebatch shift+next
-search source batch for function rows
-copy (append) function rows content to destination batch
-
-
 ::Usage Call :GetLabels BatchFile LabelObjectArray optional RowsArray
 :GetLabelsOnly
 set "_GetLabels_output=%~2"
@@ -253,15 +172,6 @@ for /f delims^=^ eol^= %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%~1" 
 	)
 set /a "%_GetLabels_output%.lbound=1" & set "_GetLabels_output=" & set "_GetLabels_output_rows="
 GoTo :EOF
-
-
-REM FindFunction ?
-REM ::Usage Call :GetFunction batchfile OutputArray optional FunctionSearchPattern
-REM :GetFunction
-REM set "_GetFunction_prefix=_GF"
-REM for /f delims^=^ eol^= %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%~1" ^| findstr /N "^"') do (
-	REM )
-REM GoTo :EOF
 
 ::Usage Call :IsFile optional _OutputVar File1 File2 ... FileN && IsFile || IsNotFile
 :IsFile
@@ -299,11 +209,11 @@ set "_GetFunctionExit_prefix=_GFE"
 set "_GFE_BatchFile=%~1"
 set "_GFE_Function=%~2"
 set "_GFE_Output=%~3"
-echo.%_GFE_Function%| findstr /r "[^0123456789]" >nul && ( set "_GFE_FunctionName=%_GFE_Function%" & Call :GetLabelRow %_GFE_BatchFile% %_GFE_Function% _GFE_Function ) || Call :GetFunctionName %_GFE_BatchFile% %_GFE_Function% _GFE_FunctionName
-Call :GetNextExitRow %_GFE_BatchFile% %_GFE_Function% _GFE_FunctionNextExit
-Call :GetNextFunctionRow %_GFE_BatchFile% %_GFE_FunctionNextExit% _GFE_FunctionNextFunction
-Call :GetPreviousExitRow %_GFE_BatchFile% %_GFE_FunctionNextFunction% _GFE_FunctionExit
-set /a _GFE_FunctionEOFExit=0 & Call :GetEOFrow %_GFE_BatchFile% %_GFE_FunctionName% _GFE_FunctionEOFExit
+echo.%_GFE_Function%| findstr /r "[^0123456789]" >nul && ( set "_GFE_FunctionName=%_GFE_Function%" & Call :GetLabelRow "%_GFE_BatchFile%" %_GFE_Function% _GFE_Function ) || Call :GetFunctionName "%_GFE_BatchFile%" %_GFE_Function% _GFE_FunctionName
+Call :GetNextExitRow "%_GFE_BatchFile%" %_GFE_Function% _GFE_FunctionNextExit
+Call :GetNextFunctionRow "%_GFE_BatchFile%" %_GFE_FunctionNextExit% _GFE_FunctionNextFunction
+Call :GetPreviousExitRow "%_GFE_BatchFile%" %_GFE_FunctionNextFunction% _GFE_FunctionExit
+set /a _GFE_FunctionEOFExit=0 & Call :GetEOFrow "%_GFE_BatchFile%" %_GFE_FunctionName% _GFE_FunctionEOFExit
 if %_GFE_FunctionEOFExit% GTR 0 set /a _GFE_FunctionExit=%_GFE_FunctionEOFExit%
 if defined _GFE_Output set /a %_GFE_Output%=%_GFE_FunctionExit%
 Call :ClearVariablesByPrefix %_GetFunctionExit_prefix% _GetFunctionExit_prefix & exit /b %_GFE_FunctionExit%
@@ -352,10 +262,11 @@ set "_ListFunctions_prefix=_LF"
 Call :IsFile "%~1" && set "_LF_InputFile=%~1" || ( set "_LF_Output=%~1" & if "[%~2]" NEQ "[]" ( shift & GoTo :ListFunctions ) else ( GoTo :ListFunctions-end ) )
 set "_LF_InputFile=%~1"
 :ListFunctions-args
-for /F "usebackq eol= tokens=2 delims=(&:=+ " %%a in (`^(type %_LF_InputFile% ^| findstr /n /r /c:"^:[^:]" ^) 2^>nul`) do ( Call :IsFunctionLabelExcluded %%a || call set "_LF_FunctionList=%%_LF_FunctionList%% %%a" )
+for /F "usebackq eol= tokens=2 delims=(&:=+ " %%a in (`^(type "%_LF_InputFile%" ^| findstr /n /r /c:"^:[^:]" ^) 2^>nul`) do ( Call :IsFunctionLabelExcluded %%a || call set "_LF_FunctionList=%%_LF_FunctionList%% %%a" )
 :ListFunctions-end
 if "[%~2]" NEQ "[]" ( shift & GoTo :ListFunctions )
-if defined _LF_Output ( set "%_LF_Output%=%_LF_FunctionList:~1%" ) else ( echo.%_LF_FunctionList:~1% )
+if defined _LF_Output set "%_LF_Output%=%_LF_FunctionList:~1%"
+if not defined _LF_Output echo.%_LF_FunctionList:~1%
 Call :ClearVariablesByPrefix %_ListFunctions_prefix% _ListFunctions_prefix & GoTo :EOF
 
 
@@ -415,14 +326,16 @@ if defined %~1 call set _IFLE_input=%%%~1%%
 if not defined _IFLE_input set "_IFLE_input=%~1"
 set "_IFLE_input=%_IFLE_input:-= %"
 set "_IFLE_input=%_IFLE_input::= %"
+set "_IFLE_input=%_IFLE_input:)= %"
+set "_IFLE_input=%_IFLE_input:(= %"
 set "_IFLE_ExclusionList=%~2"
 if "[%_IFLE_ExclusionList%]" EQU "[]" set "_IFLE_ExclusionList=main setup macro end loop loop2 loop3 loop4 skip skip1 skip2 skip2 skip3 skip4 test test1 test2 test3 cleanup argument params args next prev iteration pre post 0 1 2 3 4 5 6 7 8 9 subloop matchfound nomatch found index list arguments preamble test4 test5 test6 start reset"
-for %%a in (%_IFLE_input%) do set _IFLE_last_token=%%a
-REM set _IFLE
+setlocal enabledelayedexpansion
+for %%a in (!_IFLE_input!) do set "_IFLE_last_token=%%a"
 for %%a in (%_IFLE_ExclusionList%) do if %%a EQU %_IFLE_last_token% ( set /a _IFLE_exit=0 & GoTo :IsFunctionLabelExcluded-end ) 
 if "[%_IFLE_input:~,6%]" EQU "[EndOF_]" ( set /a _IFLE_exit=0 & GoTo :IsFunctionLabelExcluded-end ) 
 :IsFunctionLabelExcluded-end
-Call :ClearVariablesByPrefix %_IsFunctionLabelExcluded_prefix% _IsFunctionLabelExcluded_prefix  & exit /b %_IFLE_exit%
+endlocal & Call :ClearVariablesByPrefix %_IsFunctionLabelExcluded_prefix% _IsFunctionLabelExcluded_prefix  & exit /b %_IFLE_exit%
 
 ::Usage Call :AppendFileLineToFile inputfile outputfile 3 4 50-75 5 6 7 ... N
 :AppendFileLineToFile
