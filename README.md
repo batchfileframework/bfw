@@ -286,6 +286,7 @@ BFW is released under the GPL-3.0 license. See the LICENSE file for more details
     https://discord.gg/GSVrHag
     REPL.BAT https://stackoverflow.com/questions/60034/how-can-you-find-and-replace-text-in-a-file-using-the-windows-command-line-envir/16735079#16735079
     https://theasciicode.com.ar
+    https://www.bttr-software.de/
     
 ### Contact
 
