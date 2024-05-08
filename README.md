@@ -287,6 +287,9 @@ BFW is released under the GPL-3.0 license. See the LICENSE file for more details
     REPL.BAT https://stackoverflow.com/questions/60034/how-can-you-find-and-replace-text-in-a-file-using-the-windows-command-line-envir/16735079#16735079
     https://theasciicode.com.ar
     https://www.bttr-software.de/
+    https://stackoverflow.com/questions/36176267/calling-function-from-included-batch-file-with-a-parameter#comment59988363_36176267
+    https://ss64.com/nt/call.html
+    https://www.dostips.com/forum/viewtopic.php?f=3&t=5311
     
 ### Contact
 
