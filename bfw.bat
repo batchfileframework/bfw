@@ -21,7 +21,6 @@ GoTo :EOF
 :ShiftedArgumentCaller
 set _ShiftedArgumentCaller_function=%~1
 shift
-set _
 set "_ShiftedArgumentCaller_function=" & GoTo :%_ShiftedArgumentCaller_function%
 GoTo :EOF
 
@@ -29,6 +28,36 @@ GoTo :EOF
 
 
 TODO 
+in :main
+getfunctionrow, check if function exists in current file, if yes cache result
+if does not exist, but bfw.root is defined search bfw.root for exactfunctionname.bat
+run that with compiled arguments string
+put %* in  a variable without damaging it
+leftcut string to remove functioncaller
+
+:backupfile (auto put in %temp%\bfw)
+:deletefunction
+:updatebatch batchfile  (updates library function, if different to those in bfw.root/lib)
+:GetFunctionDependencies batchfile outputvar optional functionnames ...
+:returns all dependencies of all or select functions
+
+:GetBatchImports batchfile outputvar
+:returns list of imports
+find all lines starting with imports/rem imports /:: imports
+on those lines, split by space
+return list of all items on all lines
+
+:GetUnfulfilledDependencies batchfile outputvar optional functionname    / full fill imports (check if not already fullfilled)
+:returns list of functioncalls not in the batch file
+for the file
+:GetBatchImports
+for each import
+check if label exists
+for requested functions
+:getfunctiondependencies of the function
+return list
+
+:comparefunction  batch1 functionname batch2 functionname (line by line comparison of whole function)
 
 
 :Hello
@@ -36,6 +65,8 @@ echo Hello,world
 GoTo :EOF
 
 :install
+if no argument, if call install bfw
+if argument = "path" next argument is install path
 md %userprofile%\bfw
 md %temp%\bfw
 copy bfw.bat to %userprofile%\bfw
@@ -44,14 +75,17 @@ add bfw to env variables
 add bfw.root to env variables
 goto :eof
 
+:uninstall
+:update
+
+:shortcutify
+:symlinkify
+:hardlinkify
+:FindFunction batchfile searchterm result return function row and name
+
 --- dealing with aliases
 
-:getbasefunction
-findfunctionexit
-findpreviousfunction
-return basefunction name 
-exit/b row number
-GoTo :EOF
+
 
 :IsFunctionAlias
 getbasefunction
@@ -61,22 +95,42 @@ return basefunctionrownumber
 If exit row greater than testedfunctionrow, it is an alias
 GoTo :EOF
 
-:IsBaseFunction 
+:IsBaseFunction
+set "_IsBaseFunction_prefix=_IBF"
 see if function alias
+getfunctionexit
+Call :GetFunctionExit BatchFile FunctionName or Row optional OutputRow
+Call :GetPreviousFunctionName BatchFile StartRow optional OutputRow
+Call :ClearVariablesByPrefix %_GetBaseFunction_prefix% _GetBaseFunction_prefix & GoTo :EOF
+
+::Usage Call :GetBasefunction BatchFile FunctionName ReturnVariable untested
+::returns row number of BaseFunction
+:GetBaseFunction
+set "_GetBaseFunction_prefix=_GBF"
+set "_GBF_BatchFile=%~1"
+set "_GBF_FunctionName=%~2"
+set "_GBF_Output=%~3"
+Call :GetFunctionExit "%_GBF_BatchFile%" "%_GBF_FunctionName%" _GBF_FunctionExit
+Call :GetPreviousFunctionName "%_GBF_BatchFile%" %_GBF_FunctionExit% _GBF_BaseFunctionRow
+if defined _GBF_Output Call :GetFunctionName "%_GBF_BatchFile%" %_GBF_BaseFunctionRow% %_GBF_Output%
+Call :ClearVariablesByPrefix %_GetBaseFunction_prefix% _GetBaseFunction_prefix & exit /b %_GBF_BaseFunctionRow%
 
 ::Usage Call :GetFunctionAliases batchfile functionname returnvariable
 ::returns number of aliases found
 :GetFunctionAliases
+set "_GetFunctionAliases_prefix=_GFA"
+:GetFunctionAliases-loop
 from preamble to first exist
 take not of all non-excluded labels
 those are the aliases
 reject aliases from list of functions
-GoTo :EOF
+
+Call :ClearVariablesByPrefix %_GetFunctionAliases_prefix% _GetFunctionAliases_prefix & GoTo :EOF
 
 --- more todo ---
 
 
---------- untouched below -----------------------
+--------- untouched below ----------------------- modified getfunctionrow/name
 
 REM source function should be able to be invoked by
 REM sourcebatch then function name
@@ -121,6 +175,7 @@ REM IF PLUSDEPENDENCIES ADD DEPENDENCIES TO FILE by calling :GetBatchFunctionCal
 if "[%~3]" NEQ "[]" ( shift & GoTo :AddFunctionToBatch-args )
 Call :ClearVariablesByPrefix %_AddFunctionToBatch_prefix% _AddFunctionToBatch_prefix  & GoTo :EOF
 
+
 ::Usage Call :ExtractAllBatchFunction SourceBatchFile optional DestionationFolder
 :ExtractAllBatchFunction
 Call :ListFunctions "%~1" _ExtractAllBatchFunction_FunctionList
@@ -142,6 +197,25 @@ Call :AddFunctionToBatch "%_EBF_DestinationFilepath%" "%_EBF_SourceBatch%" "%_EB
 if "[%~2]" NEQ "[]" ( shift & GoTo :ExtractBatchFunction )
 Call :ClearVariablesByPrefix %_ExtractBatchFunction_prefix% _ExtractBatchFunction_prefix & GoTo :EOF
 
+
+
+
+REM :FindBatchDuplicateFunctions :find all function labels, returns list of duplicated labels
+REM :FindMissingDependencies :check all calls in all functions, for each dependencies, check if it is fulfilled, returns list of unfulfilled dependencies
+REM :FindDuplicateWords "a series of of words" :returns number of duplicates (1 duplicates)
+REM :GetDuplicateWords "a series of of words" :returns number of duplicates (1 duplicates) : returns list of duplicated words "of"
+REM :IsWordDuplicated "myword" "a series of of myword" returns number of times searchword is found in string
+REM :GetWordCound "searchword" "a series of words" :returns number of times searchword is found in string, if searchword is "", returns total word count
+REM :DeleteFunction name a function, it gets deleted, there should be a way to specify the function index if there are more than one function matching the name
+
+REM FindFunction ?
+REM ::Usage Call :GetFunction batchfile OutputArray optional FunctionSearchPattern
+REM :GetFunction
+REM set "_GetFunction_prefix=_GF"
+REM for /f delims^=^ eol^= %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%~1" ^| findstr /N "^"') do (
+	REM )
+
+
 REM source function should be able to be invoked by
 REM sourcebatch then function name
 REM relativepath\sourcebatch.bat:FunctionName
@@ -151,7 +225,6 @@ REM FOR NOW JUST MATCH FILE AND FUNCTION
 :: NOPREAMBLE NOPOSTSCRIPT PREAMBLEONLY POSTSCRIPTONLY FUNCTIONONLY UNPACK PLUSDEPENDENCIES
 ::Usage Call :PrintBatchFunction DestinationBatch SourceBatch FunctionName1 FunctionName2 ... FunctionNameN
 :PrintBatchFunction
-echo arg1 %1 arg2 %2 arg3 %3
 set "_PrintBatchFunction_prefix=_PBF"
 :PrintBatchFunction-args
 if "[%~1]" EQU "[UNPACK]" ( set "_PBF_SwitchUnpack=true" & shift & GoTo :PrintBatchFunction-args )
@@ -166,13 +239,8 @@ Call :ClearVariablesByPrefix _PBF_FunctionRows _PBF_BFWFunctionFile
 Call :IsFile "%~1" && ( set "_PBF_SourceBatch=%~1" & shift & GoTo :PrintBatchFunction-args ) || set "_PBF_FunctionName=%~1"
 if "[%_PBF_FunctionName%]" EQU "[CORE]" Call :GetBatchCore "%_PBF_SourceBatch%" _PBF_FunctionRows
 REM CHECK LOCAL FOLDER FOR %_PBF_FunctionName%.bat
-echo yes
-echo arg1 %1 arg2 %2 arg3 %3
-set _PBF
-if not defined _PBF_FunctionRows.start echo yesif
 if not defined _PBF_FunctionRows.start Call :GetFunctionRows "%_PBF_SourceBatch%" "%_PBF_FunctionName%" _PBF_FunctionRows
-set _PBF
-if not defined _PBF_FunctionRows.start if not defined _PBF_NoProvisioning if defined bfw.root Call :GetBFWLIBFunction "%_PBF_FunctionName%" _PBF_BFWFunctionFile _PBF_FunctionRows
+if not defined _PBF_FunctionRows.start if not defined _PBF_NoProvisioning if defined bfw.root Call :GetBFWLIBFunction  "%_PBF_FunctionName%" _PBF_BFWFunctionFile _PBF_FunctionRows
 if not defined _PBF_FunctionRows.start ( echo Function %_PBF_FunctionName% not found & GoTo :PrintBatchFunction-end  )
 set /a _PBF_StartLine=%_PBF_FunctionRows.preamble% & set /a _PBF_EndLine=%_PBF_FunctionRows.postscript%
 if defined _PBF_SwitchNoPreamble set /a _PBF_StartLine=%_PBF_FunctionRows.start% 
@@ -230,6 +298,9 @@ for /f delims^=^ eol^= %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%~1" 
 set /a "%_GetLabels_output%.lbound=1" & set "_GetLabels_output=" & set "_GetLabels_output_rows="
 GoTo :EOF
 
+
+
+
 ::Usage Call :IsFile optional _OutputVar File1 File2 ... FileN && IsFile || IsNotFile
 :IsFile
 set "_IsFile_buffer=%~1"
@@ -244,7 +315,6 @@ set "_IsFile_Filename=" & set "_IsFile_output=" & set "_IsFile_result=" & if "[%
 
 ::Usage Call :GetFunctionRows BatchFile FunctionName OutputObject
 :GetFunctionRows
-echo yes this is :GetFunctionRows
 set "_GetFunctionRows_prefix=_GFR"
 set "_GFR_BatchFile=%~1"
 set "_GFR_FunctionName=%~2"
@@ -327,6 +397,24 @@ if defined _LF_Output set "%_LF_Output%=%_LF_FunctionList:~1%"
 if not defined _LF_Output echo.%_LF_FunctionList:~1%
 Call :ClearVariablesByPrefix %_ListFunctions_prefix% _ListFunctions_prefix & GoTo :EOF
 
+::Usage Call :GetPreviousFunctionName BatchFile StartRow optional OutputRow
+::Usage Call :GetPreviousFunctionRow BatchFile StartRow optional OutputRow
+:GetPreviousFunctionName
+set "_GPFR_ReturnName=true"
+:GetPreviousFunctionRow
+set "_GetPreviousFunctionRow_prefix=_GPFR"
+set "_GPFR_BatchFile=%~1"
+set "_GPFR_StartRow=%~2"
+set "_GPFR_Output=%~3"
+:GetPreviousFunctionRow-args
+for /f delims^=:^ tokens^=1 %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%_GPFR_BatchFile%"') do ( if %%a GEQ %_GPFR_StartRow% ( GoTo :GetPreviousFunctionRow-exit-loop ) else ( set /a _GPFR_current=%%a ) )
+exit /b -1
+:GetPreviousFunctionRow-exit-loop
+Call :GetFunctionName "%~1" %_GPFR_current% _GPFR_current_FunctionName
+Call :IsFunctionLabelExcluded %_GPFR_current_FunctionName% && ( set /a _GPFR_StartRow=%_GPFR_current% & GoTo :GetPreviousFunctionRow-args )
+if "[%_GPFR_Output%]" NEQ "[]" set "%_GPFR_Output%=%_GPFR_current%" 
+if "[%_GPFR_Output%]" NEQ "[]" if "[%_GPFR_ReturnName%]" EQU "[true]" set "%_GPFR_Output%=%_GPFR_current_FunctionName%" 
+Call :ClearVariablesByPrefix %_GetPreviousFunctionRow_prefix% _GetPreviousFunctionRow_prefix  & exit /b %_GPFR_current%
 
 ::Usage Call :GetNextFunctionName BatchFile StartRow optional OutputRow
 ::Usage Call :GetNextFunctionRow BatchFile StartRow optional OutputRow
@@ -345,8 +433,8 @@ set /a _GNFR_current-=1 & GoTo :GetNextFunctionRow-skip
 Call :GetFunctionName "%~1" %_GNFR_current% _GNFR_current_FunctionName
 Call :IsFunctionLabelExcluded _GNFR_current_FunctionName && ( set /a _GNFR_StartRow=%_GNFR_current% & GoTo :GetNextFunctionRow-args )
 :GetNextFunctionRow-skip
-if "[%~3]" NEQ "[]" set "%~3=%_GNFR_current%" 
-if "[%_GNFR_ReturnName%]" EQU "[true]" set "%~3=%_GNFR_current_FunctionName%" 
+if "[%_GNFR_Output%]" NEQ "[]" set "%_GNFR_Output%=%_GNFR_current%" 
+if "[%_GNFR_Output%]" NEQ "[]" if "[%_GNFR_ReturnName%]" EQU "[true]" set "%_GNFR_Output%=%_GNFR_current_FunctionName%" 
 Call :ClearVariablesByPrefix %_GetNextFunctionRow_prefix% _GetNextFunctionRow_prefix  & exit /b %_GNFR_current%
 
 ::Usage Call :GetPreviousExitRow BatchFile StartRow optional OutputRow
@@ -388,12 +476,11 @@ set "_IFLE_input=%_IFLE_input:)= %"
 set "_IFLE_input=%_IFLE_input:(= %"
 set "_IFLE_ExclusionList=%~2"
 if "[%_IFLE_ExclusionList%]" EQU "[]" set "_IFLE_ExclusionList=main setup macro end loop loop2 loop3 loop4 skip skip1 skip2 skip2 skip3 skip4 test test1 test2 test3 cleanup argument params args next prev iteration pre post 0 1 2 3 4 5 6 7 8 9 subloop matchfound nomatch found index list arguments preamble test4 test5 test6 start reset"
-setlocal enabledelayedexpansion
-for %%a in (!_IFLE_input!) do set "_IFLE_last_token=%%a"
+for %%a in (%_IFLE_input%) do ( set _IFLE_last_token=%%a )
 for %%a in (%_IFLE_ExclusionList%) do if %%a EQU %_IFLE_last_token% ( set /a _IFLE_exit=0 & GoTo :IsFunctionLabelExcluded-end ) 
 if "[%_IFLE_input:~,6%]" EQU "[EndOF_]" ( set /a _IFLE_exit=0 & GoTo :IsFunctionLabelExcluded-end ) 
 :IsFunctionLabelExcluded-end
-endlocal & Call :ClearVariablesByPrefix %_IsFunctionLabelExcluded_prefix% _IsFunctionLabelExcluded_prefix  & exit /b %_IFLE_exit%
+Call :ClearVariablesByPrefix %_IsFunctionLabelExcluded_prefix% _IsFunctionLabelExcluded_prefix  & exit /b %_IFLE_exit%
 
 ::Usage Call :AppendFileLineToFile inputfile outputfile 3 4 50-75 5 6 7 ... N
 :AppendFileLineToFile
