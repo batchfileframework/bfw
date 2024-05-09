@@ -118,21 +118,31 @@ return basefunctionrownumber
 If exit row greater than testedfunctionrow, it is an alias
 GoTo :EOF
 
-:IsBaseFunction
+:IsBaseFunction-demo
+set "_IsBaseFunction_InputFile=%~1"
+set "_IsBaseFunction_FunctionName=%~2"
+Call :IsBaseFunction "%_IsBaseFunction_InputFile%" "%_IsBaseFunction_FunctionName%" _IsBaseFunction_IsBaseFunction && echo Function %_IsBaseFunction_FunctionName% is a base function. return:%_IsBaseFunction_IsBaseFunction% || echo Function %_IsBaseFunction_FunctionName% is not a base function. return:%_IsBaseFunction_IsBaseFunction%
+GoTo :EOF
+
+:IsBaseFunction BatchFile FunctionName ReturnVariable 
 set "_IsBaseFunction_prefix=_IBF"
-see if function alias
-getfunctionexit
-Call :GetFunctionExit BatchFile FunctionName or Row optional OutputRow
-Call :GetPreviousFunctionName BatchFile StartRow optional OutputRow
-Call :ClearVariablesByPrefix %_GetBaseFunction_prefix% _GetBaseFunction_prefix & GoTo :EOF
+set "_IBF_InputFile=%~1"
+set "_IBF_FunctionName=%~2"
+set "_IBF_Output=%~2"
+Call :GetBasefunction "%_IBF_InputFile%" "%_IBF_FunctionName%" _IBF_BaseFunction
+if "[%_IBF_FunctionName%]" EQU "[%_IBF_BaseFunction%]" ( if defined _IBF_Output set "%_IBF_Output%=true" ) else ( if defined _IBF_Output set "%_IBF_Output%=false" )
+Call :ClearVariablesByPrefix %_IsBaseFunction_prefix% _IsBaseFunction_prefix & if "[%_IBF_FunctionName%]" EQU "[%_IBF_BaseFunction%]" ( exit /b 0 ) else ( exit /b 1 )
+
 
 
 :GetBaseFunction-demo
-set "_GetBaseFunction_inputfile=%~1"
-
+set "_GetBaseFunction_InputFile=%~1"
+set "_GetBaseFunction_FunctionName=%~2"
+Call :GetBasefunction "%_GetBaseFunction_InputFile%" "%_GetBaseFunction_FunctionName%" _GetBaseFunction_BaseFunction
+echo base function name for :%_GetBaseFunction_FunctionName% is :%_GetBaseFunction_BaseFunction% at line %errorlevel%
 GoTo :EOF
 
-::Usage Call :GetBasefunction BatchFile FunctionName ReturnVariable untested
+::Usage Call :GetBasefunction BatchFile FunctionName ReturnVariable 
 ::returns row number of BaseFunction
 :GetBaseFunction
 set "_GetBaseFunction_prefix=_GBF"
@@ -140,9 +150,8 @@ set "_GBF_BatchFile=%~1"
 set "_GBF_FunctionName=%~2"
 set "_GBF_Output=%~3"
 Call :GetFunctionExit "%_GBF_BatchFile%" "%_GBF_FunctionName%" _GBF_FunctionExit
-Call :GetPreviousFunctionName "%_GBF_BatchFile%" %_GBF_FunctionExit% _GBF_BaseFunctionRow
-if defined _GBF_Output Call :GetFunctionName "%_GBF_BatchFile%" %_GBF_BaseFunctionRow% %_GBF_Output%
-Call :ClearVariablesByPrefix %_GetBaseFunction_prefix% _GetBaseFunction_prefix & exit /b %_GBF_BaseFunctionRow%
+Call :GetPreviousFunctionName "%_GBF_BatchFile%" %_GBF_FunctionExit% %_GBF_Output%
+Call :ClearVariablesByPrefix %_GetBaseFunction_prefix% _GetBaseFunction_prefix & exit /b %errorlevel%
 
 ::Usage Call :GetFunctionAliases batchfile functionname returnvariable
 ::returns number of aliases found
