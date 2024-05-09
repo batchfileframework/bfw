@@ -36,7 +36,7 @@ put %* in  a variable without damaging it
 leftcut string to remove functioncaller
 
 :backupfile (auto put in %temp%\bfw)
-:deletefunction
+:deletefunction batchfile functionname1 functionname2 functionnameN
 :updatebatch batchfile  (updates library function, if different to those in bfw.root/lib)
 :GetFunctionDependencies batchfile outputvar optional functionnames ...
 :returns all dependencies of all or select functions
@@ -50,7 +50,11 @@ return list of all items on all lines
 :GetUnfulfilledDependencies batchfile outputvar optional functionname    / full fill imports (check if not already fullfilled)
 :returns list of functioncalls not in the batch file
 for the file
-:GetBatchImports
+
+
+:GetBatchImports batchfile returnvariable 
+:returns count of import
+:returns space separate list of imports
 for each import
 check if label exists
 for requested functions
@@ -76,18 +80,37 @@ add bfw.root to env variables
 goto :eof
 
 :uninstall
+remove bfw variables, remove from path
+move bfw folder to recycle bin
 :update
 
+
 :shortcutify
+getlistfunciton
+for each function, create shortcut
+GoTo :EOF
 :symlinkify
+GoTo :EOF
 :hardlinkify
+GoTo :EOF
+:ExportFunction
+create new file containing the function
+also include all required dependencies
+include function switcher core ?
+GoTo :EOF
+
+
 :FindFunction batchfile searchterm result return function row and name
+search all label for search pattern
+take first match
+check if excluded
+if yes, get next match, if no, return that match 
 
 --- dealing with aliases
 
 
 
-:IsFunctionAlias
+:IsFunctionAlias BatchFile FunctionName
 getbasefunction
 if not the same, it is an alias
 return basefunctionname
@@ -102,6 +125,12 @@ getfunctionexit
 Call :GetFunctionExit BatchFile FunctionName or Row optional OutputRow
 Call :GetPreviousFunctionName BatchFile StartRow optional OutputRow
 Call :ClearVariablesByPrefix %_GetBaseFunction_prefix% _GetBaseFunction_prefix & GoTo :EOF
+
+
+:GetBaseFunction-demo
+set "_GetBaseFunction_inputfile=%~1"
+
+GoTo :EOF
 
 ::Usage Call :GetBasefunction BatchFile FunctionName ReturnVariable untested
 ::returns row number of BaseFunction
