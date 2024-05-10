@@ -21,6 +21,7 @@ REM set "_IFLE_ExclusionList="
 
 GoTo :EOF
 
+::save filename from %0 before shifting
 :ShiftedArgumentCaller
 set _ShiftedArgumentCaller_function=%~1
 shift
