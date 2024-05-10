@@ -2,6 +2,9 @@
 
 :setup
 
+REM save %~0 in a variable
+REM save all argument, and each arguments, to a variable/variable array
+
 REM set "_IFLE_ExclusionList=main setup macro end loop loop2 loop3 loop4 skip skip1 skip2 skip2 skip3 skip4 test test1 test2 test3 cleanup argument params args next prev iteration pre post 0 1 2 3 4 5 6 7 8 9 subloop matchfound nomatch found index list arguments preamble test4 test5 test6 start reset"
 
 :main
@@ -35,34 +38,56 @@ run that with compiled arguments string
 put %* in  a variable without damaging it
 leftcut string to remove functioncaller
 
+for all function, default to batch file %~0 if no batch file is specified
+autodetect batchfile when isfile is true and ext is .bat
+
+for all get row/name functions
+check startrow paramter is numeric, if not get row from name using
+echo.%_GFE_Function%| findstr /r "[^0123456789]" >nul && ( set "_GFE_FunctionName=%_GFE_Function%" & Call :GetLabelRow "%_GFE_BatchFile%" %_GFE_Function% _GFE_Function ) || Call :GetFunctionName "%_GFE_BatchFile%" %_GFE_Function% _GFE_FunctionName
+Don't get the name if it's not needed
+
+
+complete these alias :GetBaseFunctionRow :GetBaseFunctionName
+
 :backupfile (auto put in %temp%\bfw)
+GoTo :EOF
+
 :deletefunction batchfile functionname1 functionname2 functionnameN
+GoTo :EOF
+
 :updatebatch batchfile  (updates library function, if different to those in bfw.root/lib)
+GoTo :EOF
+
 :GetFunctionDependencies batchfile outputvar optional functionnames ...
-:returns all dependencies of all or select functions
+::returns all dependencies of all or select functions
+GoTo :EOF
 
 :GetBatchImports batchfile outputvar
-:returns list of imports
+::returns list of imports
 find all lines starting with imports/rem imports /:: imports
 on those lines, split by space
 return list of all items on all lines
+GoTo :EOF
 
 :GetUnfulfilledDependencies batchfile outputvar optional functionname    / full fill imports (check if not already fullfilled)
-:returns list of functioncalls not in the batch file
+::returns list of functioncalls not in the batch file
 for the file
-
+GoTo :EOF
 
 :GetBatchImports batchfile returnvariable 
-:returns count of import
-:returns space separate list of imports
+::returns count of import
+::returns space separate list of imports
 for each import
 check if label exists
 for requested functions
+GoTo :EOF
+
 :getfunctiondependencies of the function
 return list
+GoTo :EOF
 
 :comparefunction  batch1 functionname batch2 functionname (line by line comparison of whole function)
-
+GoTo :EOF
 
 :Hello
 echo Hello,world
@@ -82,17 +107,22 @@ goto :eof
 :uninstall
 remove bfw variables, remove from path
 move bfw folder to recycle bin
-:update
+GoTo :EOF
 
+:update
+GoTo :EOF
 
 :shortcutify
 getlistfunciton
 for each function, create shortcut
 GoTo :EOF
+
 :symlinkify
 GoTo :EOF
+
 :hardlinkify
 GoTo :EOF
+
 :ExportFunction
 create new file containing the function
 also include all required dependencies
@@ -101,36 +131,98 @@ GoTo :EOF
 
 
 :FindFunction batchfile searchterm result return function row and name
-search all label for search pattern
+set "_FindFunction_prefix=_FF"
+set "_FindFunction_InputFile=%~1"
+set "_FindFunction_Search=%~2"
+set "_FindFunction_Output=%~3"
+search all label for search pattern  findstr /N "^:[^:]" "%_FindFunction_InputFile%" | findstr /I /C:"%_FindFunction_SearchTerm%"
+
+for /f delims^=:^ tokens^=1 %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%_FindFunction_InputFile%" ^| findstr /I /C:"%_FindFunction_SearchTerm%" ') do ( if %%a GTR %_GNFR_StartRow% ( set /a _GNFR_current=%%a & GoTo :GetNextFunctionRow-exit-loop ) )
 take first match
-check if excluded
+check if excluded with Call :IsFunctionLabelExcluded FunctionLabel optional ExclusionList && IsExcluded || IsNotExcluded
 if yes, get next match, if no, return that match 
+GoTo :EOF
 
 --- dealing with aliases
 
-
-
-:IsFunctionAlias BatchFile FunctionName
-getbasefunction
-if not the same, it is an alias
-return basefunctionname
-return basefunctionrownumber
-If exit row greater than testedfunctionrow, it is an alias
+:PrintWithoutNewline
+echo|set /p="%*"
 GoTo :EOF
 
+:TestExpansionOnSetLine
+REM https://stackoverflow.com/questions/3942265/errorlevel-in-a-for-loop-windows-batch
+set "_TestExpansionOnSetLine=myvalue" & echo _TestExpansionOnSetLine is %_TestExpansionOnSetLine%
+set "_TestExpansionOnSetLine2=myothervalue" & call echo _TestExpansionOnSetLine2 is %_TestExpansionOnSetLine2%
+REM echo test 1
+REM ( exit /b 0 ) && echo this was true || echo this was false
+REM echo test 2
+REM ( exit /b 1 ) && echo this was true || echo this was false
+REM echo test 3
+REM ( exit 0 ) && echo this was true || echo this was false
+REM echo test 4
+REM ( exit 1 ) && echo this was true || echo this was false
+echo test 5
+( echo true | find "true" >nul) && echo this was true || echo this was false
+echo test 6
+( echo false | find "true">nul) && echo this was true || echo this was false
+echo test 7
+set "_TestExpansionOnSetLine3=myotherothervalue" &  ( echo true | find "true" >nul) && echo _TestExpansionOnSetLine3 is %_TestExpansionOnSetLine3%
+echo test 8
+set "_TestExpansionOnSetLine4=myotherothervalue" &  ( echo true | find "true" >nul) && call echo _TestExpansionOnSetLine4 is %_TestExpansionOnSetLine4%
+
+REM what is this ?
+REM ( if %errorlevel% NEQ 0 && echo 4this was true ) ||  ( echo 4this was false )
+GoTo :EOF
+
+::Usage Call :GetFunctionAliases-demo BatchFile optional FunctionName 
+:GetFunctionAliases-demo
+REM echo on 
+set "_GetFunctionAliases_InputFile=%~1"
+set "_GetFunctionAliases_FunctionName=%~2"
+if not defined _GetFunctionAliases_InputFile set "_GetFunctionAliases_InputFile=%~dpnx0"
+if not defined _GetFunctionAliases_FunctionName Call :ListFunctions "%_GetFunctionAliases_InputFile%"  _GetFunctionAliases_FunctionName 
+echo Test functions %_GetFunctionAliases_FunctionName%
+echo.
+for %%a in (%_GetFunctionAliases_FunctionName%) do (
+			Call :IsBaseFunction "%_GetFunctionAliases_InputFile%" "%%a" _GetFunctionAliases_GetFunctionAliases && echo Function %%a is a base function. || call :PrintWithoutNewline Function %%a is not a base function. 
+			if errorlevel 1 Call :GetBasefunction "%_GetFunctionAliases_InputFile%" "%%a" _GetFunctionAliases_BaseFunction
+			if errorlevel 1 ( Call echo  Base function:%%_GetFunctionAliases_BaseFunction%%& ( echo false | find "true">nul) )
+			if not errorlevel 1 ( Call :DoesFunctionHaveAliases "%_GetFunctionAliases_InputFile%" "%%a" && Call :GetFunctionAliases "%_GetFunctionAliases_InputFile%" "%%a" )
+ )
+Call :ClearVariablesByPrefix _GetFunctionAliases
+REM Call :DoesFunctionHaveAliases BatchFile FunctionName optional ReturnVariable && FunctionHasAliases || FunctionHasNoAlias
+GoTo :EOF
+
+
+
+::Usage Call :IsBaseFunction-demo BatchFile optional FunctionName 
 :IsBaseFunction-demo
 set "_IsBaseFunction_InputFile=%~1"
 set "_IsBaseFunction_FunctionName=%~2"
-Call :IsBaseFunction "%_IsBaseFunction_InputFile%" "%_IsBaseFunction_FunctionName%" _IsBaseFunction_IsBaseFunction && echo Function %_IsBaseFunction_FunctionName% is a base function. return:%_IsBaseFunction_IsBaseFunction% || echo Function %_IsBaseFunction_FunctionName% is not a base function. return:%_IsBaseFunction_IsBaseFunction%
+if not defined _IsBaseFunction_InputFile set "_IsBaseFunction_InputFile=%~dpnx0"
+if not defined _IsBaseFunction_FunctionName Call :ListFunctions "%_IsBaseFunction_InputFile%"  _IsBaseFunction_FunctionName 
+for %%a in (%_IsBaseFunction_FunctionName%) do (
+			Call :IsBaseFunction "%_IsBaseFunction_InputFile%" "%%a" _IsBaseFunction_IsBaseFunction && echo Function %%a is a base function. || call :PrintWithoutNewline Function %%a is not a base function. 
+			if errorlevel 1 Call :GetBasefunction "%_IsBaseFunction_InputFile%" "%%a" _IsBaseFunction_BaseFunction
+			if errorlevel 1 Call echo  Base function:%%_IsBaseFunction_BaseFunction%%
+ )
+Call :ClearVariablesByPrefix _IsBaseFunction
 GoTo :EOF
 
-:IsBaseFunction BatchFile FunctionName ReturnVariable 
+
+
+::Usage Call IsFunctionAlias BatchFile FunctionName ReturnVariable && Function is alias || function is not alias
+::Usage Call IsBaseFunction BatchFile FunctionName ReturnVariable && Function is base function || function is not base function
+:IsFunctionAlias BatchFile FunctionName
+Set "_IBF_IsAlias=true"
+:IsBaseFunction 
 set "_IsBaseFunction_prefix=_IBF"
 set "_IBF_InputFile=%~1"
 set "_IBF_FunctionName=%~2"
-set "_IBF_Output=%~2"
+set "_IBF_Output=%~3"
 Call :GetBasefunction "%_IBF_InputFile%" "%_IBF_FunctionName%" _IBF_BaseFunction
 if "[%_IBF_FunctionName%]" EQU "[%_IBF_BaseFunction%]" ( if defined _IBF_Output set "%_IBF_Output%=true" ) else ( if defined _IBF_Output set "%_IBF_Output%=false" )
+if defined _IBF_IsAlias if "[%_IBF_FunctionName%]" NEQ "[%_IBF_BaseFunction%]" ( if defined _IBF_Output set "%_IBF_Output%=true" ) else ( if defined _IBF_Output set "%_IBF_Output%=false" )
 Call :ClearVariablesByPrefix %_IsBaseFunction_prefix% _IsBaseFunction_prefix & if "[%_IBF_FunctionName%]" EQU "[%_IBF_BaseFunction%]" ( exit /b 0 ) else ( exit /b 1 )
 
 
@@ -144,6 +236,8 @@ GoTo :EOF
 
 ::Usage Call :GetBasefunction BatchFile FunctionName ReturnVariable 
 ::returns row number of BaseFunction
+:GetBaseFunctionRow
+:GetBaseFunctionName
 :GetBaseFunction
 set "_GetBaseFunction_prefix=_GBF"
 set "_GBF_BatchFile=%~1"
@@ -153,17 +247,48 @@ Call :GetFunctionExit "%_GBF_BatchFile%" "%_GBF_FunctionName%" _GBF_FunctionExit
 Call :GetPreviousFunctionName "%_GBF_BatchFile%" %_GBF_FunctionExit% %_GBF_Output%
 Call :ClearVariablesByPrefix %_GetBaseFunction_prefix% _GetBaseFunction_prefix & exit /b %errorlevel%
 
+::Usage Call :DoesFunctionHaveAliases BatchFile FunctionName optional ReturnVariable && FunctionHasAliases || FunctionHasNoAlias
+:DoesFunctionHaveAliases
+set "_DoesFunctionHaveAliases_prefix=_DFHA"
+set "_DFHA_InputFile=%~1"
+set "_DFHA_FunctionName=%~2"
+set "_DFHA_Output=%~3"
+Call :GetBaseFunction "%_DFHA_InputFile%" "%_DFHA_FunctionName%" _DFHA_BaseFunctionName
+if "[%_DFHA_FunctionName%]" EQU "[%_DFHA_BaseFunctionName%]" ( if defined _DFHA_Output set "%_DFHA_Output%=false" & exit /b 1 )
+set /a _DFHA_CurrentRow=%errorlevel%
+Call :GetFunctionPreambleRow "%_DFHA_InputFile%" "%_DFHA_CurrentRow%" _DFHA_BaseFunctionPreambleRow
+Call :GetPreviousFunctionName "%_DFHA_InputFile%" %_DFHA_CurrentRow% _DFHA_PreviousFunctionName
+set /a _DFHA_PreviousFunctionRow=%errorlevel%
+set "_DFHA_result=true"
+if %_DFHA_PreviousFunctionRow% LEQ %_DFHA_BaseFunctionPreambleRow% set "_DFHA_result=false"
+if defined _DFHA_Output set "%_DFHA_Output%=%_DFHA_result%"
+if "[%_DFHA_result%]" EQU "[true]" echo Function %_DFHA_FunctionName% has aliases
+Call :ClearVariablesByPrefix %_GetFunctionAliases_prefix% _GetFunctionAliases_prefix & if "[%_DFHA_result%]" EQU "[true]" ( exit /b 0 ) else ( exit /b 1 )
+
 ::Usage Call :GetFunctionAliases batchfile functionname returnvariable
-::returns number of aliases found
+::returns number of aliases found, prints them if there is no return variable
 :GetFunctionAliases
 set "_GetFunctionAliases_prefix=_GFA"
+set "_GFA_InputFile=%~1"
+set "_GFA_FunctionName=%~2"
+set "_GFA_Output=%~3"
+set /a _GFA_Count=0
+Call :GetBaseFunction "%_GFA_InputFile%" "%_GFA_FunctionName%" _GFA_BaseFunctionName
+set /a _GFA_CurrentRow=%errorlevel%
+Call :GetFunctionPreambleRow "%_GFA_InputFile%" "%_GFA_CurrentRow%" _GFA_BaseFunctionPreambleRow
 :GetFunctionAliases-loop
-from preamble to first exist
-take not of all non-excluded labels
-those are the aliases
-reject aliases from list of functions
-
-Call :ClearVariablesByPrefix %_GetFunctionAliases_prefix% _GetFunctionAliases_prefix & GoTo :EOF
+Call :GetPreviousFunctionName "%_GFA_InputFile%" %_GFA_CurrentRow% _GFA_PreviousFunctionName
+set /a _GFA_PreviousFunctionRow=%errorlevel%
+if %_GFA_PreviousFunctionRow% EQU %_GFA_CurrentRow% GoTo :GetFunctionAliases-end
+if %_GFA_PreviousFunctionRow% LEQ %_GFA_BaseFunctionPreambleRow% GoTo :GetFunctionAliases-end
+set /a _GFA_Count+=1
+set "_GFA_Buffer=%_GFA_Buffer% %_GFA_PreviousFunctionName%"
+set /a _GFA_CurrentRow = _GFA_previousfunctionrow
+GoTo :GetFunctionAliases-loop
+:GetFunctionAliases-end
+if defined _GFA_Output set "%_GFA_Output%=%_GFA_Buffer%"
+if not defined _GFA_Output echo Function %_GFA_BaseFunctionName% aliases:%_GFA_Buffer%
+Call :ClearVariablesByPrefix %_GetFunctionAliases_prefix% _GetFunctionAliases_prefix & exit /b %_GFA_Count%
 
 --- more todo ---
 
@@ -440,18 +565,21 @@ Call :ClearVariablesByPrefix %_ListFunctions_prefix% _ListFunctions_prefix & GoT
 :GetPreviousFunctionName
 set "_GPFR_ReturnName=true"
 :GetPreviousFunctionRow
+REM echo :GetPreviousFunctionRow
 set "_GetPreviousFunctionRow_prefix=_GPFR"
 set "_GPFR_BatchFile=%~1"
 set "_GPFR_StartRow=%~2"
 set "_GPFR_Output=%~3"
 :GetPreviousFunctionRow-args
+REM echo :GetPreviousFunctionRow-args _GPFR_StartRow %_GPFR_StartRow% _GPFR_current %_GPFR_current%
 for /f delims^=:^ tokens^=1 %%a in ('%SystemRoot%\System32\findstr /N "^:[^:]" "%_GPFR_BatchFile%"') do ( if %%a GEQ %_GPFR_StartRow% ( GoTo :GetPreviousFunctionRow-exit-loop ) else ( set /a _GPFR_current=%%a ) )
 exit /b -1
 :GetPreviousFunctionRow-exit-loop
+if %_GPFR_StartRow% EQU %_GPFR_current% exit /b -1
 Call :GetFunctionName "%~1" %_GPFR_current% _GPFR_current_FunctionName
 Call :IsFunctionLabelExcluded %_GPFR_current_FunctionName% && ( set /a _GPFR_StartRow=%_GPFR_current% & GoTo :GetPreviousFunctionRow-args )
 if "[%_GPFR_Output%]" NEQ "[]" set "%_GPFR_Output%=%_GPFR_current%" 
-if "[%_GPFR_Output%]" NEQ "[]" if "[%_GPFR_ReturnName%]" EQU "[true]" set "%_GPFR_Output%=%_GPFR_current_FunctionName%" 
+if "[%_GPFR_Output%]" NEQ "[]" if "[%_GPFR_ReturnName%]" EQU "[true]" set "%_GPFR_Output%=%_GPFR_current_FunctionName%"
 Call :ClearVariablesByPrefix %_GetPreviousFunctionRow_prefix% _GetPreviousFunctionRow_prefix  & exit /b %_GPFR_current%
 
 ::Usage Call :GetNextFunctionName BatchFile StartRow optional OutputRow
