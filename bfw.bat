@@ -50,17 +50,54 @@ Don't get the name if it's not needed
 
 complete these alias :GetBaseFunctionRow :GetBaseFunctionName
 
+
+:comparefunction  batch1 functionname batch2 functionname (line by line comparison of whole function)
+GoTo :EOF
+
+:comparefunctionFC  batch1 functionname batch2 functionname (line by line comparison of whole function)
+GoTo :EOF
+
+:split inputstring delimiter output
+GoTo :EOF
+
 :backupfile (auto put in %temp%\bfw)
+get time and date
+create copy of the file in 
+%temp%\bfw\backup\filename.ext.date.time.backup
 GoTo :EOF
 
 :deletefunction batchfile functionname1 functionname2 functionnameN
+create file backup
+get each functionrows and store a range array element
+for each range array element
+copy lines from file to buffer file from start to beginning of range, then skip the range of the first function
+then copy lines from the end of the function to the start of the next
+if there is no further function, copy all remaining lines until the end of the file
+then overwrite original file with buffer file
 GoTo :EOF
 
 :updatebatch batchfile  (updates library function, if different to those in bfw.root/lib)
+get list of all functions in the file
+for each function, find function in library
+compare function with library version
+if different, create backup of file, then overwrite old function with new function from library
 GoTo :EOF
 
 :GetFunctionDependencies batchfile outputvar optional functionnames ...
 ::returns all dependencies of all or select functions
+getfunctionrows
+for each line of text from the function
+find call statements
+for each call statement, get functionname and type (internal, external, macro, command, program)
+call :myfunction - internal call
+call myfunction.bat - external call
+call %:myfunction% - macro call
+call echo - command call
+call findstr - program call
+
+split line on "call ", there must always be a space or tab between call and function name (do we really check for tabs ?)
+
+
 GoTo :EOF
 
 :GetBatchImports batchfile outputvar
@@ -72,7 +109,9 @@ GoTo :EOF
 
 :GetUnfulfilledDependencies batchfile outputvar optional functionname    / full fill imports (check if not already fullfilled)
 ::returns list of functioncalls not in the batch file
-for the file
+if functionname is given
+run GetBatchImports GetFunctionDependencies on function, if function is given, if not run on whole file
+then get listfunction, and substract all functions already populated
 GoTo :EOF
 
 :GetBatchImports batchfile returnvariable 
@@ -83,12 +122,7 @@ check if label exists
 for requested functions
 GoTo :EOF
 
-:getfunctiondependencies of the function
-return list
-GoTo :EOF
 
-:comparefunction  batch1 functionname batch2 functionname (line by line comparison of whole function)
-GoTo :EOF
 
 :Hello
 echo Hello,world
