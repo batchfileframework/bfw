@@ -1,5 +1,5 @@
 @echo off
 
-:GitPushCommit
+:GitUploadCommittedChanges
 git push origin
 GoTo :EOF
