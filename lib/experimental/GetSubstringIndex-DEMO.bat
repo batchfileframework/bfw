@@ -19,6 +19,11 @@ if "[%~n0]" EQU "[bfw]" ( Call :ShiftedArgumentCaller %* ) else ( Call :%~n0 %* 
 GoTo :EOF
 
 
+::Usage Call :split InputString Delimiter OutputArray optional limit optional comparemethod
+:split 
+
+exit /b %_split_count%
+
 :GetSubstringIndex-demo
 
 Call :ClearVariablesByPrefix _GetSubstringIndex
