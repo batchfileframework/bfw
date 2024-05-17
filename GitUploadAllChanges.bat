@@ -1,6 +1,8 @@
 @echo off
 
 :GitUploadAllChanges
+git fetch origin
+git status
 git add *
 if "[%~1]" EQU "[]" ( set "_autogit_message=No commit message" ) else ( set "_autogit_message=%~1" )
 git commit -m "%_autogit_message%"
