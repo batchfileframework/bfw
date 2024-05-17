@@ -21,8 +21,19 @@ GoTo :EOF
 
 ::Usage Call :split InputString Delimiter OutputArray optional limit optional comparemethod
 :split 
+set "_split_prefix=_splt"
+if defined %~1
+set "_splt_input=%~1"
 
-exit /b %_split_count%
+set "_splt_output=%~3"
+
+
+Call :ClearVariablesByPrefix %_split_prefix% _split_prefix  & exit /b %_split_count%
+delimiter could be array of multiple delimiter (if defined %~2  or if defined %~2.ubound)
+inputstring can be byval or byref
+output array appends to the end if existing
+forget limit and compare method for now
+
 
 :GetSubstringIndex-demo
 
