@@ -19,20 +19,7 @@ if "[%~n0]" EQU "[bfw]" ( Call :ShiftedArgumentCaller %* ) else ( Call :%~n0 %* 
 GoTo :EOF
 
 
-::Usage Call :split InputString Delimiter OutputArray optional limit optional comparemethod
-:split 
-set "_split_prefix=_splt"
-if defined %~1
-set "_splt_input=%~1"
 
-set "_splt_output=%~3"
-
-
-Call :ClearVariablesByPrefix %_split_prefix% _split_prefix  & exit /b %_split_count%
-delimiter could be array of multiple delimiter (if defined %~2  or if defined %~2.ubound)
-inputstring can be byval or byref
-output array appends to the end if existing
-forget limit and compare method for now
 
 
 :GetSubstringIndex-demo
@@ -436,10 +423,76 @@ if "[%~6]" NEQ "[]" (shift & shift & shift & shift & shift & GoTo :ReplaceString
 for /f "tokens=1* delims=" %%a in ('echo.!_RS_Intermetiate!') do endlocal & set %_RS_Output%=%%a
 Call :ClearVariablesByPrefix %_ReplaceString_prefix% _ReplaceString_prefix & GoTo :EOF
 
+::Usage Call :split InputString Delimiter OutputArray optional limit optional comparemethod
+REM :split 
+REM set "_split_prefix=_splt"
+REM if defined %~1
+REM set "_splt_input=%~1"
+REM set "_splt_output=%~3"
+REM Call :ClearVariablesByPrefix %_split_prefix% _split_prefix  & exit /b %_split_count%
+REM delimiter could be array of multiple delimiter (if defined %~2  or if defined %~2.ubound)
+REM inputstring can be byval or byref
+REM output array appends to the end if existing
+REM forget limit and compare method for now
+::which results to return could be specified with a range
+:: it should be possible to get just one result instead of the array
+:: InputString could by byref (default byval)
+
+::Usage Call :split InputString Delimiter OutputArray optional limit optional comparemethod
+:Split
+set "_Split_prefix=_SPLT"
+set "_SPLT_Input=%~1"
+set "_SPLT_Delimeter=%~2"
+set "_SPLT_Output=%~3"
+REM if numeric %~4 set "_SPLT_Limit=%~4"
+Call :len "%_GSSI_Search%" _GSSI_Search_len
+Call :len "%_GSSI_Search%" _GSSI_Search_len
+set /a _SPLT_Elements.ubound=-1
+if defined %_SPLT_Output%.ubound call set /a "_SPLT_Output_ubound=%%%_SPLT_Output%.ubound%%"
+if not defined _SPLT_Output_ubound set /a _SPLT_Output_ubound=-1
+set /a _SPLT_start=0
+:Split-loop
+
+
+Call :GetSubstringIndex _SPLT_Input _SPLT_Delimeter %_SPLT_start% _SPLT_end
+set /a _SPLT_Elements.ubound+=1
+set /a _SPLT_Elements[%_SPLT_Elements.ubound%].start=%_SPLT_start% & set /a _SPLT_Elements[%_SPLT_Elements.ubound%].end=%_SPLT_end%
+
+endlocal transfer _SPLT_Output[array]
+setlocal enabledelayedexpansion
+Call :ClearVariablesByPrefix %_Split_prefix% _Split_prefix  & exit /b %_SPLT_count%
+
+:AltSubString byref StartIndex InputString SearchString InputString.len SearchString
+_ASS_StartIndex
+_ASS_Input_len
+_ASS_Search
+_ASS_Search_len
+_ASS_min_search
+:AltSubString-loop
+set /a _ASS_HalfInputLen=%_ASS_Search_len%+(%_ASS_Input_len%/2)
+if %_ASS_HalfInputLen% LEQ %_ASS_min_search% ( 
+	set /a _ASS_max_search=%_ASS_StartIndex%+%_ASS_min_search%+1 & GoTo :AltSubString-loop2 
+	)
+set /a _ASS_Middle=%_ASS_StartIndex%+%_ASS_HalfInputLen%
+set /a _ASS_HalfInputLenPLUSSearchLenMINUSOne=%_ASS_HalfInputLen%+%_ASS_Search_len%-1
+set _ASS_FirstHalf=!%_ASS_Input_Pointer%:~%_ASS_StartIndex%,%_ASS_HalfInputLenPLUSSearchLenMINUSOne%!
+set _ASS_SecondHalf=!%_ASS_Input_Pointer%:~%_ASS_Middle%,%_ASS_HalfInputLen%!
+set _ASS_FirstResult=!_ASS_FirstHalf:%_ASS_Search%=!
+set _ASS_SecondResult=!_ASS_SecondHalf:%_ASS_Search%=!
+if !_ASS_FirstHalf! NEQ !_ASS_FirstResult! ( set /a _ASS_Input_len=%_ASS_HalfInputLen% & GoTo :AltSubString-loop )
+if !_ASS_SecondHalf! NEQ !_ASS_SecondResult! ( set /a _ASS_StartIndex=%_ASS_Middle% & GoTo :AltSubString-loop )
+set /a _ASS_StartIndex=-1 & GoTo :AltSubString-end
+:AltSubString-loop2
+set _ASS_FinalSearch=!%_ASS_Input_Pointer%:~%_ASS_StartIndex%,%_ASS_Search_len%!
+if !_ASS_FinalSearch! EQU !_ASS_Search! GoTo :AltSubString-end
+set /a _ASS_StartIndex+=1
+if %_ASS_StartIndex% LEQ %_ASS_max_search% GoTo :AltSubString-loop2
+set /a _ASS_StartIndex=-1 & GoTo :AltSubString-end
+endlocal & Call :ClearVariablesByPrefix 
+
 ::Usage Call :GetSubstringIndex InputString SearchString StartIndex Optional OutputIndexVar ... InputStringN SearchStringN StartIndexN Optional OutputIndexVar
 :GetSubstringIndex
 set "_GetSubstringIndex_prefix=_GSSI"
-Call :ClearVariablesByPrefix _GSSI
 set _GSSI_Input=%~1
 set _GSSI_Search=%~2
 set /a _GSSI_StartIndex=%~3 2>nul
