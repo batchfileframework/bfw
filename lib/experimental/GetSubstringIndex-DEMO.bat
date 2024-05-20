@@ -438,29 +438,115 @@ REM forget limit and compare method for now
 :: it should be possible to get just one result instead of the array
 :: InputString could by byref (default byval)
 
+:split-demo
+
+set "_split_demo_test1=THIS,IS,A,TEST"
+set "_split_demo_test1_delim=,"
+call :split _split_demo_test1 _split_demo_test1_delim _split_demo_test1_array
+call :echoarray VERTICALMODE _split_demo_test1_array
+
+Call :ClearVariablesByPrefix _split_demo
+GoTo :EOF
+
+
+if defined %_GSSI_Search% set _GSSI_Search=!%_GSSI_Search%!
+set "_GSSI_Input_Pointer=_GSSI_Input"
+if defined !_GSSI_Input! (
+ set "_GSSI_Input_Pointer=%_GSSI_Input%" 
+ )
+set /a _GSSI_StartIndex=%~3 2>nul
+if not defined _GSSI_StartIndex set /a _GSSI_StartIndex=0
+
+::Usage Call :IIF 0/1/true/false "%MacroIfTrue%" "%MacroIfFalse%" && echo Macro return value true/0 ||  echo Macro return value false/0
+::Usage Call :Iterate InputArray "%Macro%" optional OutputArray
+::Usage Call :IterateRange InputArray RangeArray "%Macro%" optional OutputArray
+
 ::Usage Call :split InputString Delimiter OutputArray optional limit optional comparemethod
 :Split
 set "_Split_prefix=_SPLT"
+set "_SPLT_CaseSensitivity=/i"
 set "_SPLT_Input=%~1"
-set "_SPLT_Delimeter=%~2"
+set "_SPLT_Delimiter=%~2"
 set "_SPLT_Output=%~3"
-REM if numeric %~4 set "_SPLT_Limit=%~4"
-Call :len "%_GSSI_Search%" _GSSI_Search_len
-Call :len "%_GSSI_Search%" _GSSI_Search_len
-set /a _SPLT_Elements.ubound=-1
-if defined %_SPLT_Output%.ubound call set /a "_SPLT_Output_ubound=%%%_SPLT_Output%.ubound%%"
+setlocal enabledelayedexpansion
+
+set "_SPLT_Input_Pointer=_SPLT_Input" 
+set "_SPLT_Delimiter_Pointer=_SPLT_Delimiter"
+if defined !_SPLT_Input! ( set "_SPLT_Input_Pointer=!_SPLT_Input!" )
+if defined !_SPLT_Delimiter! ( set "_SPLT_Delimiter_Pointer=!_SPLT_Delimiter!" )
+REM if defined !_SPLT_Delimiter!.ubound set /a _SPLT_Delimiter_ubound=!%_SPLT_Delimiter%.ubound!
+REM if defined !_SPLT_Delimiter!.ubound set "_SPLT_Delimiter_Pointer=!_SPLT_Delimiter![!%_SPLT_Delimiter%.lbound!]"
+
+if defined %_SPLT_Output%.ubound set /a _SPLT_Output_ubound=!%_SPLT_Output%.ubound!
 if not defined _SPLT_Output_ubound set /a _SPLT_Output_ubound=-1
-set /a _SPLT_start=0
+
+REM if numeric %~4 set "_SPLT_Limit=%~4"
+REM if %~4 or %~5 is CASESENSITIVE (literal) set _SPLT_CaseSensitivity=
+
+Call :len "%_SPLT_Input_Pointer%" _SPLT_Input_len
+
+Call :len "%_SPLT_Delimiter_Pointer%" _SPLT_Delimiter_len
+REM if not defined !_SPLT_Delimiter!.ubound GoTo :Split-get-delimiter-len-skip
+REM :Split-get-delimiter-len-loop
+REM FOR EACH DELIMITER, FIND DELIMITER.LEN
+REM :Split-get-delimiter-len-skip
+
+REM if defined _SPLT_Delimiter_ubound set /a _SPLT_Delimiter_index=0
+set /a _SPLT_Index=0
+set /a _SPLT_Elements_ubound=-1
+
+
+
 :Split-loop
+REM :Split-delimiter-loop
+
+Call :GetSubstringIndex "%_SPLT_Input_Pointer%" "%_SPLT_Delimiter_Pointer%" %_SPLT_Index% _SPLT_end
+
+if %_SPLT_end% EQU -1 GoTo :Split-loop-end
+set /a _SPLT_Elements_ubound+=1
+set /a _SPLT_Elements[%_SPLT_Elements_ubound%].start=%_SPLT_start% 
+if not defined _SPLT_Elements[%_SPLT_Elements_ubound%].end ( set /a _SPLT_Elements[%_SPLT_Elements_ubound%].end=%_SPLT_end% ) else ( if %_SPLT_end% LSS !_SPLT_Elements[%_SPLT_Elements_ubound%].end! set /a _SPLT_Elements[%_SPLT_Elements_ubound%].end=%_SPLT_end% )
+REM if %_SPLT_Delimiter_index% LEQ %_SPLT_Delimiter_ubound% GoTo :Split-delimiter-loop
+
+REM if %_SPLT_end% LSS %_SPLT_Input_len% GoTo :Split-loop
+GoTo :Split-loop
+:Split-loop-end
+
+set /a _SPLT_Elements_ubound+=1
+set /a _SPLT_end=%_SPLT_Input_len%
+set /a _SPLT_Elements[%_SPLT_Elements_ubound%].start=%_SPLT_start% 
+if not defined _SPLT_Elements[%_SPLT_Elements_ubound%].end ( set /a _SPLT_Elements[%_SPLT_Elements_ubound%].end=%_SPLT_end% ) else ( if %_SPLT_end% LSS !_SPLT_Elements[%_SPLT_Elements_ubound%].end! set /a _SPLT_Elements[%_SPLT_Elements_ubound%].end=%_SPLT_end% )
 
 
-Call :GetSubstringIndex _SPLT_Input _SPLT_Delimeter %_SPLT_start% _SPLT_end
-set /a _SPLT_Elements.ubound+=1
-set /a _SPLT_Elements[%_SPLT_Elements.ubound%].start=%_SPLT_start% & set /a _SPLT_Elements[%_SPLT_Elements.ubound%].end=%_SPLT_end%
+
+for /l %%a in (0,1,%_SPLT_Elements_ubound%) do (
+	endlocal
+	)
 
 endlocal transfer _SPLT_Output[array]
 setlocal enabledelayedexpansion
 Call :ClearVariablesByPrefix %_Split_prefix% _Split_prefix  & exit /b %_SPLT_count%
+REM thanks to https://stackoverflow.com/questions/49041934/how-to-return-an-array-of-values-across-endlocal https://stackoverflow.com/a/49042678
+---
+first stage will need to determine all starts/ends of the elements
+then go through the list of elements 
+and write to output the elements
+
+All this should happen within one enableddelayedexpansion
+---
+prepare
+find substring, store start+end, repeat from end
+for each stored start+end tuple, write output element
+
+---
+prepare all the variables
+input is defined or not
+delimiter is value, defined or array
+
+pour chaque delimiter, start to substring, next start is substring+first matching delimiter
+
+
+---
 
 :AltSubString byref StartIndex InputString SearchString InputString.len SearchString
 _ASS_StartIndex
@@ -488,7 +574,7 @@ if !_ASS_FinalSearch! EQU !_ASS_Search! GoTo :AltSubString-end
 set /a _ASS_StartIndex+=1
 if %_ASS_StartIndex% LEQ %_ASS_max_search% GoTo :AltSubString-loop2
 set /a _ASS_StartIndex=-1 & GoTo :AltSubString-end
-endlocal & Call :ClearVariablesByPrefix 
+endlocal & Call :ClearVariablesByPrefix _ASS
 
 ::Usage Call :GetSubstringIndex InputString SearchString StartIndex Optional OutputIndexVar ... InputStringN SearchStringN StartIndexN Optional OutputIndexVar
 :GetSubstringIndex
@@ -597,3 +683,45 @@ if "[%~2]"=="[]" ( set /a "_rnd_min=0" ) else ( set /a "_rnd_min=%~2" )
 if "[%~3]"=="[]" ( set /a "_rnd_max=100" ) else ( set /a "_rnd_max=%~3" )
 set /a %~1=%RANDOM% * (%_rnd_max% - %_rnd_min% + 1) / 32768 + %_rnd_min%
 GoTo :EOF
+
+REM functional
+REM add echo array "verticalmode" (no LF between array elements)
+::Usage Call :EchoArray InputArray optional LINENUMBERS optional SHOWVARNAME optional .Suffix optional IndexRange
+:EchoArray
+set "_EchoArray_input=%~1"
+call set /a "_EchoArray_lbound=%%%~1.lbound" 2>nul
+if "[%_EchoArray_lbound%]" EQU "[]" set /a "_EchoArray_lbound=0"
+call set /a "_EchoArray_ubound=%%%~1.ubound"
+set /a "_EchoArray_index=%_EchoArray_lbound%"
+shift
+:EchoArray-arguments
+set "_EchoArray_buffer=%~1"
+if not defined _EchoArray_buffer GoTo :EchoArray-arguments-end
+if "[%_EchoArray_buffer:~,1%]" EQU "[.]" ( set "_EchoArray_suffix=%_EchoArray_buffer%" & shift & GoTo :EchoArray-arguments )
+if "[%_EchoArray_buffer%]" EQU "[LINENUMBERS]" ( set "_EchoArray_showlinenumbers=true" & shift & GoTo :EchoArray-arguments )
+if "[%_EchoArray_buffer%]" EQU "[SHOWVARNAME]" ( set "_EchoArray_showvariablename=true" & shift & GoTo :EchoArray-arguments )
+if "[%_EchoArray_buffer%]" EQU "[VERTICALMODE]" ( set "_EchoArray_verticalmode=true" & shift & GoTo :EchoArray-arguments )
+REM if "[%~1]" NEQ "[]" if not defined _EchoArray_IndexList.lbound set /a "_EchoArray_IndexList.lbound=1"
+if "[%~1]" NEQ "[]" ( Call :GetIndexArray _EchoArray_IndexList "%~1" & shift & GoTo :EchoArray-arguments )
+:EchoArray-arguments-end
+if defined _EchoArray_IndexList.ubound set /a "_EchoArray_ubound=%_EchoArray_IndexList.ubound%"
+setlocal enabledelayedexpansion
+:EchoArray-loop
+if not defined _EchoArray_IndexList.ubound ( set "_EchoArray_index_actual=%_EchoArray_index%" ) else ( set "_EchoArray_index_actual=!_EchoArray_IndexList[%_EchoArray_index%]!" )
+if defined _EchoArray_showlinenumbers set _EchoArray_prefix=%_EchoArray_index%:
+if defined _EchoArray_showvariablename set _EchoArray_prefix=%_EchoArray_input%[%_EchoArray_index_actual%]:
+if defined _EchoArray_showvariablename if defined _EchoArray_showlinenumbers set _EchoArray_prefix=%_EchoArray_index%:%_EchoArray_input%[%_EchoArray_index_actual%]:
+if not defined _EchoArray_verticalmode GoTo :EchoArray-normalmode-loop-next
+<nul set /p =%_EchoArray_prefix%!%_EchoArray_input%[%_EchoArray_index_actual%]%_EchoArray_suffix%! 
+GoTo :EchoArray-loop-next
+:EchoArray-normalmode-loop-next
+echo(%_EchoArray_prefix%%_EchoArray_input%[%_EchoArray_index_actual%]%_EchoArray_suffix%
+echo(%_EchoArray_prefix%!%_EchoArray_input%[%_EchoArray_index_actual%]%_EchoArray_suffix%!
+:EchoArray-loop-next
+set /a "_EchoArray_index+=1"
+if %_EchoArray_index% LEQ %_EchoArray_ubound% GoTo :EchoArray-loop
+:EchoArray-loop-end
+endlocal
+Call :ClearVariablesByPrefix _EchoArray
+GoTo :EOF
+
