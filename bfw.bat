@@ -13,7 +13,17 @@ for %%a in ( %* ) do ( for %%b in ( /h /? -h -? help --help ) do ( if "[%%a]" EQ
 for %%a in ( %* ) do ( if "[%%a]" EQU "[demo]" ( Call :%~n0-demo & exit /b 1 ) ) 
 if "[%~1]" EQU "[]" ( echo %~n0 needs at least one argument & exit /b 1 )
 REM if "[%~1]" EQU "[]" if "[%~2]" EQU "[]" ( echo %~n0 needs at least two argument & exit /b 1 )
+
+REM search %~dpn0 for a label called :~n0 (or %~1 if %~0 is bfw)
+
 if "[%~n0]" EQU "[bfw]" ( Call :ShiftedArgumentCaller %* ) else ( Call :%~n0 %* )
+
+REM if defined bfw.root (
+		REM search bfw.root\lib for a file called "%~1.bat" or "%~n0.bat"
+		REM if found 
+		REM create a string of all arguments
+		REM call bfw.root\lib\the file in question
+	REM )
 
 :end
 
