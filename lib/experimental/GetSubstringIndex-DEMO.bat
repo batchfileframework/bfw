@@ -1,5 +1,9 @@
 @echo off
 
+Call :split-demo
+GoTo :EOF
+
+
 :setup
 :macro
 :main
@@ -101,6 +105,16 @@ REM set /a _GetSubstringIndex_stop=32
 set /a _GetSubstringIndex_stop=33
 
 :GetSubstringIndex-demo-loop
+
+REM _GetSubstringIndex_index_length
+REM _GetSubstringIndex_index_count
+REM _GetSubstringIndex_testvar
+REM _GetSubstringIndex_testpattern
+REM test explain string
+REM _GetSubstringIndex_index
+REM _GetSubstringIndex_stop
+
+parameters of CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED
 
 if %_GetSubstringIndex_index% EQU 0 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
 if %_GetSubstringIndex_index% EQU 0 set _GetSubstringIndex_testvar=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
@@ -443,19 +457,30 @@ REM forget limit and compare method for now
 set "_split_demo_test1=THIS,IS,A,TEST"
 set "_split_demo_test1_delim=,"
 call :split _split_demo_test1 _split_demo_test1_delim _split_demo_test1_array
-call :echoarray VERTICALMODE _split_demo_test1_array
-
+call :echoarray _split_demo_test1_array VERTICALMODE
+echo.
+call :echoarray _split_demo_test1_array
 Call :ClearVariablesByPrefix _split_demo
+
 GoTo :EOF
 
+:split-demo-helper
 
-if defined %_GSSI_Search% set _GSSI_Search=!%_GSSI_Search%!
-set "_GSSI_Input_Pointer=_GSSI_Input"
-if defined !_GSSI_Input! (
- set "_GSSI_Input_Pointer=%_GSSI_Input%" 
- )
-set /a _GSSI_StartIndex=%~3 2>nul
-if not defined _GSSI_StartIndex set /a _GSSI_StartIndex=0
+set "_SDH_input=%~1"
+set "_SDH_delim=%~2"
+set "_SDH_output=%~3"
+
+
+
+GoTo :EOF
+
+REM if defined %_GSSI_Search% set _GSSI_Search=!%_GSSI_Search%!
+REM set "_GSSI_Input_Pointer=_GSSI_Input"
+REM if defined !_GSSI_Input! (
+ REM set "_GSSI_Input_Pointer=%_GSSI_Input%" 
+ REM )
+REM set /a _GSSI_StartIndex=%~3 2>nul
+REM if not defined _GSSI_StartIndex set /a _GSSI_StartIndex=0
 
 ::Usage Call :IIF 0/1/true/false "%MacroIfTrue%" "%MacroIfFalse%" && echo Macro return value true/0 ||  echo Macro return value false/0
 ::Usage Call :Iterate InputArray "%Macro%" optional OutputArray
@@ -469,64 +494,72 @@ set "_SPLT_Input=%~1"
 set "_SPLT_Delimiter=%~2"
 set "_SPLT_Output=%~3"
 setlocal enabledelayedexpansion
-
+set "_SPLT_localscope=true"
 set "_SPLT_Input_Pointer=_SPLT_Input" 
 set "_SPLT_Delimiter_Pointer=_SPLT_Delimiter"
 if defined !_SPLT_Input! ( set "_SPLT_Input_Pointer=!_SPLT_Input!" )
 if defined !_SPLT_Delimiter! ( set "_SPLT_Delimiter_Pointer=!_SPLT_Delimiter!" )
 REM if defined !_SPLT_Delimiter!.ubound set /a _SPLT_Delimiter_ubound=!%_SPLT_Delimiter%.ubound!
 REM if defined !_SPLT_Delimiter!.ubound set "_SPLT_Delimiter_Pointer=!_SPLT_Delimiter![!%_SPLT_Delimiter%.lbound!]"
-
 if defined %_SPLT_Output%.ubound set /a _SPLT_Output_ubound=!%_SPLT_Output%.ubound!
 if not defined _SPLT_Output_ubound set /a _SPLT_Output_ubound=-1
-
 REM if numeric %~4 set "_SPLT_Limit=%~4"
 REM if %~4 or %~5 is CASESENSITIVE (literal) set _SPLT_CaseSensitivity=
-
 Call :len "%_SPLT_Input_Pointer%" _SPLT_Input_len
-
 Call :len "%_SPLT_Delimiter_Pointer%" _SPLT_Delimiter_len
 REM if not defined !_SPLT_Delimiter!.ubound GoTo :Split-get-delimiter-len-skip
 REM :Split-get-delimiter-len-loop
 REM FOR EACH DELIMITER, FIND DELIMITER.LEN
 REM :Split-get-delimiter-len-skip
-
 REM if defined _SPLT_Delimiter_ubound set /a _SPLT_Delimiter_index=0
 set /a _SPLT_Index=0
 set /a _SPLT_Elements_ubound=-1
-
-
-
 :Split-loop
 REM :Split-delimiter-loop
-
 Call :GetSubstringIndex "%_SPLT_Input_Pointer%" "%_SPLT_Delimiter_Pointer%" %_SPLT_Index% _SPLT_end
 
-if %_SPLT_end% EQU -1 GoTo :Split-loop-end
+REM Set search window len = 64
+REM Search window for search term
+REM if not found, move start index to end of current window, double window lenght, search again
+REM if window len greater than input len and still not found, return only the current element
+REM when search them is first found
+REM search first half of this window, if found, half again and so on until reach "min search window len"
+REM if not found in first half, search second half, if found, move startindex, half this part and so on until reach "min search window len"
+
+
+REM ------------- ALL OF THIS SHOULD BE PART OF THE MAIN LOOP MAYBE
+if %_SPLT_end% EQU -1 set /a _SPLT_end=%_SPLT_Input_len%
 set /a _SPLT_Elements_ubound+=1
-set /a _SPLT_Elements[%_SPLT_Elements_ubound%].start=%_SPLT_start% 
-if not defined _SPLT_Elements[%_SPLT_Elements_ubound%].end ( set /a _SPLT_Elements[%_SPLT_Elements_ubound%].end=%_SPLT_end% ) else ( if %_SPLT_end% LSS !_SPLT_Elements[%_SPLT_Elements_ubound%].end! set /a _SPLT_Elements[%_SPLT_Elements_ubound%].end=%_SPLT_end% )
+set /a _SPLT_Elements[%_SPLT_Elements_ubound%].start=%_SPLT_Index%
+set /a _SPLT_Elements[%_SPLT_Elements_ubound%].len=%_SPLT_end%-%_SPLT_Index%
 REM if %_SPLT_Delimiter_index% LEQ %_SPLT_Delimiter_ubound% GoTo :Split-delimiter-loop
+set /a _SPLT_Index=%_SPLT_end%+%_SPLT_Delimiter_len%
+if %_SPLT_end% NEQ %_SPLT_Input_len% GoTo :Split-loop
+set /a _SPLT_Elements_index=0
+:Split-copy-loop
+set /a _SPLT_buffer_start=!_SPLT_Elements[%_SPLT_Elements_index%].start!
+set /a _SPLT_buffer_count=!_SPLT_Elements[%_SPLT_Elements_index%].len!
+set /a _SPLT_Output_ubound+=1
+set "%_SPLT_Output%[%_SPLT_Output_ubound%]=!%_SPLT_Input_Pointer%:~%_SPLT_buffer_start%,%_SPLT_buffer_count%!"
+set /a _SPLT_Elements_index+=1
 
-REM if %_SPLT_end% LSS %_SPLT_Input_len% GoTo :Split-loop
-GoTo :Split-loop
-:Split-loop-end
-
-set /a _SPLT_Elements_ubound+=1
-set /a _SPLT_end=%_SPLT_Input_len%
-set /a _SPLT_Elements[%_SPLT_Elements_ubound%].start=%_SPLT_start% 
-if not defined _SPLT_Elements[%_SPLT_Elements_ubound%].end ( set /a _SPLT_Elements[%_SPLT_Elements_ubound%].end=%_SPLT_end% ) else ( if %_SPLT_end% LSS !_SPLT_Elements[%_SPLT_Elements_ubound%].end! set /a _SPLT_Elements[%_SPLT_Elements_ubound%].end=%_SPLT_end% )
+REM ------------- ALL OF THIS SHOULD BE PART OF THE MAIN LOOP MAYBE
 
 
-
-for /l %%a in (0,1,%_SPLT_Elements_ubound%) do (
+if %_SPLT_Elements_index% LEQ %_SPLT_Elements_ubound% GoTo :Split-copy-loop
+set /a %_SPLT_Output%.ubound=%_SPLT_Output_ubound%
+for /F "delims=" %%a in ('set %_SPLT_Output%') do (
 	endlocal
+	set "%%a"
 	)
 
-endlocal transfer _SPLT_Output[array]
-setlocal enabledelayedexpansion
 Call :ClearVariablesByPrefix %_Split_prefix% _Split_prefix  & exit /b %_SPLT_count%
 REM thanks to https://stackoverflow.com/questions/49041934/how-to-return-an-array-of-values-across-endlocal https://stackoverflow.com/a/49042678
+
+
+
+
+
 ---
 first stage will need to determine all starts/ends of the elements
 then go through the list of elements 
@@ -582,6 +615,7 @@ set "_GetSubstringIndex_prefix=_GSSI"
 set _GSSI_Input=%~1
 set _GSSI_Search=%~2
 set /a _GSSI_StartIndex=%~3 2>nul
+set "_GSSI_Output=%~4"
 if not defined _GSSI_StartIndex set /a _GSSI_StartIndex=0
 setlocal enabledelayedexpansion
 if defined %_GSSI_Search% set _GSSI_Search=!%_GSSI_Search%!
@@ -594,7 +628,21 @@ if defined "%_GSSI_Search%" Call :len "%_GSSI_Search%" _GSSI_Search_len
 if not defined "%_GSSI_Search%" Call :len _GSSI_Search _GSSI_Search_len
 set /a _GSSI_Input_len-=1
 set /a _GSSI_min_search=(%_GSSI_Search_len%*2)
+
+REM Start checking from 0 to 5 (times _GSSI_Search_len)
+REM then double search len until found, or end of string reached
+REM on each doubling, more startindex to end of region known not to contain search term
+REM on first found
+REM check first half, if not found second half
+REM next check half of found then second half of found 
+REM until you reach min search len then go to stage 3
+
 :GetSubstringIndex-loop
+
+REM start searching 64 char of input len, go up if not found, doubling until the rest of the input is searched 
+REM probably use findstr instead of string substitution for finding match, at least in stage 1
+REM once match is found, narrow down by splitting search in half
+
 set /a _GSSI_HalfInputLen=%_GSSI_Search_len%+(%_GSSI_Input_len%/2)
 if %_GSSI_HalfInputLen% LEQ %_GSSI_min_search% ( 
 	set /a _GSSI_max_search=%_GSSI_StartIndex%+%_GSSI_min_search%+1 & GoTo :GetSubstringIndex-loop2 
@@ -616,7 +664,8 @@ if %_GSSI_StartIndex% LEQ %_GSSI_max_search% GoTo :GetSubstringIndex-loop2
 set /a _GSSI_StartIndex=-1 & GoTo :GetSubstringIndex-end
 :GetSubstringIndex-end
 if "[%~7]" NEQ "[]" ( shift & shift & shift & shift & shift & GoTo :GetSubstringIndex )
-endlocal & Call :ClearVariablesByPrefix %_GetSubstringIndex_prefix% _GetSubstringIndex_prefix & exit /b %_GSSI_StartIndex%
+endlocal & set _GSSI_StartIndex=%_GSSI_StartIndex% & if defined _GSSI_Output set /a %_GSSI_Output%=%_GSSI_StartIndex%
+Call :ClearVariablesByPrefix %_GetSubstringIndex_prefix% _GetSubstringIndex_prefix & exit /b %_GSSI_StartIndex% 
 
 ::Usage Call :CreateRandomStringPS [NONUMBERS] [NOUPPERCASE] [NOUPPERCASE] [SPACE] [PUNCTUATION] [NOPOISON] [POISON] [EXTENDED] [CONTROL] [RESET] Stringlength1 OutputVariable1 Stringlength2 OutputVariable2 ... StringlengthN OutputVariableN
 ::You can your CLEAR in front of the switches to clear them
@@ -689,9 +738,9 @@ REM add echo array "verticalmode" (no LF between array elements)
 ::Usage Call :EchoArray InputArray optional LINENUMBERS optional SHOWVARNAME optional .Suffix optional IndexRange
 :EchoArray
 set "_EchoArray_input=%~1"
-call set /a "_EchoArray_lbound=%%%~1.lbound" 2>nul
+call set /a "_EchoArray_lbound=%%%~1.lbound%%" 2>nul
 if "[%_EchoArray_lbound%]" EQU "[]" set /a "_EchoArray_lbound=0"
-call set /a "_EchoArray_ubound=%%%~1.ubound"
+call set /a "_EchoArray_ubound=%%%~1.ubound%%"
 set /a "_EchoArray_index=%_EchoArray_lbound%"
 shift
 :EchoArray-arguments
@@ -701,7 +750,7 @@ if "[%_EchoArray_buffer:~,1%]" EQU "[.]" ( set "_EchoArray_suffix=%_EchoArray_bu
 if "[%_EchoArray_buffer%]" EQU "[LINENUMBERS]" ( set "_EchoArray_showlinenumbers=true" & shift & GoTo :EchoArray-arguments )
 if "[%_EchoArray_buffer%]" EQU "[SHOWVARNAME]" ( set "_EchoArray_showvariablename=true" & shift & GoTo :EchoArray-arguments )
 if "[%_EchoArray_buffer%]" EQU "[VERTICALMODE]" ( set "_EchoArray_verticalmode=true" & shift & GoTo :EchoArray-arguments )
-REM if "[%~1]" NEQ "[]" if not defined _EchoArray_IndexList.lbound set /a "_EchoArray_IndexList.lbound=1"
+if "[%~1]" NEQ "[]" if not defined _EchoArray_IndexList.lbound set /a "_EchoArray_IndexList.lbound=1"
 if "[%~1]" NEQ "[]" ( Call :GetIndexArray _EchoArray_IndexList "%~1" & shift & GoTo :EchoArray-arguments )
 :EchoArray-arguments-end
 if defined _EchoArray_IndexList.ubound set /a "_EchoArray_ubound=%_EchoArray_IndexList.ubound%"
@@ -715,7 +764,7 @@ if not defined _EchoArray_verticalmode GoTo :EchoArray-normalmode-loop-next
 <nul set /p =%_EchoArray_prefix%!%_EchoArray_input%[%_EchoArray_index_actual%]%_EchoArray_suffix%! 
 GoTo :EchoArray-loop-next
 :EchoArray-normalmode-loop-next
-echo(%_EchoArray_prefix%%_EchoArray_input%[%_EchoArray_index_actual%]%_EchoArray_suffix%
+REM echo(%_EchoArray_prefix%%_EchoArray_input%[%_EchoArray_index_actual%]%_EchoArray_suffix%
 echo(%_EchoArray_prefix%!%_EchoArray_input%[%_EchoArray_index_actual%]%_EchoArray_suffix%!
 :EchoArray-loop-next
 set /a "_EchoArray_index+=1"
