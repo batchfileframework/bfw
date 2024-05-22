@@ -497,27 +497,39 @@ echo.%1| findstr /r "[^0123456789]" >nul && (
 GoTo :EOF
 REM Call :IsNumeric %var% && echo it is not numeric || echo it is numeric
 
-::Usage Call :GetArgumentString OutputString [SHIFT [X] [/X] [X/]] [DOUBLEQUOTE [']] [DEDUPLICATECARRETS] [TOARRAY] %*
+::Usage Call :GetArgumentString OutputString [SHIFT [X] [/X] [X/]] [DOUBLEQUOTE [']] [DEDUPLICATECARRETS] [TOARRAY] [INCLUDECALLER] %*
 :GetArgumentString
-set "_GetArgumentString_Output=%~1" & shift
-:GetArgumentString-args
-if "[%~1]" EQU "[SHIFT]" ( echo.%~2| findstr /r "[^0123456789]" >nul && ( set /a "_GetArgumentString_Shift=%~2" & shift & shift & GoTo :GetArgumentString-args ) || ( set /a "_GetArgumentString_Shift=0" & shift & GoTo :GetArgumentString-args ) )
-if "[%~1]" EQU "[DOUBLEQUOTE]"
-if "[%~1]" EQU "[DEDUPLICATECARRETS]"
-if "[%~1]" EQU "[TOARRAY]"
-if "[%~1]" EQU "[SHIFT]"
-:GetArgumentString-loop
+set "_GAS_prefix=_GAS"
+set "_GAS_Output=%~1" & shift
 setlocal enabledelayedexpansion
-
-
-REM if %_SPLT_Elements_index% LEQ %_SPLT_Elements_ubound% GoTo :Split-copy-loop	
-REM set /a %_SPLT_Output%.ubound=%_SPLT_Output_ubound%
-for /F "delims=" %%a in ('set %_SPLT_Output%') do (
+:GetArgumentString-args
+set "_GAS_buffer=%~2"
+if "[%~1]" EQU "[SHIFT]" ( echo.%~2| findstr /r "[^0123456789]" >nul && ( set /a "_GAS_Shift=%~2" & shift & shift & GoTo :GetArgumentString-args ) || ( set /a "_GAS_Shift=0" & shift & GoTo :GetArgumentString-args ) )
+if "[%~1]" EQU "[DOUBLEQUOTE]" ( if "[%_GAS_buffer:~1,1%]" EQU "[]" ( Set "_GAS_QUOTE="" ) else ( Set "_GAS_QUOTE=%_GAS_buffer:~0,1%" ) & shift & GoTo :GetArgumentString-args )
+if "[%~1]" EQU "[DEDUPLICATECARRETS]" ( set "_GAS_DEDUPLICATE_CARRETS=true" & shift & GoTo :GetArgumentString-args )
+if "[%~1]" EQU "[TOARRAY]" ( set "_GAS_ToArray=true" & shift & GoTo :GetArgumentString-args )
+if "[%~1]" EQU "[EXCLUDE]" ( if not defined _GAS_Exclude_ubound ( set /a _GAS_Exclude_ubound=0 ) else ( set /a _GAS_Exclude_ubound+=1 ) 
+if "[%~1]" EQU "[EXCLUDE]" ( set "_GAS_Exclude[%_GAS_Exclude_ubound%]=%_GAS_buffer%" & shift & shift & GoTo :GetArgumentString-args )
+if defined _GAS_ToArray if defined %_GAS_Output%.ubound call set /a _GAS_Output_ubound=%%%_GAS_Output%.ubound%%
+if defined _GAS_ToArray if not defined _GAS_Output_ubound set /a _GAS_Output_ubound=-1
+if not defined _GAS_Shift GoTo :GetArgumentString-loop
+set /a _GAS_shift_index=0
+:GetArgumentString-shift-loop
+shift
+if %_GAS_shift_index% LSS %_GAS_Shift% GoTo :GetArgumentString-shift-loop 
+:GetArgumentString-loop
+if defined _GAS_Exclude.ubound if %_GAS_Exclude_index% LEQ %_GAS_Exclude_ubound% ( if "[!_GAS_Exclude[%_GAS_Exclude_index%]!]" EQU "[%~1]" ( shift & set /a _GAS_Exclude_index=0 & GoTo :GetArgumentString-loop ) else ( set /a _GAS_Exclude_index+=1 & GoTo :GetArgumentString-loop ) )
+if defined _GAS_ToArray if defined _GAS_Output_ubound set /a _GAS_Output_ubound+=1
+if defined _GAS_ToArray set "%_GAS_Output%[%_GAS_Output_ubound%]=%~1"
+set "_GAS_output_buffer=!_GAS_output_buffer! !_GAS_QUOTE!%~2!_GAS_QUOTE!"
+if defined _GAS_ToArray set /a _GAS_Exclude_index=0
+if "[%2]" NEQ "[]" GoTo :GetArgumentString-loop
+if defined _GAS_ToArray set /a %_GAS_Output%.ubound=%_GAS_Output_ubound%
+set /a "%_GAS_Output%=!_GAS_output_buffer!"
+for /F "delims=" %%a in ('set %_GAS_Output%') do (
 	endlocal
 	set "%%a"
 	)
-
-
 GoTo :EOF
 
 ::Usage Call :split InputString Delimiter OutputArray optional limit optional comparemethod
