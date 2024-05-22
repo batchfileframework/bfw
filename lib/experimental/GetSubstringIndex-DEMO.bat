@@ -486,6 +486,40 @@ REM if not defined _GSSI_StartIndex set /a _GSSI_StartIndex=0
 ::Usage Call :Iterate InputArray "%Macro%" optional OutputArray
 ::Usage Call :IterateRange InputArray RangeArray "%Macro%" optional OutputArray
 
+::Usage Call :IsNumeric Value optional Output
+:IsNumeric
+set "IsNumericInternal=0123456789"
+echo.%1| findstr /r "[^0123456789]" >nul && (
+    if not "[%2]"=="[]" set %2=false
+) || (
+    if not "[%2]"=="[]" set %2=true
+)
+GoTo :EOF
+REM Call :IsNumeric %var% && echo it is not numeric || echo it is numeric
+
+::Usage Call :GetArgumentString OutputString [SHIFT [X] [/X] [X/]] [DOUBLEQUOTE [']] [DEDUPLICATECARRETS] [TOARRAY] %*
+:GetArgumentString
+set "_GetArgumentString_Output=%~1" & shift
+:GetArgumentString-args
+if "[%~1]" EQU "[SHIFT]" ( echo.%~2| findstr /r "[^0123456789]" >nul && ( set /a "_GetArgumentString_Shift=%~2" & shift & shift & GoTo :GetArgumentString-args ) || ( set /a "_GetArgumentString_Shift=0" & shift & GoTo :GetArgumentString-args ) )
+if "[%~1]" EQU "[DOUBLEQUOTE]"
+if "[%~1]" EQU "[DEDUPLICATECARRETS]"
+if "[%~1]" EQU "[TOARRAY]"
+if "[%~1]" EQU "[SHIFT]"
+:GetArgumentString-loop
+setlocal enabledelayedexpansion
+
+
+REM if %_SPLT_Elements_index% LEQ %_SPLT_Elements_ubound% GoTo :Split-copy-loop	
+REM set /a %_SPLT_Output%.ubound=%_SPLT_Output_ubound%
+for /F "delims=" %%a in ('set %_SPLT_Output%') do (
+	endlocal
+	set "%%a"
+	)
+
+
+GoTo :EOF
+
 ::Usage Call :split InputString Delimiter OutputArray optional limit optional comparemethod
 :Split
 set "_Split_prefix=_SPLT"
@@ -493,6 +527,8 @@ set "_SPLT_CaseSensitivity=/i"
 set "_SPLT_Input=%~1"
 set "_SPLT_Delimiter=%~2"
 set "_SPLT_Output=%~3"
+shift & shift & shift
+echo.%~4| findstr /r "[^0123456789]" >nul && ( set /a _SPLT_Limit=%~1 & shift )
 setlocal enabledelayedexpansion
 set "_SPLT_localscope=true"
 set "_SPLT_Input_Pointer=_SPLT_Input" 
@@ -503,6 +539,7 @@ REM if defined !_SPLT_Delimiter!.ubound set /a _SPLT_Delimiter_ubound=!%_SPLT_De
 REM if defined !_SPLT_Delimiter!.ubound set "_SPLT_Delimiter_Pointer=!_SPLT_Delimiter![!%_SPLT_Delimiter%.lbound!]"
 if defined %_SPLT_Output%.ubound set /a _SPLT_Output_ubound=!%_SPLT_Output%.ubound!
 if not defined _SPLT_Output_ubound set /a _SPLT_Output_ubound=-1
+
 REM if numeric %~4 set "_SPLT_Limit=%~4"
 REM if %~4 or %~5 is CASESENSITIVE (literal) set _SPLT_CaseSensitivity=
 Call :len "%_SPLT_Input_Pointer%" _SPLT_Input_len
