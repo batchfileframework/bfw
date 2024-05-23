@@ -620,7 +620,7 @@ for /F "delims=" %%a in ('set %_GAS_Output%') do (
 	)
 GoTo :EOF
 
-
+REM this will need a startindex probably, to start at a certain position in the string
 ::Usage Call :split InputString Delimiter OutputArray optional limit [CASESENSITIVE]
 :Split
 set "_Split_prefix=_SPLT"
@@ -648,62 +648,93 @@ REM :Split-get-delimiter-len-loop
 REM FOR EACH DELIMITER, FIND DELIMITER.LEN
 REM :Split-get-delimiter-len-skip
 REM if defined _SPLT_Delimiter_ubound set /a _SPLT_Delimiter_index=0
-set /a _SPLT_Index=0
-REM set _SPLT
+-------------------------------------------------------------------
+initialize
 
+stage1
+starting from searchwindowlen=64 or less
+find searchstring, 
+	if not double searchwindowlen until you do or reach inputlen
+	if inputlen reached and still no match, exit with -1
+stage2
+we have found match inside the searchwindowlen
+search half the window (+searchlen-1?) for the match
+	if not found, check the second half (second half then MUST have it, maybe search half of the second half directly ?)
+	if found, search half the remaining searchwindowlen (+searchlen?)
+
+set /a _SPLT_StartIndex=0
 :Split-loop
-REM :Split-delimiter-loop ?
-set _SPLT_Search=!%_SPLT_Delimiter_Pointer%!
-if %_SPLT_Input_len% LSS 64 ( set /a _SPLT_Search_Window_len=%_SPLT_Input_len% ) else ( set /a _SPLT_Search_Window_len=64 )
-set /a _SPLT_end=%_SPLT_Index%
+set /a _SPLT_SubStringIndex=%_SPLT_StartIndex%
 set /a _SPLT_min_search=%_SPLT_Delimiter_len%*2
+if %_SPLT_Input_len% LSS 64 ( set /a _SPLT_Search_Window_len=%_SPLT_Input_len% ) else ( set /a _SPLT_Search_Window_len=64 )
+:Split-substring-stage1-loop
+
+set _SPLT_CurrentWindow=!%_SPLT_Input_Pointer%:~%_SPLT_SubStringIndex%,%_SPLT_Search_Window_len%!
+set _SPLT_CurrentWindowResult=!%_SPLT_Input_Pointer%:%_SPLT_Search%=!
+if %_SPLT_CaseSensitivity% !_SPLT_CurrentWindow! EQU !_SPLT_CurrentWindowResult! ( if %_SPLT_Input_len% LSS %_SPLT_Search_Window_len% ( set /a _SPLT_SubStringIndex=-1 & GoTo :Split-substring-end ) else ( set /a _SPLT_SubStringIndex=%_SPLT_SubStringIndex%+%_SPLT_Search_Window_len%-1 & set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%*2 & GoTo :Split-substring-pre-loop ) )
+
+:Split-substring-stage2-loop
+
+-------------------------------------------------------------------
+REM set _SPLT
+REM :Split-delimiter-loop ?
+set /a _SPLT_StartIndex=0
+set /a _SPLT_Index=0
+set _SPLT_Search=!%_SPLT_Delimiter_Pointer%!
+:Split-loop
+set /a _SPLT_min_search=%_SPLT_Delimiter_len%*2
+if %_SPLT_Input_len% LSS 64 ( set /a _SPLT_Search_Window_len=%_SPLT_Input_len% ) else ( set /a _SPLT_Search_Window_len=64 )
 :Split-substring-pre-loop
 
-REM _SPLT_CurrentWindow should be %_SPLT_end%,%_SPLT_Search_Window_len% + %_SPLT_Delimiter_len%
+REM _SPLT_CurrentWindow should be %_SPLT_Index%,%_SPLT_Search_Window_len% + %_SPLT_Delimiter_len%
 
-set _SPLT_CurrentWindow=!%_SPLT_Input_Pointer%:~%_SPLT_end%,%_SPLT_Search_Window_len%!
+set _SPLT_CurrentWindow=!%_SPLT_Input_Pointer%:~%_SPLT_Index%,%_SPLT_Search_Window_len%!
 set _SPLT_CurrentWindowResult=!%_SPLT_Input_Pointer%:%_SPLT_Search%=!
-if %_SPLT_CaseSensitivity% !_SPLT_CurrentWindow! EQU !_SPLT_CurrentWindowResult! ( if %_SPLT_Search_Window_len% LSS %_SPLT_Input_len% ( set /a _SPLT_end=-1 & GoTo :Split-substring-end ) else ( set /a _SPLT_end=%_SPLT_end%+%_SPLT_Search_Window_len%-1 & set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%*2 & GoTo :Split-substring-pre-loop ) )
+if %_SPLT_CaseSensitivity% !_SPLT_CurrentWindow! EQU !_SPLT_CurrentWindowResult! ( if %_SPLT_Search_Window_len% LSS %_SPLT_Input_len% ( set /a _SPLT_Index=-1 & GoTo :Split-substring-end ) else ( set /a _SPLT_Index=%_SPLT_Index%+%_SPLT_Search_Window_len%-1 & set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%*2 & GoTo :Split-substring-pre-loop ) )
 
 REM _SPLT_Search_Window_len /2 before going on
 
 :Split-substring-loop
 REM echo :Split-substring-loop
-REM something is wrong with _SPLT_end et _SPLT_Index
+REM something is wrong with _SPLT_Index et _SPLT_Index
 REM something is wrong with _SPLT_count, it should be the number of count added to the output array
 REM if _SPLT_Search_Window_len under _SPLT_min_search  goto :Split-substring-loop2
 
-REM search _SPLT_end , _SPLT_Search_Window_len+
-	REM not found _SPLT_end =  _SPLT_end+ _SPLT_Search_Window_len goto :Split-substring-loop
+REM search _SPLT_Index , _SPLT_Search_Window_len+
+	REM not found _SPLT_Index =  _SPLT_Index+ _SPLT_Search_Window_len goto :Split-substring-loop
     REM is found ( if _SPLT_Search_Window_len /2 is under _SPLT_min_search  goto :Split-substring-loop2 ) _SPLT_Search_Window_len/2 GoTo :Split-substring-loop
 	
 	
 set /a _SPLT_HalfInputLen=%_SPLT_Delimiter_len%+(%_SPLT_Search_Window_len%/2)
 if %_SPLT_HalfInputLen% LEQ %_SPLT_min_search% ( 
-	set /a _SPLT_max_search=%_SPLT_end%+%_SPLT_min_search%+1 & GoTo :Split-substring-loop2 
+	set /a _SPLT_max_search=%_SPLT_Index%+%_SPLT_min_search%+1 & GoTo :Split-substring-loop2 
 	)
-set /a _SPLT_Middle=%_SPLT_end%+%_SPLT_HalfInputLen%
+set /a _SPLT_Middle=%_SPLT_Index%+%_SPLT_HalfInputLen%
 set /a _SPLT_HalfInputLenPLUSSearchLenMINUSOne=%_SPLT_HalfInputLen%+%_SPLT_Delimiter_len%-1
-set _SPLT_FirstHalf=!%_SPLT_Input_Pointer%:~%_SPLT_end%,%_SPLT_HalfInputLenPLUSSearchLenMINUSOne%!
+set _SPLT_FirstHalf=!%_SPLT_Input_Pointer%:~%_SPLT_Index%,%_SPLT_HalfInputLenPLUSSearchLenMINUSOne%!
 set _SPLT_SecondHalf=!%_SPLT_Input_Pointer%:~%_SPLT_Middle%,%_SPLT_HalfInputLen%!
 set _SPLT_FirstResult=!_SPLT_FirstHalf:%_SPLT_Search%=!
 set _SPLT_SecondResult=!_SPLT_SecondHalf:%_SPLT_Search%=!
 if %_SPLT_CaseSensitivity% !_SPLT_FirstHalf! NEQ !_SPLT_FirstResult! ( set /a _SPLT_Search_Window_len=%_SPLT_HalfInputLen% & GoTo :Split-substring-loop )
-if %_SPLT_CaseSensitivity% !_SPLT_SecondHalf! NEQ !_SPLT_SecondResult! ( set /a _SPLT_end=%_SPLT_Middle% & GoTo :Split-substring-loop )
-set /a _SPLT_end=-1 & GoTo :Split-substring-end
+if %_SPLT_CaseSensitivity% !_SPLT_SecondHalf! NEQ !_SPLT_SecondResult! ( set /a _SPLT_Index=%_SPLT_Middle% & GoTo :Split-substring-loop )
+
+set /a _SPLT_Index=-1 & GoTo :Split-substring-end
 :Split-substring-loop2
-set _SPLT_FinalSearch=!%_SPLT_Input_Pointer%:~%_SPLT_end%,%_SPLT_Delimiter_len%!
+set _SPLT_FinalSearch=!%_SPLT_Input_Pointer%:~%_SPLT_Index%,%_SPLT_Delimiter_len%!
 if !_SPLT_FinalSearch! EQU !_SPLT_Search! GoTo :Split-substring-end
-set /a _SPLT_end+=1
-if %_SPLT_end% LEQ %_SPLT_max_search% GoTo :Split-substring-loop2
-set /a _SPLT_end=-1 & GoTo :Split-substring-end
+set /a _SPLT_Index+=1
+if %_SPLT_Index% LEQ %_SPLT_max_search% GoTo :Split-substring-loop2
+set /a _SPLT_Index=-1 & GoTo :Split-substring-end
 :Split-substring-end
-if %_SPLT_end% EQU -1 ( set /a _SPLT_count=%_SPLT_Input_len%-%_SPLT_Index% & set /a _SPLT_end=%_SPLT_Input_len% ) else ( set /a _SPLT_count=%_SPLT_end%-%_SPLT_Index% )
+if %_SPLT_Index% EQU -1 ( set /a _SPLT_Index=%_SPLT_Input_len%-%_SPLT_Index% & set /a _SPLT_Index=%_SPLT_Input_len% ) else ( set /a _SPLT_Index=%_SPLT_Index%-%_SPLT_Index% )
 set /a _SPLT_Output_ubound+=1
-set "%_SPLT_Output%[%_SPLT_Output_ubound%]=!%_SPLT_Input_Pointer%:~%_SPLT_Index%,%_SPLT_count%!"
+set "%_SPLT_Output%[%_SPLT_Output_ubound%]=!%_SPLT_Input_Pointer%:~%_SPLT_StartIndex%,%_SPLT_Index%!"
 REM if %_SPLT_Delimiter_index% LEQ %_SPLT_Delimiter_ubound% GoTo :Split-delimiter-loop
-set /a _SPLT_Index=%_SPLT_end%+%_SPLT_Delimiter_len%
-if %_SPLT_end% NEQ %_SPLT_Input_len% GoTo :Split-loop
+set /a _SPLT_Index=%_SPLT_Index%+%_SPLT_Delimiter_len%
+if %_SPLT_Index% NEQ %_SPLT_Input_len% GoTo :Split-loop
+
+-------------------------------------------------------------------
+
 set /a %_SPLT_Output%.ubound=%_SPLT_Output_ubound%
 for /F "delims=" %%a in ('set %_SPLT_Output%') do (
 	endlocal
