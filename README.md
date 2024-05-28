@@ -290,6 +290,7 @@ BFW is released under the GPL-3.0 license. See the LICENSE file for more details
     https://stackoverflow.com/questions/36176267/calling-function-from-included-batch-file-with-a-parameter#comment59988363_36176267
     https://ss64.com/nt/call.html
     https://www.dostips.com/forum/viewtopic.php?f=3&t=5311
+    https://superuser.com/questions/1569594/how-does-delayed-expansion-work-in-a-batch-script
     
 ### Contact
 
