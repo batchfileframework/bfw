@@ -115,7 +115,7 @@ REM test explain string
 REM _GetSubstringIndex_index
 REM _GetSubstringIndex_stop
 
-parameters of CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED
+REM parameters of CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED
 
 if %_GetSubstringIndex_index% EQU 0 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
 if %_GetSubstringIndex_index% EQU 0 set _GetSubstringIndex_testvar=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
@@ -907,7 +907,8 @@ set "_SPLT_Search=!%_SPLT_Delimiter_Pointer%!"
 set /a _SPLT_remaining_input_len=%_SPLT_Input_len%-%_SPLT_Index%
 if %_SPLT_remaining_input_len% LSS 64 ( set /a _SPLT_Search_Window_len=%_SPLT_remaining_input_len% ) else ( set /a _SPLT_Search_Window_len=64 )
 :Split-substring-pre-loop
-set _SPLT_CurrentWindow=!%_SPLT_Input_Pointer%:~%_SPLT_Index%,%_SPLT_Search_Window_len%!
+set /a _SPLT_Actual_Search_Window_len=%_SPLT_Search_Window_len%+%_SPLT_Delimiter_len%-1
+set _SPLT_CurrentWindow=!%_SPLT_Input_Pointer%:~%_SPLT_Index%,%_SPLT_Actual_Search_Window_len%!
 set "_SPLT_CurrentWindowResult=!_SPLT_CurrentWindow:%_SPLT_Search%=!"
 if %_SPLT_CaseSensitivity% !_SPLT_CurrentWindow! EQU !_SPLT_CurrentWindowResult! ( if %_SPLT_Search_Window_len% GEQ %_SPLT_remaining_input_len% ( set /a _SPLT_Index=%_SPLT_Input_len% & GoTo :Split-substring-end ) else ( set /a _SPLT_Index=%_SPLT_Index%+%_SPLT_Search_Window_len%-1 & set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%*2 & GoTo :Split-substring-pre-loop ) )
 set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%/2
@@ -962,33 +963,39 @@ REM thanks to https://stackoverflow.com/questions/49041934/how-to-return-an-arra
 
 
 
+::Usage Call :GetSubstringIndex [CASESENSITIVE] InputString optional StartIndex optional [OUTPUT OutputIndexVar] Delimiter1 Delimiter2 ... DelimiterN ??... InputStringN SearchStringN StartIndexN Optional OutputIndexVar
 ::Usage Call :GetSubstringIndex InputString SearchString optional StartIndex OutputIndexVar ... InputStringN SearchStringN StartIndexN Optional OutputIndexVar
 :GetSubstringIndex
 set "_GetSubstringIndex_prefix=_GSSI"
 set "_GSSI_CaseSensitivity=/i"
-if "[%~1]" EQU "[CASESENSITIVE]" ( set "_GSSI_CaseSensitivity=" & shift )
-set "_GSSI_Input=%~1"
-set "_GSSI_Delimiter=%~2"
+:GetSubstringIndex-args
+if "[%~1]" EQU "[CASESENSITIVE]" ( set "_GSSI_CaseSensitivity=" & shift & GoTo :GetSubstringIndex-args )
+if "[%~1]" EQU "[OUTPUT]" ( set "_GSSI_Output=%~2" & shift & shift & GoTo :GetSubstringIndex-args )
+if not defined _GSSI_Input ( set "_GSSI_Input=%~1" & shift & GoTo :GetSubstringIndex-args )
+echo.%~1| findstr /r "[^0123456789]" >nul && ( set /a _GSSI_StartIndex=%~1 & shift )
+set /a _GSSI_Delimiter.ubound=-1
+:GetSubstringIndex-delimiters-args
+if "[%~1]" NEQ "[]" set /a _GSSI_Delimiter.ubound+=1
+if "[%~1]" NEQ "[]" ( set "_GSSI_Delimiter[%_GSSI_Delimiter.ubound%]=%~1" & GoTo :GetSubstringIndex-delimiters-args )
 if "[%~3]" NEQ "[]" ( echo.%~3| findstr /r "[^0123456789]" >nul && ( set /a _GSSI_StartIndex=%~3 ) || ( set "_GSSI_Output=%~3" ) )
 if "[%~4]" NEQ "[]" ( echo.%~4| findstr /r "[^0123456789]" >nul && ( set /a _GSSI_StartIndex=%~4 ) || ( set "_GSSI_Output=%~4" ) ) 
 if not defined _GSSI_StartIndex set /a _GSSI_StartIndex=0
 setlocal enabledelayedexpansion
 set "_GSSI_Input_Pointer=_GSSI_Input" & if defined !_GSSI_Input! ( set "_GSSI_Input_Pointer=!_GSSI_Input!" )
-set "_GSSI_Delimiter_Pointer=_GSSI_Delimiter" & if defined !_GSSI_Delimiter! ( set "_GSSI_Delimiter_Pointer=!_GSSI_Delimiter!" )
 Call :len "%_GSSI_Input_Pointer%" _GSSI_Input_len
-Call :len "%_GSSI_Delimiter_Pointer%" _GSSI_Delimiter_len
 set /a _GSSI_StartIndex=0
 set /a _GSSI_Index=0
-set "_GSSI_Search=!%_GSSI_Delimiter_Pointer%!"
 :GetSubstringIndex-loop
+set "_GSSI_Delimiter_Pointer=_GSSI_Delimiter" & if defined !_GSSI_Delimiter! ( set "_GSSI_Delimiter_Pointer=!_GSSI_Delimiter!" )
+Call :len "%_GSSI_Delimiter_Pointer%" _GSSI_Delimiter_len
+set "_GSSI_Search=!%_GSSI_Delimiter_Pointer%!"
 set /a _GSSI_remaining_input_len=%_GSSI_Input_len%-%_GSSI_Index%
 if %_GSSI_remaining_input_len% LSS 64 ( set /a _GSSI_Search_Window_len=%_GSSI_remaining_input_len% ) else ( set /a _GSSI_Search_Window_len=64 )
 :GetSubstringIndex-substring-pre-loop
-set _GSSI_CurrentWindow=!%_GSSI_Input_Pointer%:~%_GSSI_Index%,%_GSSI_Search_Window_len%!
+set /a _GSSI_Actual_Search_Window_len=%_GSSI_Search_Window_len%+%_GSSI_Delimiter_len%-1
+set _GSSI_CurrentWindow=!%_GSSI_Input_Pointer%:~%_GSSI_Index%,%_GSSI_Actual_Search_Window_len%!
 set "_GSSI_CurrentWindowResult=!_GSSI_CurrentWindow:%_GSSI_Search%=!"
-if %_GSSI_CaseSensitivity% !_GSSI_CurrentWindow! EQU !_GSSI_CurrentWindowResult! ( if %_GSSI_Search_Window_len% GEQ %_GSSI_remaining_input_len% ( set _GSSI ) )
-REM PROBLEM IS ADD _GSSI_Delimiter_len TO _GSSI_Search_Window_len
-if %_GSSI_CaseSensitivity% !_GSSI_CurrentWindow! EQU !_GSSI_CurrentWindowResult! ( if %_GSSI_Search_Window_len% GEQ %_GSSI_remaining_input_len% ( set /a _GSSI_Index=%_GSSI_Input_len% & GoTo :GetSubstringIndex-substring-end ) else ( set /a _GSSI_Index=%_GSSI_Index%+%_GSSI_Search_Window_len%-1 & set /a _GSSI_Search_Window_len=%_GSSI_Search_Window_len%*2 & GoTo :GetSubstringIndex-substring-pre-loop ) )
+if %_GSSI_CaseSensitivity% "!_GSSI_CurrentWindow!" EQU "!_GSSI_CurrentWindowResult!" ( if %_GSSI_Search_Window_len% GEQ %_GSSI_remaining_input_len% ( set /a _GSSI_Index=%_GSSI_Input_len% & GoTo :GetSubstringIndex-substring-end ) else ( set /a _GSSI_Index=%_GSSI_Index%+%_GSSI_Search_Window_len%-1 & set /a _GSSI_Search_Window_len=%_GSSI_Search_Window_len%*2 & GoTo :GetSubstringIndex-substring-pre-loop ) )
 set /a _GSSI_Search_Window_len=%_GSSI_Search_Window_len%/2
 :GetSubstringIndex-substring-loop
 set /a _GSSI_Actual_Search_Window_len=%_GSSI_Search_Window_len%+%_GSSI_Delimiter_len%-1
@@ -1066,8 +1073,9 @@ REM Call :ClearVariablesByPrefix %_GetSubstringIndex_prefix% _GetSubstringIndex_
 ::You can your CLEAR in front of the switches to clear them
 :CreateRandomStringPS
 set "_CreateRandomStringPS_prefix=_CRS"
-set "_CRS_SetList=NONUMBERS NOUPPERCASE NOLOWERCASE SPACE PUNCTUATION NOPOISON EXTENDED CONTROL NOPOISON POISON"
+set "_CRS_SetList=NONUMBERS NOUPPERCASE NOLOWERCASE SPACE PUNCTUATION NOPOISON EXTENDED CONTROL NOPOISON POISON OVERRIDE"
 if "[%~1]" EQU "[RESET]" ( for %%a in (%_CRS_SetList%) do ( set "_CRS_%%a=" ) & shift & GoTo :CreateRandomStringPS )
+if "[%~1]" EQU "[OVERRIDE]" ( set "_CRS_%%a=%~2" & shift & shift & GoTo :CreateRandomStringPS )
 for %%a in (%_CRS_SetList%) do if "[%%a]" EQU "[%~1]" ( set "_CRS_%%a=true" & shift & GoTo :CreateRandomStringPS ) else ( if "[CLEAR%%a]" EQU "[CLEAR%~1]" ( set "_CRS_%%a=" & shift & GoTo :CreateRandomStringPS ) )
 set /a _CRS_Len=%~1
 set "_CRS_Output=%~2"
@@ -1080,6 +1088,7 @@ if defined _CRS_PUNCTUATION if not defined _CRS_NOPOISON ( set "_CRS_CurrentSet=
 if defined _CRS_POISON if not defined _CRS_PUNCTUATION  set "_CRS_CurrentSet=%_CRS_CurrentSet% + 33 + 34 + 37 + 38 + 40 + 41 + 60 + 62 + 94 + 124"
 if defined _CRS_EXTENDED set "_CRS_CurrentSet=%_CRS_CurrentSet% + 128..255"
 if defined _CRS_CONTROL set "_CRS_CurrentSet=%_CRS_CurrentSet% + 0..31 + 127"
+if defined _CRS_OVERRIDE set "_CRS_CurrentSet=%_CRS_OVERRIDE%"
 for /f "tokens=1* delims=" %%a in ('powershell -command "-join (1..%_CRS_Len% | ForEach-Object { %_CRS_CurrentSet:~3% | Get-Random } | ForEach-Object { [char]$_ })" 2^>nul') do set %_CRS_Output%=%%a
 if "[%~3]" NEQ "[]" if "[%~4]" NEQ "[]" ( shift & shift & GoTo :CreateRandomStringPS )
 Call :ClearVariablesByPrefix %_CreateRandomStringPS_prefix% _CreateRandomStringPS_prefix & GoTo :EOF
