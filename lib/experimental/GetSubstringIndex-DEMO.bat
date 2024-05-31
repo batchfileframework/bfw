@@ -691,6 +691,8 @@ REM call %:myfunction% - macro call
 REM call echo - command call
 REM call findstr - program call
 REM call bfw function - BFW call
+REM call "%bfw.root%\lib\XXX\YYY.bat" = bfw lib call
+
 
 REM split line on "call ", there must always be a space or tab between call and function name (do we really check for tabs ?)
 
@@ -839,7 +841,7 @@ set "_GAS_Output=%~1" & shift
 setlocal enabledelayedexpansion
 :GetArgumentString-args
 set "_GAS_buffer=%~2"
-if "[%~1]" EQU "[SHIFT]" ( echo.%~2| findstr /r "[^0123456789]" >nul && ( set /a "_GAS_Shift=%~2" & shift & shift & GoTo :GetArgumentString-args ) || ( set /a "_GAS_Shift=0" & shift & GoTo :GetArgumentString-args ) )
+if "[%~1]" EQU "[SHIFT]" ( echo.%~2| findstr /r "[^0123456789]" >nul && ( set /a "_GAS_Shift=0" & shift & GoTo :GetArgumentString-args ) ) || ( set /a "_GAS_Shift=%~2" & shift & shift & GoTo :GetArgumentString-args )
 if "[%~1]" EQU "[DOUBLEQUOTE]" ( if "[%_GAS_buffer:~1,1%]" EQU "[]" ( Set "_GAS_QUOTE="" ) else ( Set "_GAS_QUOTE=%_GAS_buffer:~0,1%" ) & shift & GoTo :GetArgumentString-args )
 if "[%~1]" EQU "[DEDUPLICATECARRETS]" ( set "_GAS_DEDUPLICATE_CARRETS=true" & shift & GoTo :GetArgumentString-args )
 if "[%~1]" EQU "[TOARRAY]" ( set "_GAS_ToArray=true" & shift & GoTo :GetArgumentString-args )
@@ -882,7 +884,7 @@ set "_SPLT_Input=%~1"
 set "_SPLT_Delimiter=%~2"
 set "_SPLT_Output=%~3"
 shift & shift & shift
-echo.%~1| findstr /r "[^0123456789]" >nul && ( set /a _SPLT_Limit=%~1 & shift )
+echo.%~1| findstr /r "[^0123456789]" >nul || ( set /a _SPLT_Limit=%~1 & shift )
 setlocal enabledelayedexpansion
 set "_SPLT_localscope=true"
 set "_SPLT_Input_Pointer=_SPLT_Input" 
@@ -971,12 +973,14 @@ set "_GetSubstringIndex_prefix=_GSSI"
 setlocal enabledelayedexpansion
 set "_GSSI_CaseSensitivity=/i"
 :GetSubstringIndex-args
+REM echo :GetSubstringIndex-args
 if "[%~1]" EQU "[CASESENSITIVE]" ( set "_GSSI_CaseSensitivity=" & shift & GoTo :GetSubstringIndex-args )
 if "[%~1]" EQU "[OUTPUT]" ( set "_GSSI_Output=%~2" & shift & shift & GoTo :GetSubstringIndex-args )
 if not defined _GSSI_Input ( set "_GSSI_Input=%~1" & shift & GoTo :GetSubstringIndex-args )
-echo.%~1| findstr /r "[^0123456789]" >nul && ( set /a _GSSI_StartIndex=%~1 & shift )
+echo.%~1| findstr /r "[^0123456789]" >nul || ( echo isnum "%~1" & set /a _GSSI_StartIndex=%~1 & shift )
 set /a _GSSI_Delimiter.ubound=-1
 :GetSubstringIndex-delimiters-args
+REM echo :GetSubstringIndex-delimiters-args
 set "_GSSI_Buffer=%~1"
 REM if defined _GSSI_Buffer if "[%_GSSI_Buffer:~1,3%]" EQU "[DIM]" if "[%_GSSI_Buffer%]" EQU "[]" ( set /a _GSSI_Delimiter_Dimension=%_GSSI_Buffer:~0,1% )
 REM if defined _GSSI_Buffer if "[%_GSSI_Buffer:~4,1%]" EQU "[]" ( set /a _GSSI_Delimiter_Dimension=%_GSSI_Buffer:~0,1% 2>nul )
@@ -984,11 +988,14 @@ if defined %~1.ubound ( set "_GSSI_Delimiter_is_array=true" )
 set /a _GSSI_Delimiter.index=0
 if defined %~1.ubound ( set /a _GSSI_Delimiter_input_array_ubound=!%~1.ubound! 2>nul ) else ( set /a _GSSI_Delimiter_input_array_ubound=-1 )
 :GetSubstringIndex-delimiters-loop-args
+REM echo :GetSubstringIndex-delimiters-loop-args and %%~1 is %~1
+REM if "[%~1]" NEQ "[]" echo %%~1 is not empty
 if "[%~1]" NEQ "[]" set /a _GSSI_Delimiter.ubound+=1
-if "[%~1]" NEQ "[]" if defined _GSSI_Delimiter_is_array set "_GSSI_Delimiter[%_GSSI_Delimiter.ubound%]=%~1"
-if "[%~1]" NEQ "[]" if defined _GSSI_Delimiter_is_array echo _GSSI_Delimiter_is_array is defined 
-if "[%~1]" NEQ "[]" if not defined _GSSI_Delimiter_is_array set "_GSSI_Delimiter[%_GSSI_Delimiter.ubound%]=!%~1[%_GSSI_Delimiter.index%]!"
-if "[%~1]" NEQ "[]" if not defined _GSSI_Delimiter_is_array echo _GSSI_Delimiter_is_array is not defined
+if "[%~1]" NEQ "[]" if defined _GSSI_Delimiter_is_array set "_GSSI_Delimiter[%_GSSI_Delimiter.ubound%]=!%~1[%_GSSI_Delimiter.index%]!"
+REM if "[%~1]" NEQ "[]" if defined _GSSI_Delimiter_is_array echo _GSSI_Delimiter_is_array is defined 
+REM if "[%~1]" NEQ "[]" if not defined _GSSI_Delimiter_is_array echo set "_GSSI_Delimiter[%_GSSI_Delimiter.ubound%]=%~1"
+if "[%~1]" NEQ "[]" if not defined _GSSI_Delimiter_is_array set "_GSSI_Delimiter[%_GSSI_Delimiter.ubound%]=%~1"
+REM if "[%~1]" NEQ "[]" if not defined _GSSI_Delimiter_is_array echo _GSSI_Delimiter_is_array is not defined
 if defined _GSSI_Delimiter_is_array set /a _GSSI_Delimiter.index+=1
 if defined _GSSI_Delimiter_is_array if %_GSSI_Delimiter.index% LEQ %_GSSI_Delimiter_input_array_ubound% ( GoTo :GetSubstringIndex-delimiters-loop-args )
 set "_GSSI_Delimiter.index=" & set "_GSSI_Delimiter_is_array=" & if "[%~2]" NEQ "[]" ( shift & GoTo :GetSubstringIndex-delimiters-args )
@@ -996,10 +1003,9 @@ set /a _GSSI_Delimiter.index=0
 set "_GSSI_Input_Pointer=_GSSI_Input" & if defined !_GSSI_Input! ( set "_GSSI_Input_Pointer=!_GSSI_Input!" )
 Call :len "%_GSSI_Input_Pointer%" _GSSI_Input_len
 if not defined _GSSI_StartIndex set /a _GSSI_StartIndex=0
-set _GSSI_
 :GetSubstringIndex-loop
 set /a _GSSI_Index=%_GSSI_StartIndex%
-set "_GSSI_Delimiter_Pointer=!_GSSI_Delimiter[%_GSSI_Delimiter.ubound%]!" 
+set "_GSSI_Delimiter_Pointer=_GSSI_Delimiter[%_GSSI_Delimiter.ubound%]" 
 if defined !%_GSSI_Delimiter_Pointer%! ( set "_GSSI_Delimiter_Pointer=!%_GSSI_Delimiter_Pointer%!" )
 Call :len "%_GSSI_Delimiter_Pointer%" _GSSI_Delimiter_len
 set "_GSSI_Search=!%_GSSI_Delimiter_Pointer%!"
@@ -1009,6 +1015,7 @@ if %_GSSI_remaining_input_len% LSS 64 ( set /a _GSSI_Search_Window_len=%_GSSI_re
 set /a _GSSI_Actual_Search_Window_len=%_GSSI_Search_Window_len%+%_GSSI_Delimiter_len%-1
 set _GSSI_CurrentWindow=!%_GSSI_Input_Pointer%:~%_GSSI_Index%,%_GSSI_Actual_Search_Window_len%!
 set "_GSSI_CurrentWindowResult=!_GSSI_CurrentWindow:%_GSSI_Search%=!"
+REM set _GSSI_
 if %_GSSI_CaseSensitivity% "!_GSSI_CurrentWindow!" EQU "!_GSSI_CurrentWindowResult!" ( if %_GSSI_Search_Window_len% GEQ %_GSSI_remaining_input_len% ( set /a _GSSI_Index=%_GSSI_Input_len% & GoTo :GetSubstringIndex-substring-end ) else ( set /a _GSSI_Index=%_GSSI_Index%+%_GSSI_Search_Window_len%-1 & set /a _GSSI_Search_Window_len=%_GSSI_Search_Window_len%*2 & GoTo :GetSubstringIndex-substring-pre-loop ) )
 set /a _GSSI_Search_Window_len=%_GSSI_Search_Window_len%/2
 :GetSubstringIndex-substring-loop
