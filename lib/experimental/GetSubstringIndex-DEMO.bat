@@ -206,26 +206,37 @@ REM _GetSubstringIndex_index
 REM _GetSubstringIndex_stop
 
 
+call :GetSubstringIndex-create-test-array OutputArray "OVERRIDE 70" 100 Delimiter "OVERRIDE 71" 10 100 "All F base array, all G delimiter"
+call :GetSubstringIndex-create-test-array OutputArray "OVERRIDE 70" 100 Delimiter "" 10 100 "All F base array, alphanumeric delimiter"
+call :GetSubstringIndex-create-test-array OutputArray "OVERRIDE 70" 100 Delimiter "PUNCTUATION NOPOISON SPACE" 10 100 "All F base array, with punctuation and space"
+call :GetSubstringIndex-create-test-array OutputArray "OVERRIDE 70" 100 Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10 100 "All F base array, with punctuation and space and extended"
+call :GetSubstringIndex-create-test-array OutputArray "OVERRIDE 70" 100 Delimiter "PUNCTUATION SPACE EXTENDED" 10 100 "All F base array, with punctuation and space and extended and poison"
 
-call :GetSubstringIndex-create-test-array OutputArray "" 50 Delimiter "" 5 50 "explain test1"
+call :GetSubstringIndex-create-test-array OutputArray "" 100 Delimiter "OVERRIDE 71" 10 100 "Alphanumeric  base array, all G delimiter"
+call :GetSubstringIndex-create-test-array OutputArray "" 100 Delimiter "" 10 100 "Alphanumeric  base array, alphanumeric delimiter"
+call :GetSubstringIndex-create-test-array OutputArray "" 100 Delimiter "PUNCTUATION NOPOISON SPACE" 10 100 "Alphanumeric  base array, with punctuation and space"
+call :GetSubstringIndex-create-test-array OutputArray "" 100 Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10 100 "Alphanumeric  base array, with punctuation and space and extended"
+call :GetSubstringIndex-create-test-array OutputArray "" 100 Delimiter "PUNCTUATION SPACE EXTENDED" 10 100 "Alphanumeric  base array, with punctuation and space and extended and poison"
 
-call :GetSubstringIndex-create-test-array OutputArray "OVERRIDE 70" 50 Delimiter "" 5 50 "explain test1"
+call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION NOPOISON SPACE" 100 Delimiter "OVERRIDE 71" 10 100 "Alphanumeric with punctuation and space base array, all G delimiter"
+call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION NOPOISON SPACE" 100 Delimiter "" 10 100 "Alphanumeric with punctuation and space base array, alphanumeric delimiter"
+call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION NOPOISON SPACE" 100 Delimiter "PUNCTUATION NOPOISON SPACE" 10 100 "Alphanumeric with punctuation and space base array, with punctuation and space"
+call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION NOPOISON SPACE" 100 Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10 100 "Alphanumeric with punctuation and space base array, with punctuation and space and extended"
+call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION NOPOISON SPACE" 100 Delimiter "PUNCTUATION SPACE EXTENDED" 10 100 "Alphanumeric with punctuation and space base array, with punctuation and space and extended and poison"
+
+call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION NOPOISON SPACE EXTENDED" 100 Delimiter "OVERRIDE 71" 10 100 "Alphanumeric with punctuation and space and extended base array, all G delimiter"
+call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION NOPOISON SPACE EXTENDED" 100 Delimiter "" 10 100 "Alphanumeric with punctuation and space and extended base array, alphanumeric delimiter"
+call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION NOPOISON SPACE EXTENDED" 100 Delimiter "PUNCTUATION NOPOISON SPACE" 10 100 "Alphanumeric with punctuation and space and extended base array, with punctuation and space"
+call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION NOPOISON SPACE EXTENDED" 100 Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10 100 "Alphanumeric with punctuation and space and extended base array, with punctuation and space and extended"
+call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION NOPOISON SPACE EXTENDED" 100 Delimiter "PUNCTUATION SPACE EXTENDED" 10 100 "Alphanumeric with punctuation and space and extended base array, with punctuation and space and extended and poison"
+
+call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION SPACE EXTENDED" 100 Delimiter "OVERRIDE 71" 10 100 "Alphanumeric with punctuation and space and extended and poison base array, all G delimiter"
+call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION SPACE EXTENDED" 100 Delimiter "" 10 100 "Alphanumeric with punctuation and space and extended and poison base array, alphanumeric delimiter"
+call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION SPACE EXTENDED" 100 Delimiter "PUNCTUATION NOPOISON SPACE" 10 100 "Alphanumeric with punctuation and space and extended and poison base array, with punctuation and space"
+call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION SPACE EXTENDED" 100 Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10 100 "Alphanumeric with punctuation and space and extended and poison base array, with punctuation and space and extended"
+call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION SPACE EXTENDED" 100 Delimiter "PUNCTUATION SPACE EXTENDED" 10 100 "Alphanumeric with punctuation and space and extended and poison base array, with punctuation and space and extended and poison"
 
 GoTo :EOF
-
-call :GetSubstringIndex-create-test-array OutputArray "" 11 Delimiter "" 22 33 "explain test1"
-call :GetSubstringIndex-create-test-array OutputArray byref "" 11 Delimiter byref "" 22 33 "explain test2"
-call :GetSubstringIndex-create-test-array OutputArray "" 11-77 Delimiter "" 22-88 33-99 "explain test3"
-call :GetSubstringIndex-create-test-array OutputArray "" 11-77 Delimiter "" 22-88 Delimiter INVERTPOSITION "" 44-111 33-99 "explain test3"
-call :GetSubstringIndex-create-test-array OutputArray "" 11-77 Delimiter "" 22-88 Delimiter INVERTPOSITION "" 44-111 Delimiter INVERTPOSITION INDEXOFFSET 25 "" 44-111 33-99 "explain test3"
-
-test TestInput byref "PUNCTUATION NOPOISON SPACE" 100-125(input length) Delimiter byref "PUNCTUATION NOPOISON SPACE" 10-35 "explain test"
-test TestInput byref "PUNCTUATION NOPOISON SPACE" 100-125(input length) Delimiter byref "PUNCTUATION NOPOISON SPACE" 10-35 "explain test"
-test TestInput byref "PUNCTUATION NOPOISON SPACE" 100-125(input length) Delimiter byref "PUNCTUATION NOPOISON SPACE" 10-35 "explain test"
-test TestInput byref "PUNCTUATION NOPOISON SPACE" 100-125(input length) Delimiter byref "PUNCTUATION NOPOISON SPACE" 10-35 "explain test"
-test TestInput byref "PUNCTUATION NOPOISON SPACE" 100-125(input length) Delimiter byref "PUNCTUATION NOPOISON SPACE" 10-35 "explain test"
-test TestInput byref "PUNCTUATION NOPOISON SPACE" 100-125(input length) Delimiter byref "PUNCTUATION NOPOISON SPACE" 10-35 "explain test"
-test TestInput byref "PUNCTUATION NOPOISON SPACE" 100-125(input length) Delimiter byref "PUNCTUATION NOPOISON SPACE" 10-35 Delimiter "explain test"
 
 ::Usage Call :GetSubstringIndex-test-helper [byref] RandomStringSetting LengthRange Delimiter [byref] [INVERTPOSITION] RandomStringSettings LengthRange 
 :GetSubstringIndex-create-test-array
@@ -250,7 +261,7 @@ if /i "[%~1]" EQU "[INDEXOFFSET]" ( set /a "_GSITH_Delimiters[%_GSITH_Delimiters
 set "_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].StringSettings=%~1" & shift 
 for /f "tokens=1,2 delims=-" %%a in ('echo.%~1') do ( set /a _GSITH_Delimiters[%_GSITH_Delimiters_ubound%].MinLength=%%a & set /a _GSITH_Delimiters[%_GSITH_Delimiters_ubound%].MaxLength=%%b 2>nul )
 if not defined _GSITH_Delimiters[%_GSITH_Delimiters_ubound%].MaxLength ( set /a _GSITH_Delimiters[%_GSITH_Delimiters_ubound%].ActualLength=!_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].MinLength! ) else ( call :rnd _GSITH_Delimiters[%_GSITH_Delimiters_ubound%].ActualLength !_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].MinLength! !_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].MaxLength! )
-Call :CreateRandomStringPS !_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].StringSettings! !_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].ActualLength! !_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].StringSettings! _GSITH_Delimiters[%_GSITH_Delimiters_ubound%]
+Call :CreateRandomStringPS !_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].StringSettings! !_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].ActualLength! _GSITH_Delimiters[%_GSITH_Delimiters_ubound%]
 Call :len _GSITH_Delimiters[%_GSITH_Delimiters_ubound%] _GSITH_Delimiters[%_GSITH_Delimiters_ubound%].len
 shift
 :GetSubstringIndex-create-test-array-args-delimiter-skip
@@ -268,6 +279,7 @@ if %_GSITH_delimiter_index% LSS %_GSITH_Delimiters_ubound% GoTo :GetSubstringInd
 set /a _GSITH_index+=1
 if %_GSITH_index% LSS %_GSITH_ActualCount% GoTo :GetSubstringIndex-create-test-array-delimiter-count-loop
 set /a %_GSITH_OutputArray%.ubound=%_GSITH_ActualCount%
+echo %_GSITH_comment%
 Call :EchoArray %_GSITH_OutputArray%
 for /F "delims=" %%a in ('set %_GSITH_OutputArray%') do (
 	endlocal
