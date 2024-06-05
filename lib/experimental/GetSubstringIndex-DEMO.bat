@@ -238,6 +238,7 @@ call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION SPACE EXTENDE
 call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION SPACE EXTENDED" 100 Delimiter "PUNCTUATION SPACE EXTENDED" 10 100 "Alphanumeric with punctuation and space and extended and poison base array, with punctuation and space and extended and poison"
 
 :GetSubstringIndex-1-skip
+GoTo :GetSubstringIndex-2-skip
 
 call :GetSubstringIndex-create-test-array OutputArray "OVERRIDE 70" 100 Delimiter "OVERRIDE 71" 10 Delimiter INVERTPOSITION "OVERRIDE 80" 10 100 "All F base array, all G delimiter"
 call :GetSubstringIndex-create-test-array OutputArray "OVERRIDE 70" 100 Delimiter "" 10 Delimiter INVERTPOSITION "OVERRIDE 80" 10 100 "All F base array, alphanumeric delimiter"
@@ -269,12 +270,14 @@ call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION SPACE EXTENDE
 call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION SPACE EXTENDED" 100 Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10 Delimiter INVERTPOSITION "OVERRIDE 80" 10 100 "Alphanumeric with punctuation and space and extended and poison base array, with punctuation and space and extended"
 call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION SPACE EXTENDED" 100 Delimiter "PUNCTUATION SPACE EXTENDED" 10 Delimiter INVERTPOSITION "OVERRIDE 80" 10 100 "Alphanumeric with punctuation and space and extended and poison base array, with punctuation and space and extended and poison"
 
+:GetSubstringIndex-2-skip
 
+call :GetSubstringIndex-create-test-array OutputArray "OVERRIDE 70" 100 Delimiter "OVERRIDE 71" 10 Delimiter INVERTPOSITION "OVERRIDE 80" 10 Delimiter INVERTPOSITION INDEXOFFSET -15 "OVERRIDE 81" 10 Delimiter INVERTPOSITION INDEXOFFSET -30 "OVERRIDE 82" 10 100 "All F base array, all G delimiter"
+call :GetSubstringIndex-create-test-array OutputArray "OVERRIDE 70" 100 Delimiter REPEAT 3 "OVERRIDE 71" 10 100 "All F base array, all G delimiter"
 GoTo :EOF
 
 ::Usage Call :GetSubstringIndex-test-helper [byref] RandomStringSetting LengthRange Delimiter [byref] [INVERTPOSITION] RandomStringSettings LengthRange 
 :GetSubstringIndex-create-test-array
-REM echo :GetSubstringIndex-create-test-array %*
 set "_GetSubstringIndex_test_helper_prefix=_GSITH"
 setlocal enabledelayedexpansion
 set "_GSITH_OutputArray=%~1" & shift
@@ -286,12 +289,12 @@ Call :CreateRandomStringPS %_GSITH_InputRandomSettings% %_GSITH_InputActualLengt
 shift & shift
 set /a _GSITH_Delimiters_ubound=-1
 :GetSubstringIndex-create-test-array-args
-REM echo :GetSubstringIndex-create-test-array-args 1%~1 2%~2 3%~3 4%~4 5%~5
 if /i "[%~1]" NEQ "[DELIMITER]" GoTo :GetSubstringIndex-create-test-array-args-delimiter-skip
 shift & set /a _GSITH_Delimiters_ubound+=1
 if /i "[%~1]" EQU "[byref]" ( set "_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].byref=true" & shift )
 if /i "[%~1]" EQU "[INVERTPOSITION]" ( set "_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].InvertPosition=true" & shift  )
 if /i "[%~1]" EQU "[INDEXOFFSET]" ( set /a "_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].IndexOffset=%~2" & shift & shift ) else ( set /a _GSITH_Delimiters[%_GSITH_Delimiters_ubound%].IndexOffset=0 )
+if /i "[%~1]" EQU "[REPEAT]" ( set "_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].Repeat=%~2" & shift & shift ) else ( set /a _GSITH_Delimiters[%_GSITH_Delimiters_ubound%].Repeat=0 )
 set "_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].StringSettings=%~1" & shift 
 for /f "tokens=1,2 delims=-" %%a in ('echo.%~1') do ( set /a _GSITH_Delimiters[%_GSITH_Delimiters_ubound%].MinLength=%%a & set /a _GSITH_Delimiters[%_GSITH_Delimiters_ubound%].MaxLength=%%b 2>nul )
 if not defined _GSITH_Delimiters[%_GSITH_Delimiters_ubound%].MaxLength ( set /a _GSITH_Delimiters[%_GSITH_Delimiters_ubound%].ActualLength=!_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].MinLength! ) else ( call :rnd _GSITH_Delimiters[%_GSITH_Delimiters_ubound%].ActualLength !_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].MinLength! !_GSITH_Delimiters[%_GSITH_Delimiters_ubound%].MaxLength! )
@@ -308,13 +311,9 @@ set /a _GSITH_index=0
 set /a _GSITH_delimiter_index=0
 set "_GSITH_CurrentInputPointer=_GSITH_InputString"
 :GetSubstringIndex-create-test-array-delimiter-count-loop
-REM if defined _GSITH_Delimiters[%_GSITH_delimiter_index%].InvertPosition  ( echo invertposition is true _GSITH_Delimiters[%_GSITH_delimiter_index%].InvertPosition )  else ( echo invertposition is false _GSITH_Delimiters[%_GSITH_delimiter_index%].InvertPosition )  
 if defined _GSITH_Delimiters[%_GSITH_delimiter_index%].InvertPosition ( set /a _GSITH_Delimiter_Position=%_GSITH_ActualCount%-%_GSITH_index%+!_GSITH_Delimiters[%_GSITH_delimiter_index%].IndexOffset!-1 ) else ( set /a _GSITH_Delimiter_Position=%_GSITH_index%+!_GSITH_Delimiters[%_GSITH_delimiter_index%].IndexOffset! )
-REM set _GSITH_Delimiters
-REM set _GSITH_Delimiter_Position
-REM set _GSITH_delimiter_index
-REM echo Call :ReplaceString _GSITH_InputString %_GSITH_OutputArray%[%_GSITH_index%] %_GSITH_Delimiter_Position% _GSITH_Delimiters[%_GSITH_delimiter_index%] LEN !_GSITH_Delimiters[%_GSITH_delimiter_index%].len!
-Call :ReplaceString %_GSITH_CurrentInputPointer% %_GSITH_OutputArray%[%_GSITH_index%] %_GSITH_Delimiter_Position% _GSITH_Delimiters[%_GSITH_delimiter_index%] LEN !_GSITH_Delimiters[%_GSITH_delimiter_index%].len!
+if %_GSITH_Delimiter_Position% LSS 0 set /a _GSITH_Delimiter_Position=0
+Call :ReplaceString %_GSITH_CurrentInputPointer% %_GSITH_OutputArray%[%_GSITH_index%] %_GSITH_Delimiter_Position% _GSITH_Delimiters[%_GSITH_delimiter_index%] REPEAT !_GSITH_Delimiters[%_GSITH_delimiter_index%].Repeat! DONTOVERSPLIT LEN !_GSITH_Delimiters[%_GSITH_delimiter_index%].len!
 set "_GSITH_CurrentInputPointer=%_GSITH_OutputArray%[%_GSITH_index%]" & set /a _GSITH_delimiter_index+=1
 if %_GSITH_delimiter_index% LEQ %_GSITH_Delimiters_ubound% GoTo :GetSubstringIndex-create-test-array-delimiter-count-loop
 set /a _GSITH_index+=1
@@ -723,6 +722,7 @@ shift & shift
 set /a _IS_InsertIndex=%~1
 set "_IS_InsertString=%~2"
 shift & shift
+REM for /f "tokens=1,2 delims=," %%a in ('echo.%~2') do ( set /a _GSITH_InputMinLength=%%a & set /a _GSITH_InputMaxLength=%%b 2>nul )
 set /a _IS_InsertCountIndex=0 & if "[%~1]" EQU "[REPEAT]" ( set /a _IS_InsertCount=%~2 & shift & shift ) else ( set /a _IS_InsertCount=-1 )
 if "[%~1]" EQU "[ALL]" ( set "_IS_AllTheString=true" & shift )
 if "[%~1]" EQU "[APPEND]" ( set "_IS_AppendMode=true" & shift )
