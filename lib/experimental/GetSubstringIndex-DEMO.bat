@@ -271,9 +271,15 @@ call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION SPACE EXTENDE
 call :GetSubstringIndex-create-test-array OutputArray "PUNCTUATION SPACE EXTENDED" 100 Delimiter "PUNCTUATION SPACE EXTENDED" 10 Delimiter INVERTPOSITION "OVERRIDE 80" 10 100 "Alphanumeric with punctuation and space and extended and poison base array, with punctuation and space and extended and poison"
 
 :GetSubstringIndex-2-skip
-
+GoTo :GetSubstringIndex-3-skip
 call :GetSubstringIndex-create-test-array OutputArray "OVERRIDE 70" 100 Delimiter "OVERRIDE 71" 10 Delimiter INVERTPOSITION "OVERRIDE 80" 10 Delimiter INVERTPOSITION INDEXOFFSET -15 "OVERRIDE 81" 10 Delimiter INVERTPOSITION INDEXOFFSET -30 "OVERRIDE 82" 10 100 "All F base array, all G delimiter"
+:GetSubstringIndex-3-skip
 call :GetSubstringIndex-create-test-array OutputArray "OVERRIDE 70" 100 Delimiter REPEAT 3 "OVERRIDE 71" 10 100 "All F base array, all G delimiter"
+GoTo :EOF
+call :GetSubstringIndex-create-test-array OutputArray "OVERRIDE 70" 100 Delimiter REPEAT 5 "OVERRIDE 71" 3 100 "All F base array, all G delimiter" Delimiter INVERTPOSITION "OVERRIDE 80" 3
+REM :GetSubstringIndex-3-skip
+call :GetSubstringIndex-create-test-array OutputArray "OVERRIDE 70" 100 Delimiter REPEAT 3,3 "OVERRIDE 71" 10 100 "All F base array, all G delimiter"
+REM call :GetSubstringIndex-create-test-array OutputArray "OVERRIDE 70" 100 Delimiter REPEAT 5,3 "OVERRIDE 71" 3 100 "All F base array, all G delimiter" Delimiter INVERTPOSITION "OVERRIDE 80" 3
 GoTo :EOF
 
 ::Usage Call :GetSubstringIndex-test-helper [byref] RandomStringSetting LengthRange Delimiter [byref] [INVERTPOSITION] RandomStringSettings LengthRange 
@@ -313,7 +319,7 @@ set "_GSITH_CurrentInputPointer=_GSITH_InputString"
 :GetSubstringIndex-create-test-array-delimiter-count-loop
 if defined _GSITH_Delimiters[%_GSITH_delimiter_index%].InvertPosition ( set /a _GSITH_Delimiter_Position=%_GSITH_ActualCount%-%_GSITH_index%+!_GSITH_Delimiters[%_GSITH_delimiter_index%].IndexOffset!-1 ) else ( set /a _GSITH_Delimiter_Position=%_GSITH_index%+!_GSITH_Delimiters[%_GSITH_delimiter_index%].IndexOffset! )
 if %_GSITH_Delimiter_Position% LSS 0 set /a _GSITH_Delimiter_Position=0
-Call :ReplaceString %_GSITH_CurrentInputPointer% %_GSITH_OutputArray%[%_GSITH_index%] %_GSITH_Delimiter_Position% _GSITH_Delimiters[%_GSITH_delimiter_index%] REPEAT !_GSITH_Delimiters[%_GSITH_delimiter_index%].Repeat! DONTOVERSPLIT LEN !_GSITH_Delimiters[%_GSITH_delimiter_index%].len!
+Call :ReplaceString %_GSITH_CurrentInputPointer% %_GSITH_OutputArray%[%_GSITH_index%] %_GSITH_Delimiter_Position% _GSITH_Delimiters[%_GSITH_delimiter_index%] REPEAT !_GSITH_Delimiters[%_GSITH_delimiter_index%].Repeat! LEN !_GSITH_Delimiters[%_GSITH_delimiter_index%].len!
 set "_GSITH_CurrentInputPointer=%_GSITH_OutputArray%[%_GSITH_index%]" & set /a _GSITH_delimiter_index+=1
 if %_GSITH_delimiter_index% LEQ %_GSITH_Delimiters_ubound% GoTo :GetSubstringIndex-create-test-array-delimiter-count-loop
 set /a _GSITH_index+=1
@@ -722,11 +728,12 @@ shift & shift
 set /a _IS_InsertIndex=%~1
 set "_IS_InsertString=%~2"
 shift & shift
-REM for /f "tokens=1,2 delims=," %%a in ('echo.%~2') do ( set /a _GSITH_InputMinLength=%%a & set /a _GSITH_InputMaxLength=%%b 2>nul )
-set /a _IS_InsertCountIndex=0 & if "[%~1]" EQU "[REPEAT]" ( set /a _IS_InsertCount=%~2 & shift & shift ) else ( set /a _IS_InsertCount=-1 )
+REM for /f "tokens=1,2 delims=," %%a in ('echo.%~2') do ( set /a _IS_InsertCount=%%a & set /a _IS_InsertSkip=%%b 2>nul )
+set /a _IS_InsertCountIndex=0 & if "[%~1]" EQU "[REPEAT]" ( for /f "tokens=1,2 delims=," %%a in ('echo.%~2') do ( set /a _IS_InsertCount=%%a & set /a _IS_InsertSkip=%%b 2>nul ) & shift & shift ) else ( set /a _IS_InsertCount=-1 )
+REM set _IS_InsertSkip
 if "[%~1]" EQU "[ALL]" ( set "_IS_AllTheString=true" & shift )
 if "[%~1]" EQU "[APPEND]" ( set "_IS_AppendMode=true" & shift )
-if "[%~1]" EQU "[DONTOVERSPLIT]" ( set "_IS_DontOversplit=true" & shift )
+if "[%~1]" EQU "[OVERSPLIT]" ( set "_IS_Oversplit=true" & shift )
 if "[%~1]" EQU "[LEN]" ( set /a _IS_InsertString_Pointer_len=%~2 & shift & shift )
 set "_IS_InputString_Pointer=_IS_InputString" & if defined !_IS_InputString! set "_IS_InputString_Pointer=!_IS_InputString!"
 set "_IS_InsertString_Pointer=_IS_InsertString" & if defined !_IS_InsertString! set "_IS_InsertString_Pointer=!_IS_InsertString!"
@@ -737,8 +744,10 @@ if not defined _IS_InsertString_Pointer_len ( set /a _IS_InsertString_Pointer_le
 if defined _IS_DeleteMode set /a _IS_InsertString_Pointer_len=%_IS_InsertString%
 set /a _IS_NextIndex=%_IS_StartIndex%+%_IS_InsertIndex%+%_IS_InsertString_Pointer_len%
 :InsertString-count-loop
-if defined _IS_DontOversplit if "[!%_IS_InputString_Pointer%:~%_IS_NextIndex%!]" EQU "[]" GoTo :InsertString-count-end
+if not defined _IS_Oversplit if "[!%_IS_InputString_Pointer%:~%_IS_NextIndex%!]" EQU "[]" GoTo :InsertString-count-end
+echo set "_IS_NewOutput=!_IS_NewOutput!!%_IS_InputString_Pointer%:~%_IS_StartIndex%,%_IS_InsertIndex%!!%_IS_InsertString_Pointer%!"
 set "_IS_NewOutput=!_IS_NewOutput!!%_IS_InputString_Pointer%:~%_IS_StartIndex%,%_IS_InsertIndex%!!%_IS_InsertString_Pointer%!"
+REM if defined _IS_InsertSkip set /a _IS_InsertIndex=%_IS_InsertSkip%
 set /a _IS_StartIndex=%_IS_StartIndex%+%_IS_InsertIndex%+%_IS_InsertString_Pointer_len%
 set /a _IS_NextIndex=%_IS_StartIndex%+%_IS_InsertIndex%+%_IS_InsertString_Pointer_len%
 if %_IS_InsertCountIndex% LSS %_IS_InsertCount% (  set /a _IS_InsertCountIndex+=1 & GoTo :InsertString-count-loop )
@@ -746,8 +755,10 @@ if defined _IS_AllTheString GoTo :InsertString-count-loop
 :InsertString-count-end
 set "_IS_NewOutput=!_IS_ResidualOutput!!_IS_NewOutput!!%_IS_InputString_Pointer%:~%_IS_StartIndex%!" & set "_IS_ResidualOutput="
 if "[%~1]" NEQ "[]" ( set "_IS_InputString=!_IS_NewOutput!" & set "_IS_NewOutput=" &  GoTo :InsertString-args )
+REM set _IS
 for /f "tokens=1* delims=" %%a in ('echo.!_IS_NewOutput!') do endlocal & set %_IS_OutputString%=%%a
 if defined _IS_LocalScope endlocal
+
 Call :ClearVariablesByPrefix %_InsertString_prefix% _InsertString_prefix & GoTo :EOF
 
 :split-demo
