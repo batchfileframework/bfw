@@ -25,19 +25,21 @@ set "_InsertString_demo_testvar=A123456789B123456789C123456789D123456789E1234567
 
 REM Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[0] 10
 Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[1] 10 " ABC "
-Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[2] 10 " ABC " REPEAT 0
-Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[3] 10 " ABC " REPEAT 1
-Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[4] 10 " ABC " REPEAT 2
-Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[5] 10 " ABC " REPEAT 3
-Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[6] 10 " ABC " REPEAT 4
-Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[7] 10 " ABC " REPEAT 5
-Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[8] 10 " ABC " REPEAT 6
-Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[9] 10 " ABC " REPEAT 7
-Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[10] 10 " ABC " REPEAT 8
-Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[11] 10 " ABC " REPEAT 9
-Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[12] 10 " ABC " REPEAT 10
-Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[13] 10 " ABC " REPEAT 11
-Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[14] 10 " ABC " ALL
+Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[2] REPEAT 0 10 " ABC "
+Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[3] REPEAT 1 10 " ABC "
+Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[4] REPEAT 2 10 " ABC "
+Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[5] REPEAT 3 10 " ABC "
+Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[6] REPEAT 4 10 " ABC "
+Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[7] REPEAT 5 10 " ABC "
+Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[8] REPEAT 6 10 " ABC "
+Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[9] REPEAT 7 10 " ABC "
+Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[10] REPEAT 8 10 " ABC "
+set "_InsertString_demo_testvar=A123456789B123456789C123456789D123456789E123456789F123456789G123456789H123456789I123456789J123456789K123456789L123456789M123456789N123456789"
+Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[11] REPEAT 9 10 " ABC "
+set "_InsertString_demo_testvar=A123456789B123456789C123456789D123456789E123456789F123456789G123456789H123456789I123456789J123456789"
+Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[12] REPEAT 10 10 " ABC "
+Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[13] REPEAT 11 10 " ABC "
+Call :InsertString _InsertString_demo_testvar _InsertString_demo_output[14] ALL 10 " ABC "
 set /a _InsertString_demo_output.ubound=14
 Call :EchoArray _InsertString_demo_output
 
@@ -54,19 +56,21 @@ set "_InsertString_demo_testvar=A123456789B123456789C123456789D123456789E1234567
 
 REM Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[0] 10
 Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[1] 10 " ABC "
-Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[2] 10 " ABC " REPEAT 0
-Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[3] 10 " ABC " REPEAT 1
-Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[4] 10 " ABC " REPEAT 2
-Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[5] 10 " ABC " REPEAT 3
-Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[6] 10 " ABC " REPEAT 4
-Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[7] 10 " ABC " REPEAT 5
-Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[8] 10 " ABC " REPEAT 6
-Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[9] 10 " ABC " REPEAT 7
-Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[10] 10 " ABC " REPEAT 8
-Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[11] 10 " ABC " REPEAT 9
-Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[12] 10 " ABC " REPEAT 10
-Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[13] 10 " ABC " REPEAT 11
-Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[14] 10 " ABC " ALL
+Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[2] REPEAT 0 10 " ABC " 
+Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[3] REPEAT 1 10 " ABC " 
+Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[4] REPEAT 2 10 " ABC " 
+Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[5] REPEAT 3 10 " ABC " 
+Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[6] REPEAT 4 10 " ABC " 
+Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[7] REPEAT 5 10 " ABC " 
+Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[8] REPEAT 6 10 " ABC " 
+Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[9] REPEAT 7 10 " ABC " 
+Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[10] REPEAT 8 10 " ABC " 
+set "_InsertString_demo_testvar=A123456789B123456789C123456789D123456789E123456789F123456789G123456789H123456789I123456789J123456789K123456789L123456789M123456789N123456789"
+Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[11] REPEAT 9 10 " ABC " 
+set "_InsertString_demo_testvar=A123456789B123456789C123456789D123456789E123456789F123456789G123456789H123456789I123456789J123456789"
+Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[12] REPEAT 10 10 " ABC " 
+Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[13] REPEAT 11 10 " ABC " 
+Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[14] ALL 10 " ABC " 
 Call :ReplaceString _InsertString_demo_testvar _InsertString_demo_output[15] 10 " ABC " 25 " DEF " 40 " GHI " 55 " KLM "
 set /a _InsertString_demo_output.ubound=15
 Call :EchoArray _InsertString_demo_output
@@ -80,19 +84,19 @@ set "_InsertString_demo_testvar=A123456789B123456789C123456789D123456789E1234567
 
 REM Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[0] 10
 Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[1] 10 5
-Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[2] 10 5 REPEAT 0
-Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[3] 10 5 REPEAT 1
-Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[4] 10 5 REPEAT 2
-Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[5] 10 5 REPEAT 3
-Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[6] 10 5 REPEAT 4
-Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[7] 10 5 REPEAT 5
-Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[8] 10 5 REPEAT 6
-Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[9] 10 5 REPEAT 7
-Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[10] 10 5 REPEAT 8
-Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[11] 10 5 REPEAT 9
-Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[12] 10 5 REPEAT 10
-Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[13] 10 5 REPEAT 11
-Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[14] 10 5 ALL
+Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[2] REPEAT 0 10 5 
+Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[3] REPEAT 1 10 5
+Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[4] REPEAT 2 10 5
+Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[5] REPEAT 3 10 5
+Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[6] REPEAT 4 10 5
+Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[7] REPEAT 5 10 5
+Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[8] REPEAT 6 10 5
+Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[9] REPEAT 7 10 5
+Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[10] REPEAT 8 10 5
+Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[11] REPEAT 9 10 5
+Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[12] REPEAT 10 10 5
+Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[13] REPEAT 11 10 5
+Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[14] ALL 10 5
 Call :DeleteString _InsertString_demo_testvar _InsertString_demo_output[15] 10 5 25 5 40 5 55 5
 set /a _InsertString_demo_output.ubound=15
 Call :EchoArray _InsertString_demo_output
@@ -100,52 +104,54 @@ Call :EchoArray _InsertString_demo_output
 Call :ClearVariablesByPrefix  _InsertString
 GoTo :EOF
 
-
-
-
-::Usage Call :DeleteString InputString OutputString StartIndex DeleteLength [REPEAT Count]|[ALL] ... InsertIndexN InsertStringN [REPEAT [Count]] 
+::Usage Call :DeleteString InputString OutputString [REPEAT Count]|[ALL][APPEND][OVERSPLIT][LEN DelimiterLen][RESET] InsertIndex1 InsertString1  ... [REPEAT Count]|[ALL][APPEND][OVERSPLIT][LEN DelimiterLen][RESET] InsertIndexN InsertStringN
 :DeleteString
 set "_IS_ReplaceMode=true"
 set "_IS_DeleteMode=true"
 GoTo :InsertString
-::Usage Call :ReplaceString InputString OutputString InsertIndex1 InsertString1 [REPEAT Count]|[ALL] ... InsertIndexN InsertStringN [REPEAT [Count]] 
+::Usage Call :ReplaceString InputString OutputString [REPEAT Count]|[ALL][APPEND][OVERSPLIT][LEN DelimiterLen][RESET] InsertIndex1 InsertString1  ... [REPEAT Count]|[ALL][APPEND][OVERSPLIT][LEN DelimiterLen][RESET] InsertIndexN InsertStringN
 :ReplaceString
 set "_IS_ReplaceMode=true"
-::Usage Call :InsertString InputString OutputString InsertIndex1 InsertString1 [REPEAT Count]|[ALL] ... InsertIndexN InsertStringN [REPEAT [Count]] 
+::Usage Call :InsertString InputString OutputString [REPEAT Count]|[ALL][APPEND][OVERSPLIT][LEN DelimiterLen][RESET] InsertIndex1 InsertString1  ... [REPEAT Count]|[ALL][APPEND][OVERSPLIT][LEN DelimiterLen][RESET] InsertIndexN InsertStringN
 :InsertString
 set "_InsertString_prefix=_IS"
 setlocal enabledelayedexpansion
+if "[%~1]" EQU "[APPEND]" ( set "_IS_AppendMode=true" & shift)
 set "_IS_LocalScope=true"
 set "_IS_InputString=%~1"
 set "_IS_OutputString=%~2"
-if defined !_IS_OutputString! set "_IS_ResidualOutput=!_IS_OutputString!"
-shift & shift 
+if defined _IS_AppendMode if defined !_IS_OutputString! set "_IS_ResidualOutput=!_IS_OutputString!"
+set /a _IS_InsertCountIndex=0
+set /a _IS_InsertCount=-1
 :InsertString-args
-set /a _IS_InsertIndex=%~1 2>nul
-set "_IS_InsertString=%~2"
-REM if defined _IS_DeleteMode for /L %%a in (1,1,%_IS_InsertString%) do ( set "_IS_InsertString=!_IS_InsertString! " )
+if "[%~3]" EQU "[REPEAT]" ( for /f "tokens=1,2 delims=," %%a in ("%~4") do ( set /a _IS_InsertCount=%%a & set /a _IS_InsertSkip=%%b 2>nul ) & shift & shift & GoTo :InsertString-args )
+if "[%~3]" EQU "[ALL]" ( set "_IS_AllTheString=true" & shift & GoTo :InsertString-args )
+if "[%~3]" EQU "[OVERSPLIT]" ( set "_IS_Oversplit=true" & shift & GoTo :InsertString-args )
+if "[%~3]" EQU "[LEN]" ( set /a _IS_InsertString_Pointer_len=%~4 & shift & shift & GoTo :InsertString-args )
+if "[%~3]" EQU "[RESET]" ( set "_IS_Oversplit=" & set "_IS_InsertString_Pointer_len=" & set "_IS_Oversplit=" & set "_IS_InsertCount=" & set "_IS_InsertSkip=" & shift & GoTo :InsertString-args )
+if defined _IS_AllTheString set "_IS_Oversplit="
+set /a _IS_InsertIndex=%~3
+set "_IS_InsertString=%~4"
 shift & shift
-set /a _IS_InsertCountIndex=0 & if "[%~1]" EQU "[REPEAT]" ( set /a _IS_InsertCount=%~2 & shift & shift ) else ( set /a _IS_InsertCount=-1 )
-if "[%~1]" EQU "[ALL]" ( set "_IS_AllTheString=true" & shift )
 set "_IS_InputString_Pointer=_IS_InputString" & if defined !_IS_InputString! set "_IS_InputString_Pointer=!_IS_InputString!"
 set "_IS_InsertString_Pointer=_IS_InsertString" & if defined !_IS_InsertString! set "_IS_InsertString_Pointer=!_IS_InsertString!"
 if defined _IS_DeleteMode set "_IS_InsertString_Pointer=_IS_Blank"
-REM if not defined _IS_InsertIndex set /a _IS_InsertIndex=0
-set /a _IS_StartIndex=0
-set /a _IS_InsertString_Pointer_len=0 & if defined _IS_ReplaceMode call :len !_IS_InsertString_Pointer! _IS_InsertString_Pointer_len
+if not defined _IS_InsertString_Pointer_len ( set /a _IS_InsertString_Pointer_len=0 & if defined _IS_ReplaceMode call :len !_IS_InsertString_Pointer! _IS_InsertString_Pointer_len )
 if defined _IS_DeleteMode set /a _IS_InsertString_Pointer_len=%_IS_InsertString%
+set /a _IS_StartIndex=0
 set /a _IS_NextIndex=%_IS_StartIndex%+%_IS_InsertIndex%+%_IS_InsertString_Pointer_len%
 :InsertString-count-loop
-if "[!%_IS_InputString_Pointer%:~%_IS_NextIndex%!]" EQU "[]" GoTo :InsertString-count-end
+if not defined _IS_Oversplit if "[!%_IS_InputString_Pointer%:~%_IS_NextIndex%!]" EQU "[]" GoTo :InsertString-count-end
 set "_IS_NewOutput=!_IS_NewOutput!!%_IS_InputString_Pointer%:~%_IS_StartIndex%,%_IS_InsertIndex%!!%_IS_InsertString_Pointer%!"
 set /a _IS_StartIndex=%_IS_StartIndex%+%_IS_InsertIndex%+%_IS_InsertString_Pointer_len%
+if defined _IS_InsertSkip set /a _IS_InsertIndex=%_IS_InsertSkip%
 set /a _IS_NextIndex=%_IS_StartIndex%+%_IS_InsertIndex%+%_IS_InsertString_Pointer_len%
 if %_IS_InsertCountIndex% LSS %_IS_InsertCount% (  set /a _IS_InsertCountIndex+=1 & GoTo :InsertString-count-loop )
 if defined _IS_AllTheString GoTo :InsertString-count-loop
 :InsertString-count-end
 set "_IS_NewOutput=!_IS_ResidualOutput!!_IS_NewOutput!!%_IS_InputString_Pointer%:~%_IS_StartIndex%!" & set "_IS_ResidualOutput="
-if "[%~1]" NEQ "[]" ( set "_IS_InputString=!_IS_NewOutput!" & set "_IS_NewOutput=" &  GoTo :InsertString-args )
-for /f "tokens=1* delims=" %%a in ('echo.!_IS_NewOutput!') do endlocal & set %_IS_OutputString%=%%a
+if "[%~3]" NEQ "[]" ( set "_IS_InputString=!_IS_NewOutput!" & set "_IS_NewOutput=" & set "_IS_Oversplit=" & set "_IS_InsertString_Pointer_len=" & set "_IS_Oversplit=" & set "_IS_InsertCount=" & set "_IS_InsertSkip=" & GoTo :InsertString-args )
+for /f "tokens=1* delims=" %%a in ("!_IS_NewOutput!") do ( endlocal & set %_IS_OutputString%=%%a )
 if defined _IS_LocalScope endlocal
 Call :ClearVariablesByPrefix %_InsertString_prefix% _InsertString_prefix & GoTo :EOF
 
