@@ -1,5 +1,8 @@
 @echo off
 
+call :split-demo 
+GoTo :EOF
+
 :setup
 :macro
 :main
@@ -663,7 +666,7 @@ REM Features to add [TRIM] TRIMLEFT TRIMRIGHT [TRIM] [TRIMLEFT:[-],'"] TRIMRIGHT
 REM [LIMIT] [STARTINDEX] [RANGE] [Nth]
 REM arguments should be [CASESENSITIVE] [etc.] inputstring outputarray delimiter1 delimiter2 ... delimiterN
 REM this will need a startindex probably, to start at a certain position in the string
-::Usage Call :split [CASESENSITIVE] [START Index] InputString Delimiter OutputArray optional limit
+::Usage Call :split [CASESENSITIVE] [START Index] [Limit ElementCount] InputString OutputArray Delimiter
 :Split
 set "_Split_prefix=_SPLT"
 setlocal enabledelayedexpansion
@@ -687,29 +690,30 @@ REM REM set "_SPLT_Delimiter=%~2"
 REM REM set "_SPLT_Output=%~3"
 REM REM shift & shift & shift
 
-if "[%~1]" EQU "[OUTPUT]" ( set "_SPLT_Output=%~2" & shift & shift & GoTo :Split-args )
-if not defined _SPLT_Input ( set "_SPLT_Input=%~1" & shift & GoTo :Split-args )
+set "_SPLT_Input=%~1"
+set "_SPLT_Output=%~2"
+shift & shift
 
 set /a _SPLT_Delimiter.ubound=-1
 :Split-delimiters-args
-set "_SPLT_Buffer=%~1"
 
-REM REM if defined _SPLT_Buffer if "[%_SPLT_Buffer:~1,3%]" EQU "[DIM]" if "[%_SPLT_Buffer%]" EQU "[]" ( set /a _SPLT_Delimiter_Dimension=%_SPLT_Buffer:~0,1% )
-REM REM if defined _SPLT_Buffer if "[%_SPLT_Buffer:~4,1%]" EQU "[]" ( set /a _SPLT_Delimiter_Dimension=%_SPLT_Buffer:~0,1% 2>nul )
-REM if defined %~1.ubound ( set "_SPLT_Delimiter_is_array=true" )
-REM set /a _SPLT_Delimiter.index=0
-REM if defined %~1.ubound ( set /a _SPLT_Delimiter_input_array_ubound=!%~1.ubound! 2>nul ) else ( set /a _SPLT_Delimiter_input_array_ubound=-1 )
-REM :Split-delimiters-loop-args
-REM if "[%~1]" NEQ "[]" set /a _SPLT_Delimiter.ubound+=1
-REM if "[%~1]" NEQ "[]" if defined _SPLT_Delimiter_is_array set "_SPLT_Delimiter[%_SPLT_Delimiter.ubound%]=!%~1[%_SPLT_Delimiter.index%]!"
-REM REM if "[%~1]" NEQ "[]" if defined _SPLT_Delimiter_is_array echo _SPLT_Delimiter_is_array is defined 
-REM REM if "[%~1]" NEQ "[]" if not defined _SPLT_Delimiter_is_array echo set "_SPLT_Delimiter[%_SPLT_Delimiter.ubound%]=%~1"
-REM if "[%~1]" NEQ "[]" if not defined _SPLT_Delimiter_is_array set "_SPLT_Delimiter[%_SPLT_Delimiter.ubound%]=%~1"
-REM REM if "[%~1]" NEQ "[]" if not defined _SPLT_Delimiter_is_array echo _SPLT_Delimiter_is_array is not defined
-REM if defined _SPLT_Delimiter_is_array set /a _SPLT_Delimiter.index+=1
-REM if defined _SPLT_Delimiter_is_array if %_SPLT_Delimiter.index% LEQ %_SPLT_Delimiter_input_array_ubound% ( GoTo :Split-delimiters-loop-args )
-REM set "_SPLT_Delimiter.index=" & set "_SPLT_Delimiter_is_array=" & if "[%~2]" NEQ "[]" ( shift & GoTo :Split-delimiters-args )
-REM set /a _SPLT_Delimiter.index=0
+if "[!%~1.ubound!]" NEQ "[]" ( set "_SPLT_Delimiter_is_array=true" )
+REM set "_SPLT_Buffer=%~1"
+REM if defined _SPLT_Buffer if "[%_SPLT_Buffer:~1,3%]" EQU "[DIM]" if "[%_SPLT_Buffer%]" EQU "[]" ( set /a _SPLT_Delimiter_Dimension=%_SPLT_Buffer:~0,1% )
+REM if defined _SPLT_Buffer if "[%_SPLT_Buffer:~4,1%]" EQU "[]" ( set /a _SPLT_Delimiter_Dimension=%_SPLT_Buffer:~0,1% 2>nul )
+set /a _SPLT_Delimiter.index=0
+if "[!%~1.ubound!]" NEQ "[]" set /a _SPLT_Delimiter_input_array_ubound=!%~1.ubound! 2>nul
+:Split-delimiters-loop-args
+if "[%~1]" NEQ "[]" set /a _SPLT_Delimiter.ubound+=1
+if "[%~1]" NEQ "[]" if defined _SPLT_Delimiter_is_array set "_SPLT_Delimiter[%_SPLT_Delimiter.ubound%]=!%~1[%_SPLT_Delimiter.index%]!"
+REM if "[%~1]" NEQ "[]" if defined _SPLT_Delimiter_is_array echo _SPLT_Delimiter_is_array is defined 
+REM if "[%~1]" NEQ "[]" if not defined _SPLT_Delimiter_is_array echo set "_SPLT_Delimiter[%_SPLT_Delimiter.ubound%]=%~1"
+if "[%~1]" NEQ "[]" if not defined _SPLT_Delimiter_is_array set "_SPLT_Delimiter[%_SPLT_Delimiter.ubound%]=%~1"
+REM if "[%~1]" NEQ "[]" if not defined _SPLT_Delimiter_is_array echo _SPLT_Delimiter_is_array is not defined
+if defined _SPLT_Delimiter_is_array set /a _SPLT_Delimiter.index+=1
+if defined _SPLT_Delimiter_is_array if %_SPLT_Delimiter.index% LEQ %_SPLT_Delimiter_input_array_ubound% ( GoTo :Split-delimiters-loop-args )
+set "_SPLT_Delimiter.index=" & set "_SPLT_Delimiter_is_array=" & if "[%~2]" NEQ "[]" ( shift & GoTo :Split-delimiters-args )
+set /a _SPLT_Delimiter.index=0
 
 
 
@@ -732,13 +736,14 @@ REM if defined _SPLT_Delimiter_ubound set /a _SPLT_Delimiter_index=0
 REM :Split-delimiter-loop ?
 
 
-
+set _SPLT
 
 
 set "_SPLT_Input_Pointer=_SPLT_Input" & if defined !_SPLT_Input! ( set "_SPLT_Input_Pointer=!_SPLT_Input!" )
 Call :len "%_SPLT_Input_Pointer%" _SPLT_Input_len
 if not defined _SPLT_StartIndex set /a _SPLT_StartIndex=0
 :Split-loop
+echo :Split-loop _SPLT_Index %_SPLT_Index%
 set /a _SPLT_Index=%_SPLT_StartIndex%
 set "_SPLT_Delimiter_Pointer=_SPLT_Delimiter[%_SPLT_Delimiter.ubound%]" 
 if defined !%_SPLT_Delimiter_Pointer%! ( set "_SPLT_Delimiter_Pointer=!%_SPLT_Delimiter_Pointer%!" )
