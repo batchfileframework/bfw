@@ -290,6 +290,7 @@ if defined _IS_LocalScope endlocal
 Call :ClearVariablesByPrefix %_InsertString_prefix% _InsertString_prefix & GoTo :EOF
 
 
+
 :split-demo
 
 REM GoTo :split-demo-skip-max-lenght-test
@@ -400,7 +401,6 @@ call :split-demo-helper "10 dot element" ",,,,,.,,,,"                _split_demo
 call :split-demo-helper "10 dot element" ",,,,,,.,,,"                _split_demo_array ","
 call :split-demo-helper "10 dot element" ",,,,,,,.,,"                _split_demo_array ","
 call :split-demo-helper "10 dot element" ",,,,,,,,.,"                _split_demo_array ","
-call :split-demo-helper "10 dot element" "a,b,c,d,e,f,g,h,i,j"       _split_demo_array "," 
 call :split-demo-helper "10 dot element" "a,,,,,,,,,"                _split_demo_array ","  
 call :split-demo-helper "10 dot element" ",b,,,,,,,,"                _split_demo_array ","
 call :split-demo-helper "10 dot element" ",,c,,,,,,,"                _split_demo_array ","
@@ -411,7 +411,18 @@ call :split-demo-helper "10 dot element" ",,,,,,g,,,"                _split_demo
 call :split-demo-helper "10 dot element" ",,,,,,,h,,"                _split_demo_array ","
 call :split-demo-helper "10 dot element" ",,,,,,,,i,"                _split_demo_array ","
 call :split-demo-helper "10 dot element" ",,,,,,,,,j"                _split_demo_array ","
+call :split-demo-helper "10 dot element" "aa,,,,,,,,,"                _split_demo_array ","  
+call :split-demo-helper "10 dot element" ",bb,,,,,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,cc,,,,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,dd,,,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,ee,,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,ff,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,gg,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,,hh,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,,,ii,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,,,,jj"                _split_demo_array ","
 call :split-demo-helper "10 dot element" ",,,,,,,,,"                 _split_demo_array ","
+call :split-demo-helper "10 dot element" " , , , , , , , , , "                 _split_demo_array ","
 
 call :split-demo-helper "10 dot element" ".,.,.,.,.,.,.,.,.,." _split_demo_array "," 
 call :split-demo-helper "10 double dot element" "..,..,..,..,..,..,..,..,..,.." _split_demo_array ","
@@ -448,112 +459,124 @@ echo.
 echo function call split test
 echo.
 
+set "_calltest[0]=call :test
 set "_calltest[1]=call :test
 set "_calltest[2]=call test.bat"
-set "_calltest[3]=call %test%"
-set "_calltest[4]=call %:test%"
+set "_calltest[3]=call %%test%%"
+set "_calltest[4]=call %%:test%%"
 set "_calltest[5]=call test"
 
 set "_calltest[6]=call :test&echo test"
 set "_calltest[7]=call test.bat&echo test"
-set "_calltest[8]=call %test%&echo test"
-set "_calltest[9]=call %:test%&echo test"
+set "_calltest[8]=call %%test%%&echo test"
+set "_calltest[9]=call %%:test%%&echo test"
 set "_calltest[10]=call test&echo test"
 
 set "_calltest[11]=call :test &echo test"
 set "_calltest[12]=call test.bat &echo test"
-set "_calltest[13]=call %test% &echo test"
-set "_calltest[14]=call %:test% &echo test"
+set "_calltest[13]=call %%test%% &echo test"
+set "_calltest[14]=call %%:test%% &echo test"
 set "_calltest[15]=call test &echo test"
 
 set "_calltest[16]=call :test|echo test"
 set "_calltest[17]=call test.bat|echo test"
-set "_calltest[18]=call %test%|echo test"
-set "_calltest[19]=call %:test%|echo test"
-set "_calltest[30]1=call test|echo test"
+set "_calltest[18]=call %%test%%|echo test"
+set "_calltest[19]=call %%:test%%|echo test"
 
+set "_calltest[20]=call %%:test%%|echo test"
+set "_calltest[21]=call %%:test%%|echo test"
+set "_calltest[22]=call %%:test%%|echo test"
+set "_calltest[23]=call %%:test%%|echo test"
+set "_calltest[24]=call %%:test%%|echo test"
+set "_calltest[25]=call %%:test%%|echo test"
+set "_calltest[26]=call %%:test%%|echo test"
+set "_calltest[27]=call %%:test%%|echo test"
+set "_calltest[28]=call %%:test%%|echo test"
+set "_calltest[29]=call %%:test%%|echo test"
+
+set "_calltest[30]1=call test|echo test"
 set "_calltest[31]=call :test |echo test"
 set "_calltest[32]=call test.bat |echo test"
-set "_calltest[33]=call %test% |echo test"
-set "_calltest[34]=call %:test% |echo test"
+set "_calltest[33]=call %%test%% |echo test"
+set "_calltest[34]=call %%:test%% |echo test"
 set "_calltest[35]=call test |echo test"
 
 set "_calltest[36]=call :test>echo test"
 set "_calltest[37]=call test.bat>echo test"
-set "_calltest[38]=call %test%>echo test"
-set "_calltest[39]=call %:test%>echo test"
+set "_calltest[38]=call %%test%%>echo test"
+set "_calltest[39]=call %%:test%%>echo test"
 set "_calltest[40]=call test>echo test"
 
 set "_calltest[41]=call :test >echo test"
 set "_calltest[42]=call test.bat >echo test"
-set "_calltest[43]=call %test% >echo test"
-set "_calltest[44]=call %:test% >echo test"
+set "_calltest[43]=call %%test%% >echo test"
+set "_calltest[44]=call %%:test%% >echo test"
 set "_calltest[45]=call test >echo test"
 
 set "_calltest[46]=call :test<echo test"
 set "_calltest[47]=call test.bat<echo test"
-set "_calltest[48]=call %test%<echo test"
-set "_calltest[49]=call %:test%<echo test"
+set "_calltest[48]=call %%test%%<echo test"
+set "_calltest[49]=call %%:test%%<echo test"
 set "_calltest[50]=call test<echo test"
 
 set "_calltest[51]=call :test <echo test"
 set "_calltest[52]=call test.bat <echo test"
-set "_calltest[53]=call %test% <echo test"
-set "_calltest[54]=call %:test% <echo test"
+set "_calltest[53]=call %%test%% <echo test"
+set "_calltest[54]=call %%:test%% <echo test"
 set "_calltest[55]=call test <echo test"
 
 set "_calltest[56]=call :test argument1 argument2"
 set "_calltest[57]=call test.bat argument1 argument2"
-set "_calltest[58]=call %test% argument1 argument2"
-set "_calltest[59]=call %:test% argument1 argument2"
+set "_calltest[58]=call %%test%% argument1 argument2"
+set "_calltest[59]=call %%:test%% argument1 argument2"
 set "_calltest[60]=call test argument1 argument2"
 
 set "_calltest[61]=call :test argument1 argument2 &echo test"
 set "_calltest[62]=call test.bat argument1 argument2 &echo test"
-set "_calltest[63]=call %test% argument1 argument2 &echo test"
-set "_calltest[64]=call %:test% argument1 argument2 &echo test"
+set "_calltest[63]=call %%test%% argument1 argument2 &echo test"
+set "_calltest[64]=call %%:test%% argument1 argument2 &echo test"
 set "_calltest[65]=call test argument1 argument2 &echo test"
 
 set "_calltest[66]=call :test argument1 argument2&echo test"
 set "_calltest[67]=call test.bat argument1 argument2&echo test"
-set "_calltest[68]=call %test% argument1 argument2&echo test"
-set "_calltest[69]=call %:test% argument1 argument2&echo test"
+set "_calltest[68]=call %%test%% argument1 argument2&echo test"
+set "_calltest[69]=call %%:test%% argument1 argument2&echo test"
 set "_calltest[70]=call test argument1 argument2&echo test"
 
 set "_calltest[71]=call :test argument1 argument2 |echo test"
 set "_calltest[72]=call test.bat argument1 argument2 |echo test"
-set "_calltest[73]=call %test% argument1 argument2 |echo test"
-set "_calltest[74]=call %:test% argument1 argument2 |echo test"
+set "_calltest[73]=call %%test%% argument1 argument2 |echo test"
+set "_calltest[74]=call %%:test%% argument1 argument2 |echo test"
 set "_calltest[75]=call test argument1 argument2 |echo test"
 
 set "_calltest[76]=call :test argument1 argument2|echo test"
 set "_calltest[77]=call test.bat argument1 argument2|echo test"
-set "_calltest[78]=call %test% argument1 argument2|echo test"
-set "_calltest[79]=call %:test% argument1 argument2|echo test"
+set "_calltest[78]=call %%test%% argument1 argument2|echo test"
+set "_calltest[79]=call %%:test%% argument1 argument2|echo test"
 set "_calltest[80]=call test argument1 argument2|echo test"
 
 set "_calltest[81]=call :test argument1 argument2 >echo test"
 set "_calltest[82]=call test.bat argument1 argument2 >echo test"
-set "_calltest[83]=call %test% argument1 argument2 >echo test"
-set "_calltest[84]=call %:test% argument1 argument2 >echo test"
+set "_calltest[83]=call %%test%% argument1 argument2 >echo test"
+set "_calltest[84]=call %%:test%% argument1 argument2 >echo test"
 set "_calltest[85]=call test argument1 argument2 >echo test"
 
 set "_calltest[86]=call :test argument1 argument2>echo test"
 set "_calltest[87]=call test.bat argument1 argument2>echo test"
-set "_calltest[88]=call %test% argument1 argument2>echo test"
-set "_calltest[89]=call %:test% argument1 argument2>echo test"
+set "_calltest[88]=call %%test%% argument1 argument2>echo test"
+set "_calltest[89]=call %%:test%% argument1 argument2>echo test"
 set "_calltest[90]=call test argument1 argument2>echo test"
 
 set "_calltest[91]=call :test argument1 argument2 <echo test"
 set "_calltest[92]=call test.bat argument1 argument2 <echo test"
-set "_calltest[93]=call %test% argument1 argument2 <echo test"
-set "_calltest[94]=call %:test% argument1 argument2 <echo test"
+set "_calltest[93]=call %%test%% argument1 argument2 <echo test"
+set "_calltest[94]=call %%:test%% argument1 argument2 <echo test"
 set "_calltest[95]=call test argument1 argument2 <echo test"
 
 set "_calltest[96]=call :test argument1 argument2<echo test"
 set "_calltest[97]=call test.bat argument1 argument2<echo test"
-set "_calltest[98]=call %test% argument1 argument2<echo test"
-set "_calltest[99]=call %:test% argument1 argument2<echo test"
+set "_calltest[98]=call %%test%% argument1 argument2<echo test"
+set "_calltest[99]=call %%:test%% argument1 argument2<echo test"
 set "_calltest[100]=call test argument1 argument2<echo test"
 
 set /a _split_demo_functioncalltest_index=0
@@ -633,6 +656,15 @@ GoTo :EOF
 ::Usage Call :IterateRange InputArray RangeArray "%Macro%" optional OutputArray
 
 
+
+REM add trim function
+REM import delimiters from array
+REM import inputs from array
+REM make inputs an array
+REM make LEN work better
+REM specify startindex position
+REM specify which single element to return
+REM specify a range of elements to return
 
 
 REM _SPLT_count is not being counted, number of total elements added to output
