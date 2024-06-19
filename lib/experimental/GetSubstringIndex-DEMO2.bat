@@ -1,9 +1,7 @@
 @echo off
 
-
-REM Call :split-demo
-REM GoTo :EOF
-
+call :split-demo 
+GoTo :EOF
 
 :setup
 :macro
@@ -19,424 +17,277 @@ REM if "[%~n0]" EQU "[bfw]" if "[%~1]" EQU "[]" if "[%~2]" EQU "[]" ( echo %~n0 
 if "[%~n0]" EQU "[bfw]" ( Call :ShiftedArgumentCaller %* ) else ( Call :%~n0 %* )
 
 :end
-
-
 GoTo :EOF
-
-
-
-
 
 :GetSubstringIndex-demo
 
-Call :ClearVariablesByPrefix _GetSubstringIndex
+REM GoTo :GetSubstringIndex-demo-skip
 
-set _GetSubstringIndex_show_string=true
+REM GoTo :GetSubstringIndex-1-skip
 
-set /a _GetSubstringIndex_index=0
-REM set /a _GetSubstringIndex_index=1
-REM set /a _GetSubstringIndex_index=2
-REM set /a _GetSubstringIndex_index=3
-REM set /a _GetSubstringIndex_index=4
-REM set /a _GetSubstringIndex_index=5
-REM set /a _GetSubstringIndex_index=6
-REM set /a _GetSubstringIndex_index=7
-REM set /a _GetSubstringIndex_index=8
-REM set /a _GetSubstringIndex_index=9
-REM set /a _GetSubstringIndex_index=10
-REM set /a _GetSubstringIndex_index=11
-REM set /a _GetSubstringIndex_index=12
-REM set /a _GetSubstringIndex_index=13
-REM set /a _GetSubstringIndex_index=14
-REM set /a _GetSubstringIndex_index=15
-REM set /a _GetSubstringIndex_index=16
-REM set /a _GetSubstringIndex_index=17
-REM set /a _GetSubstringIndex_index=18
-REM set /a _GetSubstringIndex_index=19
-REM set /a _GetSubstringIndex_index=20
-REM set /a _GetSubstringIndex_index=21
-REM set /a _GetSubstringIndex_index=22
-REM set /a _GetSubstringIndex_index=23
-REM set /a _GetSubstringIndex_index=24
-REM set /a _GetSubstringIndex_index=25
-REM set /a _GetSubstringIndex_index=26
-REM set /a _GetSubstringIndex_index=27
-REM set /a _GetSubstringIndex_index=28
-REM set /a _GetSubstringIndex_index=29
-REM set /a _GetSubstringIndex_index=30
-REM set /a _GetSubstringIndex_index=31
-REM set /a _GetSubstringIndex_index=32
-REM set /a _GetSubstringIndex_index=33
-REM set /a _GetSubstringIndex_index=34
-REM set /a _GetSubstringIndex_index=35
-REM set /a _GetSubstringIndex_index=36
+call :GetSubstringTestHelper OutputArray 100 "All F base array, all G delimiter"                                                                                               "OVERRIDE 70" 100                           Delimiter "OVERRIDE 71" 10
+call :GetSubstringTestHelper OutputArray 100 "All F base array, alphanumeric delimiter"                                                                                        "OVERRIDE 70" 100                           Delimiter "" 10
+call :GetSubstringTestHelper OutputArray 100 "All F base array, with punctuation and space"                                                                                    "OVERRIDE 70" 100                           Delimiter "PUNCTUATION NOPOISON SPACE" 10
+call :GetSubstringTestHelper OutputArray 100 "All F base array, with punctuation and space and extended"                                                                       "OVERRIDE 70" 100                           Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10
+call :GetSubstringTestHelper OutputArray 100 "All F base array, with punctuation and space and extended and poison"                                                            "OVERRIDE 70" 100                           Delimiter "PUNCTUATION SPACE EXTENDED" 10
 
-REM set /a _GetSubstringIndex_stop=0
-REM set /a _GetSubstringIndex_stop=1
-REM set /a _GetSubstringIndex_stop=2
-REM set /a _GetSubstringIndex_stop=3
-REM set /a _GetSubstringIndex_stop=4
-REM set /a _GetSubstringIndex_stop=5
-REM set /a _GetSubstringIndex_stop=7
-REM set /a _GetSubstringIndex_stop=8
-REM set /a _GetSubstringIndex_stop=9
-REM set /a _GetSubstringIndex_stop=10
-REM set /a _GetSubstringIndex_stop=11
-REM set /a _GetSubstringIndex_stop=12
-REM set /a _GetSubstringIndex_stop=13
-REM set /a _GetSubstringIndex_stop=14
-REM set /a _GetSubstringIndex_stop=15
-REM set /a _GetSubstringIndex_stop=16
-REM set /a _GetSubstringIndex_stop=17
-REM set /a _GetSubstringIndex_stop=18
-REM set /a _GetSubstringIndex_stop=19
-REM set /a _GetSubstringIndex_stop=20
-REM set /a _GetSubstringIndex_stop=21
-REM set /a _GetSubstringIndex_stop=22
-REM set /a _GetSubstringIndex_stop=23
-REM set /a _GetSubstringIndex_stop=24
-REM set /a _GetSubstringIndex_stop=25
-REM set /a _GetSubstringIndex_stop=26
-REM set /a _GetSubstringIndex_stop=27
-REM set /a _GetSubstringIndex_stop=28
-REM set /a _GetSubstringIndex_stop=29
-REM set /a _GetSubstringIndex_stop=30
-REM set /a _GetSubstringIndex_stop=31
-REM set /a _GetSubstringIndex_stop=32
-set /a _GetSubstringIndex_stop=33
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric base array, all G delimiter"                                                                                        "" 100                                      Delimiter "OVERRIDE 71" 10
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric base array, alphanumeric delimiter"                                                                                 "" 100                                      Delimiter "" 10
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric base array, with punctuation and space"                                                                             "" 100                                      Delimiter "PUNCTUATION NOPOISON SPACE" 10
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric base array, with punctuation and space and extended"                                                                "" 100                                      Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric base array, with punctuation and space and extended and poison"                                                     "" 100                                      Delimiter "PUNCTUATION SPACE EXTENDED" 10
 
-:GetSubstringIndex-demo-loop
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric with punctuation and space base array, all G delimiter"                                                             "PUNCTUATION NOPOISON SPACE" 100            Delimiter "OVERRIDE 71" 10
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric with punctuation and space base array, alphanumeric delimiter"                                                      "PUNCTUATION NOPOISON SPACE" 100            Delimiter "" 10
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric with punctuation and space base array, with punctuation and space"                                                  "PUNCTUATION NOPOISON SPACE" 100            Delimiter "PUNCTUATION NOPOISON SPACE" 10
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric with punctuation and space base array, with punctuation and space and extended"                                     "PUNCTUATION NOPOISON SPACE" 100            Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric with punctuation and space base array, with punctuation and space and extended and poison"                          "PUNCTUATION NOPOISON SPACE" 100            Delimiter "PUNCTUATION SPACE EXTENDED" 10
+REM :GetSubstringIndex-demo-skip
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric with punctuation and space and extended base array, all G delimiter"                                                "PUNCTUATION NOPOISON SPACE EXTENDED" 100   Delimiter "OVERRIDE 71" 10
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric with punctuation and space and extended base array, alphanumeric delimiter"                                         "PUNCTUATION NOPOISON SPACE EXTENDED" 100   Delimiter "" 10
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric with punctuation and space and extended base array, with punctuation and space"                                     "PUNCTUATION NOPOISON SPACE EXTENDED" 100   Delimiter "PUNCTUATION NOPOISON SPACE" 10
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric with punctuation and space and extended base array, with punctuation and space and extended"                        "PUNCTUATION NOPOISON SPACE EXTENDED" 100   Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10
 
-REM _GetSubstringIndex_index_length
-REM _GetSubstringIndex_index_count
-REM _GetSubstringIndex_testvar
-REM _GetSubstringIndex_testpattern
-REM test explain string
-REM _GetSubstringIndex_index
-REM _GetSubstringIndex_stop
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric with punctuation and space and extended and poison base array, all G delimiter"                                     "PUNCTUATION SPACE EXTENDED" 100            Delimiter "OVERRIDE 71" 10
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric with punctuation and space and extended and poison base array, alphanumeric delimiter"                              "PUNCTUATION SPACE EXTENDED" 100            Delimiter "" 10
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric with punctuation and space and extended and poison base array, with punctuation and space"                          "PUNCTUATION SPACE EXTENDED" 100            Delimiter "PUNCTUATION NOPOISON SPACE" 10
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric with punctuation and space and extended and poison base array, with punctuation and space and extended"             "PUNCTUATION SPACE EXTENDED" 100            Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10
 
-parameters of CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric with punctuation and space and extended base array, with punctuation and space and extended and poison"             "PUNCTUATION NOPOISON SPACE EXTENDED" 100   Delimiter "PUNCTUATION SPACE EXTENDED" 10
+call :GetSubstringTestHelper OutputArray 100 "Alphanumeric with punctuation and space and extended and poison base array, with punctuation and space and extended and poison"  "PUNCTUATION SPACE EXTENDED" 100            Delimiter "PUNCTUATION SPACE EXTENDED" 10
 
-if %_GetSubstringIndex_index% EQU 0 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 0 set _GetSubstringIndex_testvar=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-if %_GetSubstringIndex_index% EQU 0 set _GetSubstringIndex_testpattern=TEST
-if %_GetSubstringIndex_index% EQU 0 ( echo.&echo %_GetSubstringIndex_index% All FFF string, 100 long, "%_GetSubstringIndex_testpattern%" is the search pattern, Test string is "%_GetSubstringIndex_testvar%")
-if %_GetSubstringIndex_index% EQU 0 GoTo :GetSubstringIndex-demo-start-loop
+:GetSubstringIndex-1-skip
+REM GoTo :GetSubstringIndex-2-skip
 
-if %_GetSubstringIndex_index% EQU 1 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 1 Call :CreateRandomStringPS %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 1 set _GetSubstringIndex_testpattern=TEST
-if %_GetSubstringIndex_index% EQU 1 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 1 GoTo :GetSubstringIndex-demo-start-loop
+call :GetSubstringTestHelper OutputArray 100 "1 All F base array, all G delimiter"                                                                                               "OVERRIDE 70" 100                            Delimiter "OVERRIDE 71" 10                               Delimiter INVERTPOSITION "OVERRIDE 80" 10
+call :GetSubstringTestHelper OutputArray 100 "2 All F base array, alphanumeric delimiter"                                                                                        "OVERRIDE 70" 100                            Delimiter "" 10                                          Delimiter INVERTPOSITION "OVERRIDE 80" 10
+call :GetSubstringTestHelper OutputArray 100 "3 All F base array, with punctuation and space"                                                                                    "OVERRIDE 70" 100                            Delimiter "PUNCTUATION NOPOISON SPACE" 10                Delimiter INVERTPOSITION "OVERRIDE 80" 10  
+call :GetSubstringTestHelper OutputArray 100 "4 All F base array, with punctuation and space and extended"                                                                       "OVERRIDE 70" 100                            Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10       Delimiter INVERTPOSITION "OVERRIDE 80" 10  
+call :GetSubstringTestHelper OutputArray 100 "5 All F base array, with punctuation and space and extended and poison"                                                            "OVERRIDE 70" 100                            Delimiter "PUNCTUATION SPACE EXTENDED" 10                Delimiter INVERTPOSITION "OVERRIDE 80" 10 
 
-if %_GetSubstringIndex_index% EQU 2 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 2 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 2 set _GetSubstringIndex_testpattern=TEST
-if %_GetSubstringIndex_index% EQU 2 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 2 GoTo :GetSubstringIndex-demo-start-loop
+call :GetSubstringTestHelper OutputArray 100 "6 Alphanumeric  base array, all G delimiter"                                                                                       "" 100                                       Delimiter "OVERRIDE 71" 10                               Delimiter INVERTPOSITION "OVERRIDE 80" 10  
+call :GetSubstringTestHelper OutputArray 100 "7 Alphanumeric  base array, alphanumeric delimiter"                                                                                "" 100                                       Delimiter "" 10                                          Delimiter INVERTPOSITION "OVERRIDE 80" 10  
+call :GetSubstringTestHelper OutputArray 100 "8 Alphanumeric  base array, with punctuation and space"                                                                            "" 100                                       Delimiter "PUNCTUATION NOPOISON SPACE" 10                Delimiter INVERTPOSITION "OVERRIDE 80" 10  
+call :GetSubstringTestHelper OutputArray 100 "9 Alphanumeric  base array, with punctuation and space and extended"                                                               "" 100                                       Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10       Delimiter INVERTPOSITION "OVERRIDE 80" 10 
+call :GetSubstringTestHelper OutputArray 100 "10 Alphanumeric  base array, with punctuation and space and extended and poison"                                                    "" 100                                       Delimiter "PUNCTUATION SPACE EXTENDED" 10                Delimiter INVERTPOSITION "OVERRIDE 80" 10 
 
-if %_GetSubstringIndex_index% EQU 3 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 3 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 3 set _GetSubstringIndex_testpattern=TEST
-if %_GetSubstringIndex_index% EQU 3 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 3 GoTo :GetSubstringIndex-demo-start-loop
+call :GetSubstringTestHelper OutputArray 100 "11 Alphanumeric with punctuation and space base array, all G delimiter"                                                             "PUNCTUATION NOPOISON SPACE" 100             Delimiter "OVERRIDE 71" 10                               Delimiter INVERTPOSITION "OVERRIDE 80" 10 
+call :GetSubstringTestHelper OutputArray 100 "12 Alphanumeric with punctuation and space base array, alphanumeric delimiter"                                                      "PUNCTUATION NOPOISON SPACE" 100             Delimiter "" 10                                          Delimiter INVERTPOSITION "OVERRIDE 80" 10 
+call :GetSubstringTestHelper OutputArray 100 "13 Alphanumeric with punctuation and space base array, with punctuation and space"                                                  "PUNCTUATION NOPOISON SPACE" 100             Delimiter "PUNCTUATION NOPOISON SPACE" 10                Delimiter INVERTPOSITION "OVERRIDE 80" 10 
+call :GetSubstringTestHelper OutputArray 100 "14 Alphanumeric with punctuation and space base array, with punctuation and space and extended"                                     "PUNCTUATION NOPOISON SPACE" 100             Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10       Delimiter INVERTPOSITION "OVERRIDE 80" 10 
+call :GetSubstringTestHelper OutputArray 100 "15 Alphanumeric with punctuation and space base array, with punctuation and space and extended and poison"                          "PUNCTUATION NOPOISON SPACE" 100             Delimiter "PUNCTUATION SPACE EXTENDED" 10                Delimiter INVERTPOSITION "OVERRIDE 80" 10  
 
-if %_GetSubstringIndex_index% EQU 4 ( set /a _GetSubstringIndex_index_length=1000 & set /a _GetSubstringIndex_index_count=50 )
-if %_GetSubstringIndex_index% EQU 4 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 4 set _GetSubstringIndex_testpattern=TEST
-if %_GetSubstringIndex_index% EQU 4 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 4 GoTo :GetSubstringIndex-demo-start-loop
+call :GetSubstringTestHelper OutputArray 100 "16 Alphanumeric with punctuation and space and extended base array, all G delimiter"                                                "PUNCTUATION NOPOISON SPACE EXTENDED" 100    Delimiter "OVERRIDE 71" 10                               Delimiter INVERTPOSITION "OVERRIDE 80" 10 
+call :GetSubstringTestHelper OutputArray 100 "17 Alphanumeric with punctuation and space and extended base array, alphanumeric delimiter"                                         "PUNCTUATION NOPOISON SPACE EXTENDED" 100    Delimiter "" 10                                          Delimiter INVERTPOSITION "OVERRIDE 80" 10 
+call :GetSubstringTestHelper OutputArray 100 "18 Alphanumeric with punctuation and space and extended base array, with punctuation and space"                                     "PUNCTUATION NOPOISON SPACE EXTENDED" 100    Delimiter "PUNCTUATION NOPOISON SPACE" 10                Delimiter INVERTPOSITION "OVERRIDE 80" 10 
+call :GetSubstringTestHelper OutputArray 100 "19 Alphanumeric with punctuation and space and extended base array, with punctuation and space and extended"                        "PUNCTUATION NOPOISON SPACE EXTENDED" 100    Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10       Delimiter INVERTPOSITION "OVERRIDE 80" 10 
+call :GetSubstringTestHelper OutputArray 100 "20 Alphanumeric with punctuation and space and extended base array, with punctuation and space and extended and poison"             "PUNCTUATION NOPOISON SPACE EXTENDED" 100    Delimiter "PUNCTUATION SPACE EXTENDED" 10                Delimiter INVERTPOSITION "OVERRIDE 80" 10 
 
-if %_GetSubstringIndex_index% EQU 5 ( set /a _GetSubstringIndex_index_length=4000 & set /a _GetSubstringIndex_index_count=50 )
-if %_GetSubstringIndex_index% EQU 5 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 5 set _GetSubstringIndex_testpattern=TEST
-if %_GetSubstringIndex_index% EQU 5 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 5 GoTo :GetSubstringIndex-demo-start-loop
+REM PROBLEM BELOW
+call :GetSubstringTestHelper OutputArray 100 "21 Alphanumeric with punctuation and space and extended and poison base array, all G delimiter"                                     "PUNCTUATION SPACE EXTENDED" 100             Delimiter "OVERRIDE 71" 10                               Delimiter INVERTPOSITION "OVERRIDE 80" 10 
+call :GetSubstringTestHelper OutputArray 100 "22 Alphanumeric with punctuation and space and extended and poison base array, alphanumeric delimiter"                              "PUNCTUATION SPACE EXTENDED" 100             Delimiter "" 10                                          Delimiter INVERTPOSITION "OVERRIDE 80" 10 
+call :GetSubstringTestHelper OutputArray 100 "23 Alphanumeric with punctuation and space and extended and poison base array, with punctuation and space"                          "PUNCTUATION SPACE EXTENDED" 100             Delimiter "PUNCTUATION NOPOISON SPACE" 10                Delimiter INVERTPOSITION "OVERRIDE 80" 10 
+call :GetSubstringTestHelper OutputArray 100 "24 Alphanumeric with punctuation and space and extended and poison base array, with punctuation and space and extended"             "PUNCTUATION SPACE EXTENDED" 100             Delimiter "PUNCTUATION NOPOISON SPACE EXTENDED" 10       Delimiter INVERTPOSITION "OVERRIDE 80" 10 
+call :GetSubstringTestHelper OutputArray 100 "25 Alphanumeric with punctuation and space and extended and poison base array, with punctuation and space and extended and poison"  "PUNCTUATION SPACE EXTENDED" 100             Delimiter "PUNCTUATION SPACE EXTENDED" 10                Delimiter INVERTPOSITION "OVERRIDE 80" 10 
+REM PROBLEM BELOW
 
-
-if %_GetSubstringIndex_index% EQU 6 ( set /a _GetSubstringIndex_index_length=8000 & set /a _GetSubstringIndex_index_count=50 )
-if %_GetSubstringIndex_index% EQU 6 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 6 set _GetSubstringIndex_testpattern=TEST
-if %_GetSubstringIndex_index% EQU 6 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern,)
-if %_GetSubstringIndex_index% EQU 6 echo Test string is ::"%_GetSubstringIndex_testvar:~,8000%"{TRUNKATED AT 8000}::
-if %_GetSubstringIndex_index% EQU 6 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 7 echo  Repeat tests 1-6, but with auto generated alpha numeric testpattern of size variable between 10 and 20
-set /a _GetSubstringIndex_testpattern_min=10 & set /a _GetSubstringIndex_testpattern_max=20 & set "_GetSubstringIndex_testpattern_settings="
-set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100
-
-if %_GetSubstringIndex_index% EQU 7 set _GetSubstringIndex_testvar=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-if %_GetSubstringIndex_index% EQU 7 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 7 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 7 ( echo.&echo %_GetSubstringIndex_index% All FFF string, 100 long, "%_GetSubstringIndex_testpattern%" is the search pattern, Test string is "%_GetSubstringIndex_testvar%")
-if %_GetSubstringIndex_index% EQU 7 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 8 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 8 Call :CreateRandomStringPS %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 8 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 8 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 8 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 8 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 9 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 9 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 9 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 9 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 9 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 9 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 10 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 10 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 10 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 10 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 10 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 10 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 11 ( set /a _GetSubstringIndex_index_length=1000 & set /a _GetSubstringIndex_index_count=50 )
-if %_GetSubstringIndex_index% EQU 11 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 11 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 11 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 11 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 11 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 12 ( set /a _GetSubstringIndex_index_length=4000 & set /a _GetSubstringIndex_index_count=50 )
-if %_GetSubstringIndex_index% EQU 12 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 12 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 12 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 12 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 12 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 13 ( set /a _GetSubstringIndex_index_length=8000 & set /a _GetSubstringIndex_index_count=50 )
-if %_GetSubstringIndex_index% EQU 13 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 13 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 13 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 13 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern,)
-if %_GetSubstringIndex_index% EQU 13 echo Test string is ::"%_GetSubstringIndex_testvar:~,8000%"{TRUNKATED AT 8000}::
-if %_GetSubstringIndex_index% EQU 13 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 14 echo  Repeat tests 7-13, but with punctuation and space but no poison in the test pattern
-set /a _GetSubstringIndex_testpattern_min=10 & set /a _GetSubstringIndex_testpattern_max=20 & set "_GetSubstringIndex_testpattern_settings=PUNCTUATION NOPOISON SPACE"
-
-if %_GetSubstringIndex_index% EQU 14 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 14 set _GetSubstringIndex_testvar=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-if %_GetSubstringIndex_index% EQU 14 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 14 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 14 ( echo.&echo %_GetSubstringIndex_index% All FFF string, 100 long, "%_GetSubstringIndex_testpattern%" is the search pattern, Test string is "%_GetSubstringIndex_testvar%")
-if %_GetSubstringIndex_index% EQU 14 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 15 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 15 Call :CreateRandomStringPS %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 15 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 15 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 15 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 15 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 16 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 16 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 16 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 16 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 16 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 16 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 17 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 17 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 17 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 17 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 17 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 17 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 18 ( set /a _GetSubstringIndex_index_length=1000 & set /a _GetSubstringIndex_index_count=50 )
-if %_GetSubstringIndex_index% EQU 18 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 18 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 18 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 18 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 18 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 19 ( set /a _GetSubstringIndex_index_length=4000 & set /a _GetSubstringIndex_index_count=50 )
-if %_GetSubstringIndex_index% EQU 19 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 19 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 19 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 19 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 19 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 20 ( set /a _GetSubstringIndex_index_length=8000 & set /a _GetSubstringIndex_index_count=50 )
-if %_GetSubstringIndex_index% EQU 20 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 20 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 20 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 20 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, )
-if %_GetSubstringIndex_index% EQU 20 echo Test string is ::"%_GetSubstringIndex_testvar:~,8000%"{TRUNKATED AT 8000}::
-if %_GetSubstringIndex_index% EQU 20 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 21 echo  Repeat tests 14-20, but including poison in the test pattern 
-set /a _GetSubstringIndex_testpattern_min=10 & set /a _GetSubstringIndex_testpattern_max=20 & set "_GetSubstringIndex_testpattern_settings=PUNCTUATION SPACE"
-
-if %_GetSubstringIndex_index% EQU 21 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 21 set _GetSubstringIndex_testvar=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-if %_GetSubstringIndex_index% EQU 21 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 21 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 21 ( echo.&echo %_GetSubstringIndex_index% All FFF string, 100 long, "%_GetSubstringIndex_testpattern%" is the search pattern, Test string is "%_GetSubstringIndex_testvar%")
-if %_GetSubstringIndex_index% EQU 21 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 22 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 22 Call :CreateRandomStringPS %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 22 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 22 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 22 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 22 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 23 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 23 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 23 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 23 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 23 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 23 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 24 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 24 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 24 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 24 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 24 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 24 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 25 ( set /a _GetSubstringIndex_index_length=1000 & set /a _GetSubstringIndex_index_count=50 )
-if %_GetSubstringIndex_index% EQU 25 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 25 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 25 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 25 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 25 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 25 ( set /a _GetSubstringIndex_index_length=4000 & set /a _GetSubstringIndex_index_count=50 )
-if %_GetSubstringIndex_index% EQU 25 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 25 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 25 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 25 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 25 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 26 ( set /a _GetSubstringIndex_index_length=8000 & set /a _GetSubstringIndex_index_count=50 )
-if %_GetSubstringIndex_index% EQU 26 Call :CreateRandomStringPS PUNCTUATION NOPOISON SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 26 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 26 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 26 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, )
-if %_GetSubstringIndex_index% EQU 26 echo Test string is ::"%_GetSubstringIndex_testvar:~,8000%"{TRUNKATED AT 8000}::
-if %_GetSubstringIndex_index% EQU 26 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 27 echo  Repeat tests 21-26, but with poison characters in the test string too
-set /a _GetSubstringIndex_testpattern_min=10 & set /a _GetSubstringIndex_testpattern_max=20 & set "_GetSubstringIndex_testpattern_settings=PUNCTUATION NOPOISON SPACE"
-
-if %_GetSubstringIndex_index% EQU 27 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 27 set "_GetSubstringIndex_testvar=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF)(%^&=<>|FFFF"FFFFFFFFF"
-if %_GetSubstringIndex_index% EQU 27 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 27 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 27 ( echo.&echo %_GetSubstringIndex_index% All FFF string, 100 long, "%_GetSubstringIndex_testpattern%" is the search pattern, Test string is "%_GetSubstringIndex_testvar%")
-if %_GetSubstringIndex_index% EQU 27 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 28 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 28 Call :CreateRandomStringPS PUNCTUATION %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 28 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 28 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 28 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 28 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 29 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 29 Call :CreateRandomStringPS PUNCTUATION SPACE %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 29 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 29 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 29 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 29 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 30 ( set /a _GetSubstringIndex_index_length=100 & set /a _GetSubstringIndex_index_count=100 )
-if %_GetSubstringIndex_index% EQU 30 Call :CreateRandomStringPS PUNCTUATION SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 30 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 30 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 30 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 30 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 31 ( set /a _GetSubstringIndex_index_length=1000 & set /a _GetSubstringIndex_index_count=50 )
-if %_GetSubstringIndex_index% EQU 31 Call :CreateRandomStringPS PUNCTUATION SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 31 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 31 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 31 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 31 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 32 ( set /a _GetSubstringIndex_index_length=4000 & set /a _GetSubstringIndex_index_count=50 )
-if %_GetSubstringIndex_index% EQU 32 Call :CreateRandomStringPS PUNCTUATION SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 32 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 32 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 32 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, Test string is ::"%_GetSubstringIndex_testvar%"::)
-if %_GetSubstringIndex_index% EQU 32 GoTo :GetSubstringIndex-demo-start-loop
-
-if %_GetSubstringIndex_index% EQU 33 ( set /a _GetSubstringIndex_index_length=8000 & set /a _GetSubstringIndex_index_count=50 )
-if %_GetSubstringIndex_index% EQU 33 Call :CreateRandomStringPS PUNCTUATION SPACE EXTENDED %_GetSubstringIndex_index_length% _GetSubstringIndex_testvar
-if %_GetSubstringIndex_index% EQU 33 call :rnd _GetSubstringIndex_testpattern %_GetSubstringIndex_testpattern_min% %_GetSubstringIndex_testpattern_max%
-if %_GetSubstringIndex_index% EQU 33 Call :CreateRandomStringPS %_GetSubstringIndex_testpattern_settings% %_GetSubstringIndex_testpattern% _GetSubstringIndex_testpattern
-if %_GetSubstringIndex_index% EQU 33 ( echo.&echo %_GetSubstringIndex_index% Alphanumeric random string, with punctuation and space and nopoison %_GetSubstringIndex_index_length% long, %_GetSubstringIndex_index_count% count ::"%_GetSubstringIndex_testpattern%":: is the search pattern, )
-if %_GetSubstringIndex_index% EQU 33 echo Test string is ::"%_GetSubstringIndex_testvar:~,8000%"{TRUNKATED AT 8000}::
-if %_GetSubstringIndex_index% EQU 33 GoTo :GetSubstringIndex-demo-start-loop
-
-:GetSubstringIndex-demo-start-loop
-echo test
-set /a _GetSubstringIndex_index_index=0
-Call :ClearVariablesByPrefix _GetSubstringIndex_testarray 
-echo.&echo Starting test %_GetSubstringIndex_index%, string length %_GetSubstringIndex_index_length%, loop  count %_GetSubstringIndex_index_count%&echo.
-:GetSubstringIndex-demo-run-loop
-Call :ReplaceString "%_GetSubstringIndex_testvar%" "%_GetSubstringIndex_testpattern%" _GetSubstringIndex_testarray[%_GetSubstringIndex_index_index%] %_GetSubstringIndex_index_index% ""
-set /a _GetSubstringIndex_index_index+=1
-if %_GetSubstringIndex_index_index% LEQ %_GetSubstringIndex_index_count% GoTo :GetSubstringIndex-demo-run-loop
-echo.&echo _GetSubstringIndex_testarray[] values inserted with test pattern ::"%_GetSubstringIndex_testpattern%":: & set /a _GetSubstringIndex_index_index=0
-echo.&echo GetSubstringIndex is called byref&echo.
-:GetSubstringIndex-demo-run-loop-loop
-Call :GetSubstringIndex "_GetSubstringIndex_testarray[%_GetSubstringIndex_index_index%]" "%_GetSubstringIndex_testpattern%" "" 
-if defined _GetSubstringIndex_show_string call echo Index %_GetSubstringIndex_index_index% : result %errorlevel%  ::"%%_GetSubstringIndex_testarray[%_GetSubstringIndex_index_index%]:~,8000%%"::
-if not defined _GetSubstringIndex_show_string call echo Index %_GetSubstringIndex_index_index% : result %errorlevel% 
-set /a _GetSubstringIndex_index_index+=1
-if %_GetSubstringIndex_index_index% LEQ %_GetSubstringIndex_index_count% GoTo :GetSubstringIndex-demo-run-loop-loop
-echo.&echo GetSubstringIndex is called byval&echo.& set /a _GetSubstringIndex_index_index=0
-:GetSubstringIndex-demo-run-loop-loop-loop
-Call :GetSubstringIndex "%%_GetSubstringIndex_testarray[%_GetSubstringIndex_index_index%]%%" "%_GetSubstringIndex_testpattern%" "" 
-if defined _GetSubstringIndex_show_string call echo Index %_GetSubstringIndex_index_index% : result %errorlevel%  ::"%%_GetSubstringIndex_testarray[%_GetSubstringIndex_index_index%]:~,8000%%"::
-if not defined _GetSubstringIndex_show_string call echo Index %_GetSubstringIndex_index_index% : result %errorlevel%
-set /a _GetSubstringIndex_index_index+=1
-if %_GetSubstringIndex_index_index% LEQ %_GetSubstringIndex_index_count% GoTo :GetSubstringIndex-demo-run-loop-loop-loop
-set /a _GetSubstringIndex_index+=1
-if %_GetSubstringIndex_index% LSS %_GetSubstringIndex_stop% GoTo :GetSubstringIndex-demo-loop
-
-Call :ClearVariablesByPrefix _GetSubstringIndex
+:GetSubstringIndex-2-skip
+REM GoTo :GetSubstringIndex-3-skip
+call :GetSubstringTestHelper OutputArray 100 "26 All F base array, multiple delimiters with invertposition and negative indexoffset"                                              "OVERRIDE 70" 100                            Delimiter "OVERRIDE 71" 10                               Delimiter INVERTPOSITION "OVERRIDE 80" 10    Delimiter INVERTPOSITION INDEXOFFSET -15 "OVERRIDE 81" 10        Delimiter INVERTPOSITION INDEXOFFSET -30 "OVERRIDE 82" 10
+call :GetSubstringTestHelper OutputArray 100 "27 All F base array, all G delimiter repeat 3 times"                                                                                "OVERRIDE 70" 100                            Delimiter REPEAT 3 "OVERRIDE 71" 10
+call :GetSubstringTestHelper OutputArray 100 "28 All F base array, all G delimiter repeat 5 times"                                                                                "OVERRIDE 70" 100                            Delimiter REPEAT 5 "OVERRIDE 71" 3                       Delimiter INVERTPOSITION "OVERRIDE 80" 3
+call :GetSubstringTestHelper OutputArray 100 "29 All F base array, all G delimiter, repeat 3 times element offset is 3"                                                           "OVERRIDE 70" 100                            Delimiter REPEAT "3,3" "OVERRIDE 71" 4
+call :GetSubstringTestHelper OutputArray 100 "30 All F base array, all G delimiter repeated 5 times then all P delimiter, inverted"                                               "OVERRIDE 70" 100                            Delimiter REPEAT "5,3" "OVERRIDE 71" 4                   Delimiter INVERTPOSITION "OVERRIDE 80" 3
+REM :GetSubstringIndex-3-skip
 GoTo :EOF
 
-::Usage Call :ReplaceString InputString ReplaceString optional OutputString optional StartIndex optional len
-:ReplaceString
-set "_ReplaceString_prefix=_RS"
-Call :ClearVariablesByPrefix _RS_byref
+
+::Usage Call :GetSubstringTestHelper [GetSubstringTestHelper arguments]
+:GetSubstringTestHelper
+set "_GetSubstringTestHelper_prefix=_GSTH"
 setlocal enabledelayedexpansion
-if defined %~1 set "_RS_byref_input=true"
-if defined %~2 set "_RS_byref_replace=true"
-set _RS_Input=%~1
-set _RS_Replace=%~2
-set _RS_Output=%~3
-if not defined _RS_Output set _RS_Output=%_RS_Input%
-set /a _RS_StartIndex=%~4 2>nul
-if not defined _RS_StartIndex set /a _RS_StartIndex=0
-set /a _RS_len=%~5 2>nul
-if not defined _RS_len call :len _RS_Replace _RS_len
-set /a _RS_RemainIndex=%_RS_StartIndex%+%_RS_len%
-if defined _RS_byref_input if defined _RS_byref_replace GoTo :ReplaceString-both-byref-skip
-if defined _RS_byref_input if not defined _RS_byref_replace GoTo :ReplaceString-input-byref-skip
-if defined not _RS_byref_input if defined _RS_byref_replace GoTo :ReplaceString-replace-byref-skip
-set _RS_Intermetiate=!_RS_Input:~,%_RS_StartIndex%!!_RS_Replace!!_RS_Input:~%_RS_RemainIndex%!
-GoTo :ReplaceString-end
-:ReplaceString-both-byref-skip
-set _RS_Intermetiate=!%_RS_Input%:~,%_RS_StartIndex%!!%_RS_Replace%!!%_RS_Input%:~%_RS_RemainIndex%!
-GoTo :ReplaceString-end
-:ReplaceString-replace-byref-skip
-set _RS_Intermetiate=!_RS_Input:~,%_RS_StartIndex%!!%_RS_Replace%!!_RS_Input:~%_RS_RemainIndex%!
-GoTo :ReplaceString-end
-:ReplaceString-input-byref-skip
-if not defined _RS_byref_replace set _RS_Replace=%~2
-set _RS_Intermetiate=!%_RS_Input%:~,%_RS_StartIndex%!!_RS_Replace!!%_RS_Input%:~%_RS_RemainIndex%!
-:ReplaceString-end
-if "[%~6]" NEQ "[]" (shift & shift & shift & shift & shift & GoTo :ReplaceString)
-for /f "tokens=1* delims=" %%a in ('echo.!_RS_Intermetiate!') do endlocal & set %_RS_Output%=%%a
-Call :ClearVariablesByPrefix %_ReplaceString_prefix% _ReplaceString_prefix & GoTo :EOF
+set "_GSTH_Space=                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   "
+call :len _GSTH_Space _GSTH_Space_len
+echo _GSTH_Space_len%_GSTH_Space_len%
+set "_GSTH_OutputArray=%~1" & shift
+for /f "tokens=1,2 delims=-" %%a in ("%~1") do ( set /a _GSTH_Min=%%a & set /a _GSTH_Max=%%b 2>nul ) & shift
+if not defined _GSTH_Max ( set /a _GSTH_ActualCount=%_GSTH_Min% ) else ( call :rnd _GSTH_ActualCount %_GSTH_Min% %_GSTH_Max% )
+set "%_GSTH_OutputArray%.comment=%~1" & shift
+set /a _GSTH_Base.ubound=0 & set /a _GSTH_Delimiters.ubound=-1
+GoTo :GetSubstringTestHelper-base-args
+:GetSubstringTestHelper-args
+if /i "[%~1]" EQU "[BASE]" ( set /a _GSTH_Base.ubound+=1 & shift & GoTo :GetSubstringTestHelper-base-args )
+if /i "[%~1]" EQU "[DELIMITER]" ( set /a _GSTH_Delimiters.ubound+=1 & set /a _GSTH_Delimiters[!_GSTH_Delimiters.ubound!].IndexOffset=0 & set /a _GSTH_Delimiters[!_GSTH_Delimiters.ubound!].Repeat=0 & shift & GoTo :GetSubstringTestHelper-delimiter-args )
+GoTo :GetSubstringTestHelper-args-skip
+:GetSubstringTestHelper-base-args
+if defined %~1 ( set "_GSTH_Base[%_GSTH_Base.ubound%]=%~1" & Call :len _GSTH_Base[%_GSTH_Base%] _GSTH_Base[%_GSTH_Base%].len & shift & GoTo :GetSubstringTestHelper-args )
+if /i "[%~1]" EQU "[LITERAL]" ( set "_GSTH_Base[%_GSTH_Base.ubound%]=%~2" & shift & shift & GoTo :GetSubstringTestHelper-args )
+for /f "tokens=1,2 delims=-" %%a in ("%~2") do ( set /a _GSTH_Min=%%a & set /a _GSTH_Max=%%b 2>nul )
+if not defined _GSTH_Max ( set /a _GSTH_Base[%_GSTH_Base.ubound%].len=%_GSTH_Min% ) else ( call :rnd _GSTH_Base[%_GSTH_Base.ubound%].len %_GSTH_Min% %_GSTH_Max% )
+Call :CreateRandomStringPS %~1 !_GSTH_Base[%_GSTH_Base.ubound%].len! _GSTH_Base[%_GSTH_Base.ubound%] & shift & shift 
+if "[%~1]" NEQ "[]" ( GoTo :GetSubstringTestHelper-args ) else ( GoTo :GetSubstringTestHelper-args-skip )
+:GetSubstringTestHelper-delimiter-args
+if /i "[%~1]" EQU "[INVERTPOSITION]" ( set "_GSTH_Delimiters[%_GSTH_Delimiters.ubound%].InvertPosition=true" & shift & GoTo :GetSubstringTestHelper-delimiter-args )
+if /i "[%~1]" EQU "[INDEXOFFSET]" ( set /a "_GSTH_Delimiters[%_GSTH_Delimiters.ubound%].IndexOffset=%~2" & shift & shift & GoTo :GetSubstringTestHelper-delimiter-args )
+if /i "[%~1]" EQU "[REPEAT]" ( set "_GSTH_Delimiters[%_GSTH_Delimiters.ubound%].Repeat=%~2" & shift & shift & GoTo :GetSubstringTestHelper-delimiter-args )
+if /i "[%~1]" EQU "[LITERAL]" ( set "_GSTH_Delimiters[%_GSTH_Delimiters.ubound%]=%~2" & shift & shift & GoTo :GetSubstringTestHelper-args )
+if defined %~1 ( set "_GSTH_Delimiters[%_GSTH_Delimiters.ubound%]=!%~1!" & Call :len _GSTH_Delimiters[%_GSTH_Delimiters_ubound%] _GSTH_Delimiters[%_GSTH_Delimiters.ubound%].len & shift & GoTo :GetSubstringTestHelper-args)
+if "[!%~1.ubound!]" EQU "[]" GoTo :GetSubstringTestHelper-delimiter-array-skip
+if defined %~1.ubound ( set /a _GSTH_Delimiters.ubound-=1 & for /l %%a in (0,1,!%~1.ubound!) do ( set /a _GSTH_Delimiters.ubound+=1 & Call :CopyObject %~1[%%a] _GSTH_Delimiters[%_GSTH_Delimiters.ubound%] ) )
+shift & GoTo :GetSubstringTestHelper-args 
+:GetSubstringTestHelper-delimiter-array-skip
+for /f "tokens=1,2 delims=-" %%a in ("%~2") do ( set /a _GSTH_Min=%%a & set /a _GSTH_Max=%%b 2>nul )
+if not defined _GSTH_Max ( set /a _GSTH_Delimiters[%_GSTH_Delimiters.ubound%].len=%_GSTH_Min% ) else ( call :rnd _GSTH_Delimiters[%_GSTH_Delimiters.ubound%].len %_GSTH_Min% %_GSTH_Max% )
+set "_GSTH_Delimiters[%_GSTH_Delimiters.ubound%].setting=%~1"
+Call :CreateRandomStringPS !_GSTH_Delimiters[%_GSTH_Delimiters.ubound%].setting! !_GSTH_Delimiters[%_GSTH_Delimiters.ubound%].len! _GSTH_Delimiters[%_GSTH_Delimiters.ubound%] & shift & shift 
+if "[%~1]" NEQ "[]" GoTo :GetSubstringTestHelper-args
+:GetSubstringTestHelper-args-skip
+set /a _GSTH_index=0
+:GetSubstringTestHelper-loop
+set /a _GSTH_Base.index=0
+:GetSubstringTestHelper-base-loop
+set /a _GSTH_Delimiters.index=0
+set "_GSTH_CurrentInputPointer=_GSTH_Base[%_GSTH_Base.index%]"
+:GetSubstringTestHelper-delimiter-loop
+if defined _GSTH_Delimiters[%_GSTH_Delimiters.index%].InvertPosition ( set /a _GSTH_Delimiter_Position=%_GSTH_ActualCount%-%_GSTH_index%+!_GSTH_Delimiters[%_GSTH_Delimiters.index%].IndexOffset!-1 ) else ( set /a _GSTH_Delimiter_Position=%_GSTH_index%+!_GSTH_Delimiters[%_GSTH_Delimiters.index%].IndexOffset! )
+if %_GSTH_Delimiter_Position% LSS 0 GoTo :GetSubstringTestHelper-delimiter-loop-skip
+Call :ReplaceString %_GSTH_CurrentInputPointer% %_GSTH_OutputArray%[%_GSTH_index%] REPEAT "!_GSTH_Delimiters[%_GSTH_Delimiters.index%].Repeat!" LEN !_GSTH_Delimiters[%_GSTH_Delimiters.index%].len! %_GSTH_Delimiter_Position% _GSTH_Delimiters[%_GSTH_Delimiters.index%]
+echo.%_GSTH_OutputArray%[%_GSTH_index%]=!%_GSTH_OutputArray%[%_GSTH_index%]!
+Call :GetSubstringIndex OUTPUT _GSTH_Substring_Result %_GSTH_OutputArray%[%_GSTH_index%] _GSTH_Delimiters[%_GSTH_Delimiters.index%] "" 
+echo.%_GSTH_OutputArray%[%_GSTH_index%]=!_GSTH_Space:~0,%_GSTH_Substring_Result%!!_GSTH_Delimiters[%_GSTH_Delimiters.index%]!
+:GetSubstringTestHelper-delimiter-loop-skip
+set "_GSTH_CurrentInputPointer=%_GSTH_OutputArray%[%_GSTH_index%]" & set /a _GSTH_Delimiters.index+=1
+if %_GSTH_Delimiters.index% LEQ %_GSTH_Delimiters.ubound% GoTo :GetSubstringTestHelper-delimiter-loop
+set /a _GSTH_index+=1
+if %_GSTH_Base.index% LEQ %_GSTH_Base.ubound% ( set /a "_GSTH_Base.index+=1" ) else ( set /a "_GSTH_Base.index=0" )
+if %_GSTH_index% LSS %_GSTH_ActualCount% GoTo :GetSubstringTestHelper-loop
+set /a %_GSTH_OutputArray%.ubound=%_GSTH_ActualCount%
+set /a _GSTH_index=0
+:GetSubstringTestHelper-test-loop
+set /a _GSTH_index+=1
+if %_GSTH_index% LSS !%_GSTH_OutputArray%.ubound! GoTo :GetSubstringTestHelper-test-loop
+for /F "delims=" %%a in ('set %_GSTH_OutputArray%') do (
+	endlocal
+	set "%%a"
+	)
+Call :ClearVariablesByPrefix %_GetSubstringTestHelper_prefix% _GetSubstringTestHelper
+GoTo :EOF
+
+
+::Usage Call :CreateTestArray OutputArray Comment BaseArraySetting
+:CreateTestArray
+set "_CreateTestArray_prefix=_CTA"
+setlocal enabledelayedexpansion
+set "_CTA_OutputArray=%~1" & shift
+for /f "tokens=1,2 delims=-" %%a in ("%~1") do ( set /a _CTA_Min=%%a & set /a _CTA_Max=%%b 2>nul ) & shift
+if not defined _CTA_Max ( set /a _CTA_ActualCount=%_CTA_Min% ) else ( call :rnd _CTA_ActualCount %_CTA_Min% %_CTA_Max% )
+set "%_CTA_OutputArray%.comment=%~1" & shift
+set /a _CTA_Base.ubound=0 & set /a _CTA_Delimiters.ubound=-1
+GoTo :CreateTestArray-base-args
+:CreateTestArray-args
+if /i "[%~1]" EQU "[BASE]" ( set /a _CTA_Base.ubound+=1 & shift & GoTo :CreateTestArray-base-args )
+if /i "[%~1]" EQU "[DELIMITER]" ( set /a _CTA_Delimiters.ubound+=1 & set /a _CTA_Delimiters[!_CTA_Delimiters.ubound!].IndexOffset=0 & set /a _CTA_Delimiters[!_CTA_Delimiters.ubound!].Repeat=0 & shift & GoTo :CreateTestArray-delimiter-args )
+GoTo :CreateTestArray-args-skip
+:CreateTestArray-base-args
+if defined %~1 ( set "_CTA_Base[%_CTA_Base.ubound%]=%~1" & Call :len _CTA_Base[%_CTA_Base%] _CTA_Base[%_CTA_Base%].len & shift & GoTo :CreateTestArray-args )
+if /i "[%~1]" EQU "[LITERAL]" ( set "_CTA_Base[%_CTA_Base.ubound%]=%~2" & shift & shift & GoTo :CreateTestArray-args )
+for /f "tokens=1,2 delims=-" %%a in ("%~2") do ( set /a _CTA_Min=%%a & set /a _CTA_Max=%%b 2>nul )
+if not defined _CTA_Max ( set /a _CTA_Base[%_CTA_Base.ubound%].len=%_CTA_Min% ) else ( call :rnd _CTA_Base[%_CTA_Base.ubound%].len %_CTA_Min% %_CTA_Max% )
+Call :CreateRandomStringPS %~1 !_CTA_Base[%_CTA_Base.ubound%].len! _CTA_Base[%_CTA_Base.ubound%] & shift & shift 
+if "[%~1]" NEQ "[]" ( GoTo :CreateTestArray-args ) else ( GoTo :CreateTestArray-args-skip )
+:CreateTestArray-delimiter-args
+if /i "[%~1]" EQU "[INVERTPOSITION]" ( set "_CTA_Delimiters[%_CTA_Delimiters.ubound%].InvertPosition=true" & shift & GoTo :CreateTestArray-delimiter-args )
+if /i "[%~1]" EQU "[INDEXOFFSET]" ( set /a "_CTA_Delimiters[%_CTA_Delimiters.ubound%].IndexOffset=%~2" & shift & shift & GoTo :CreateTestArray-delimiter-args )
+if /i "[%~1]" EQU "[REPEAT]" ( set "_CTA_Delimiters[%_CTA_Delimiters.ubound%].Repeat=%~2" & shift & shift & GoTo :CreateTestArray-delimiter-args )
+if /i "[%~1]" EQU "[LITERAL]" ( set "_CTA_Delimiters[%_CTA_Delimiters.ubound%]=%~2" & shift & shift & GoTo :CreateTestArray-args )
+if defined %~1 ( set "_CTA_Delimiters[%_CTA_Delimiters.ubound%]=!%~1!" & Call :len _CTA_Delimiters[%_CTA_Delimiters_ubound%] _CTA_Delimiters[%_CTA_Delimiters.ubound%].len & shift & GoTo :CreateTestArray-args)
+if "[!%~1.ubound!]" EQU "[]" GoTo :CreateTestArray-delimiter-array-skip
+if defined %~1.ubound ( set /a _CTA_Delimiters.ubound-=1 & for /l %%a in (0,1,!%~1.ubound!) do ( set /a _CTA_Delimiters.ubound+=1 & Call :CopyObject %~1[%%a] _CTA_Delimiters[%_CTA_Delimiters.ubound%] ) )
+shift & GoTo :CreateTestArray-args 
+:CreateTestArray-delimiter-array-skip
+for /f "tokens=1,2 delims=-" %%a in ("%~2") do ( set /a _CTA_Min=%%a & set /a _CTA_Max=%%b 2>nul )
+if not defined _CTA_Max ( set /a _CTA_Delimiters[%_CTA_Delimiters.ubound%].len=%_CTA_Min% ) else ( call :rnd _CTA_Delimiters[%_CTA_Delimiters.ubound%].len %_CTA_Min% %_CTA_Max% )
+set "_CTA_Delimiters[%_CTA_Delimiters.ubound%].setting=%~1"
+Call :CreateRandomStringPS !_CTA_Delimiters[%_CTA_Delimiters.ubound%].setting! !_CTA_Delimiters[%_CTA_Delimiters.ubound%].len! _CTA_Delimiters[%_CTA_Delimiters.ubound%] & shift & shift 
+if "[%~1]" NEQ "[]" GoTo :CreateTestArray-args
+:CreateTestArray-args-skip
+set /a _CTA_index=0
+:CreateTestArray-loop
+set /a _CTA_Base.index=0
+:CreateTestArray-base-loop
+set /a _CTA_Delimiters.index=0
+set "_CTA_CurrentInputPointer=_CTA_Base[%_CTA_Base.index%]"
+:CreateTestArray-delimiter-loop
+if defined _CTA_Delimiters[%_CTA_Delimiters.index%].InvertPosition ( set /a _CTA_Delimiter_Position=%_CTA_ActualCount%-%_CTA_index%+!_CTA_Delimiters[%_CTA_Delimiters.index%].IndexOffset!-1 ) else ( set /a _CTA_Delimiter_Position=%_CTA_index%+!_CTA_Delimiters[%_CTA_Delimiters.index%].IndexOffset! )
+if %_CTA_Delimiter_Position% LSS 0 GoTo :CreateTestArray-delimiter-loop-skip
+Call :ReplaceString %_CTA_CurrentInputPointer% %_CTA_OutputArray%[%_CTA_index%] REPEAT "!_CTA_Delimiters[%_CTA_Delimiters.index%].Repeat!" LEN !_CTA_Delimiters[%_CTA_Delimiters.index%].len! %_CTA_Delimiter_Position% _CTA_Delimiters[%_CTA_Delimiters.index%] 
+:CreateTestArray-delimiter-loop-skip
+set "_CTA_CurrentInputPointer=%_CTA_OutputArray%[%_CTA_index%]" & set /a _CTA_Delimiters.index+=1
+if %_CTA_Delimiters.index% LEQ %_CTA_Delimiters.ubound% GoTo :CreateTestArray-delimiter-loop
+set /a _CTA_index+=1
+if %_CTA_Base.index% LEQ %_CTA_Base.ubound% ( set /a "_CTA_Base.index+=1" ) else ( set /a "_CTA_Base.index=0" )
+if %_CTA_index% LSS %_CTA_ActualCount% GoTo :CreateTestArray-loop
+set /a %_CTA_OutputArray%.ubound=%_CTA_ActualCount%
+echo !%_CTA_OutputArray%.comment!
+Call :EchoArray %_CTA_OutputArray%
+for /F "delims=" %%a in ('set %_CTA_OutputArray%') do (
+	endlocal
+	set "%%a"
+	)
+Call :ClearVariablesByPrefix %_CreateTestArray_prefix% _CreateTestArray
+GoTo :EOF
+
+
+::Usage Call :DeleteString InputString OutputString [REPEAT Count]|[ALL][APPEND][OVERSPLIT][LEN DelimiterLen][RESET] InsertIndex1 InsertString1  ... [REPEAT Count]|[ALL][APPEND][OVERSPLIT][LEN DelimiterLen][RESET] InsertIndexN InsertStringN
+:DeleteString
+set "_IS_ReplaceMode=true"
+set "_IS_DeleteMode=true"
+GoTo :InsertString
+::Usage Call :ReplaceString InputString OutputString [REPEAT Count]|[ALL][APPEND][OVERSPLIT][LEN DelimiterLen][RESET] InsertIndex1 InsertString1  ... [REPEAT Count]|[ALL][APPEND][OVERSPLIT][LEN DelimiterLen][RESET] InsertIndexN InsertStringN
+:ReplaceString
+set "_IS_ReplaceMode=true"
+::Usage Call :InsertString InputString OutputString [REPEAT Count]|[ALL][APPEND][OVERSPLIT][LEN DelimiterLen][RESET] InsertIndex1 InsertString1  ... [REPEAT Count]|[ALL][APPEND][OVERSPLIT][LEN DelimiterLen][RESET] InsertIndexN InsertStringN
+:InsertString
+set "_InsertString_prefix=_IS"
+setlocal enabledelayedexpansion
+if "[%~1]" EQU "[APPEND]" ( set "_IS_AppendMode=true" & shift)
+set "_IS_LocalScope=true"
+set "_IS_InputString=%~1"
+set "_IS_OutputString=%~2"
+if defined _IS_AppendMode if defined !_IS_OutputString! set "_IS_ResidualOutput=!_IS_OutputString!"
+set /a _IS_InsertCountIndex=0
+set /a _IS_InsertCount=-1
+:InsertString-args
+if "[%~3]" EQU "[REPEAT]" ( for /f "tokens=1,2 delims=," %%a in ("%~4") do ( set /a _IS_InsertCount=%%a & set /a _IS_InsertSkip=%%b 2>nul ) & shift & shift & GoTo :InsertString-args )
+if "[%~3]" EQU "[ALL]" ( set "_IS_AllTheString=true" & shift & GoTo :InsertString-args )
+if "[%~3]" EQU "[OVERSPLIT]" ( set "_IS_Oversplit=true" & shift & GoTo :InsertString-args )
+if "[%~3]" EQU "[LEN]" ( set /a _IS_InsertString_Pointer_len=%~4 & shift & shift & GoTo :InsertString-args )
+if "[%~3]" EQU "[RESET]" ( set "_IS_Oversplit=" & set "_IS_InsertString_Pointer_len=" & set "_IS_Oversplit=" & set "_IS_InsertCount=" & set "_IS_InsertSkip=" & shift & GoTo :InsertString-args )
+if defined _IS_AllTheString set "_IS_Oversplit="
+set /a _IS_InsertIndex=%~3
+set "_IS_InsertString=%~4"
+shift & shift
+set "_IS_InputString_Pointer=_IS_InputString" & if defined !_IS_InputString! set "_IS_InputString_Pointer=!_IS_InputString!"
+set "_IS_InsertString_Pointer=_IS_InsertString" & if defined !_IS_InsertString! set "_IS_InsertString_Pointer=!_IS_InsertString!"
+if defined _IS_DeleteMode set "_IS_InsertString_Pointer=_IS_Blank"
+if not defined _IS_InsertString_Pointer_len ( set /a _IS_InsertString_Pointer_len=0 & if defined _IS_ReplaceMode call :len !_IS_InsertString_Pointer! _IS_InsertString_Pointer_len )
+if defined _IS_DeleteMode set /a _IS_InsertString_Pointer_len=%_IS_InsertString%
+set /a _IS_StartIndex=0
+set /a _IS_NextIndex=%_IS_StartIndex%+%_IS_InsertIndex%+%_IS_InsertString_Pointer_len%
+:InsertString-count-loop
+if not defined _IS_Oversplit if "[!%_IS_InputString_Pointer%:~%_IS_NextIndex%!]" EQU "[]" GoTo :InsertString-count-end
+set "_IS_NewOutput=!_IS_NewOutput!!%_IS_InputString_Pointer%:~%_IS_StartIndex%,%_IS_InsertIndex%!!%_IS_InsertString_Pointer%!"
+set /a _IS_StartIndex=%_IS_StartIndex%+%_IS_InsertIndex%+%_IS_InsertString_Pointer_len%
+if defined _IS_InsertSkip set /a _IS_InsertIndex=%_IS_InsertSkip%
+set /a _IS_NextIndex=%_IS_StartIndex%+%_IS_InsertIndex%+%_IS_InsertString_Pointer_len%
+if %_IS_InsertCountIndex% LSS %_IS_InsertCount% (  set /a _IS_InsertCountIndex+=1 & GoTo :InsertString-count-loop )
+if defined _IS_AllTheString GoTo :InsertString-count-loop
+:InsertString-count-end
+set "_IS_NewOutput=!_IS_ResidualOutput!!_IS_NewOutput!!%_IS_InputString_Pointer%:~%_IS_StartIndex%!" & set "_IS_ResidualOutput="
+if "[%~3]" NEQ "[]" ( set "_IS_InputString=!_IS_NewOutput!" & set "_IS_NewOutput=" & set "_IS_Oversplit=" & set "_IS_InsertString_Pointer_len=" & set "_IS_Oversplit=" & set "_IS_InsertCount=" & set "_IS_InsertSkip=" & GoTo :InsertString-args )
+for /f "tokens=1* delims=" %%a in ("!_IS_NewOutput!") do ( endlocal & set %_IS_OutputString%=%%a )
+if defined _IS_LocalScope endlocal
+Call :ClearVariablesByPrefix %_InsertString_prefix% _InsertString_prefix & GoTo :EOF
 
 
 :split-demo
@@ -444,97 +295,140 @@ Call :ClearVariablesByPrefix %_ReplaceString_prefix% _ReplaceString_prefix & GoT
 REM GoTo :split-demo-skip-max-lenght-test
 REM GoTo :split-demo-skip-4.1
 
-GoTo :split-demo-skip-1
+REM GoTo :split-demo-skip-1
 echo.
 echo Basic tests, byval input and byval delimiter
 echo.
-call :split-demo-helper "THIS,IS,A,TEST" "," _split_demo_array "classic comma separated, works"
-call :split-demo-helper "THIS.IS.A.TEST" "." _split_demo_array "using dots instead, works"
-call :split-demo-helper "THISZISZAZTEST" "Z" _split_demo_array "using a letter, Z, works"
-call :split-demo-helper "THIS::IS::A::TEST" "::" _split_demo_array "using two character delimiter, double punctuation, works"
-call :split-demo-helper "THIS123IS123A123TEST" "123" _split_demo_array "using three characters, numbers, works" 
-call :split-demo-helper "THIS[COLUMN]IS[COLUMN]A[COLUMN]TEST" "[COLUMN]" _split_demo_array "using delimiter inside square brackets, works"
-call :split-demo-helper "THIS^IS^A^TEST" "^" _split_demo_array "carret poison character, carrets get doubled in the call because "string byval" but works works"
-call :split-demo-helper "THIS^^IS^^A^^TEST" "^^" _split_demo_array "carret poison character, carrets get doubled in the call because "string byval" but works works"
+call :split-demo-helper "classic comma separated, works" "THIS,IS,A,TEST" _split_demo_array "," 
+call :split-demo-helper "using dots instead, works" "THIS.IS.A.TEST" _split_demo_array "."
+call :split-demo-helper "using a letter, Z, works" "THISZISZAZTEST" _split_demo_array "Z"  
+call :split-demo-helper "using two character delimiter, double punctuation, works" "THIS::IS::A::TEST" _split_demo_array "::"  
+call :split-demo-helper "using three characters, numbers, works" "THIS123IS123A123TEST" _split_demo_array "123"
+call :split-demo-helper "using delimiter inside square brackets, works" "THIS[COLUMN]IS[COLUMN]A[COLUMN]TEST" _split_demo_array "[COLUMN]"
+REM next one ends in infinite loop, maybe because of empty delimiter ?
+REM call :split-demo-helper "carret poison character, carrets get doubled in the call because 'string byval' but works"  "THIS^IS^A^TEST" _split_demo_array "^"  
+call :split-demo-helper "carret poison character, carrets get doubled in the call because 'string byval' but works" "THIS^^IS^^A^^TEST" _split_demo_array "^^"  
 REM call :split-demo-helper "THIS%%IS%%A%%TEST" "%%" _split_demo_array "percent signs, strangely returns ubound=6 but empty elements"      I think this breaks the helper function to begin with
-call :split-demo-helper "THIS|IS|A|TEST" "|" _split_demo_array  "pipe poison character, pipe, works"
-REM call :split-demo-helper "THIS!IS!A!TEST" "!" _split_demo_array  "exclamation poison character, exclamation mark, breaks the test with infinite loop"
-call :split-demo-helper "THIS&IS&A&TEST" "&" _split_demo_array "poison character, ampersands, works"
+REM this test doesn't work
+REM call :split-demo-helper "pipe poison character, pipe, works" "THIS|IS|A|TEST" _split_demo_array "|"   
+call :split-demo-helper "THIS!IS!A!TEST" "!" _split_demo_array  "exclamation poison character, exclamation mark, breaks the test with infinite loop"
+REM ampersand causes infinite loop
+REM call :split-demo-helper "poison character, ampersands, works" "THIS&IS&A&TEST" _split_demo_array "&"  
 :split-demo-skip-1
 
-GoTo :split-demo-skip-2
+REM GoTo :split-demo-skip-2 
 echo.
 echo Now using byref instead of byval
 echo.
 set "_split_demo_test=THIS,IS,A,TEST" & set "_split_demo_delim=," & set "_split_demo_comment=classic comma separated, works"
-call :split-demo-2-helper _split_demo_test _split_demo_delim _split_demo_array "%_split_demo_comment%"
+call :split-demo-helper "%_split_demo_comment%" _split_demo_test _split_demo_array _split_demo_delim
 set "_split_demo_test=THIS.IS.A.TEST" & set "_split_demo_delim=." & set "_split_demo_comment=using dots instead, works"
-call :split-demo-2-helper _split_demo_test _split_demo_delim _split_demo_array  "%_split_demo_comment%"
+call :split-demo-helper "%_split_demo_comment%" _split_demo_test _split_demo_array _split_demo_delim
 set "_split_demo_test=THISZISZAZTEST" & set "_split_demo_delim=Z" & set "_split_demo_comment=using a letter, Z, works"
-call :split-demo-2-helper _split_demo_test _split_demo_delim _split_demo_array  "%_split_demo_comment%"
+call :split-demo-helper "%_split_demo_comment%" _split_demo_test _split_demo_array _split_demo_delim
 set "_split_demo_test=THIS::IS::A::TEST" & set "_split_demo_delim=::" & set "_split_demo_comment=using two character delimiter, double punctuation, works"
-call :split-demo-2-helper _split_demo_test _split_demo_delim _split_demo_array  "%_split_demo_comment%"
+call :split-demo-helper "%_split_demo_comment%" _split_demo_test _split_demo_array _split_demo_delim
 set "_split_demo_test=THIS123IS123A123TEST" & set "_split_demo_delim=123" & set "_split_demo_comment=using three characters, numbers, works" 
-call :split-demo-2-helper _split_demo_test _split_demo_delim _split_demo_array  "%_split_demo_comment%"
+call :split-demo-helper "%_split_demo_comment%" _split_demo_test _split_demo_array _split_demo_delim
 set "_split_demo_test=THIS[COLUMN]IS[COLUMN]A[COLUMN]TEST" & set "_split_demo_delim=[COLUMN]" & set "_split_demo_comment=using delimiter inside square brackets, works"
-call :split-demo-2-helper _split_demo_test _split_demo_delim _split_demo_array  "%_split_demo_comment%"
+call :split-demo-helper "%_split_demo_comment%" _split_demo_test _split_demo_array _split_demo_delim
 set "_split_demo_test=THIS^IS^A^TEST" & set "_split_demo_delim=^" & set "_split_demo_comment=poison character, carret, works"
-call :split-demo-2-helper _split_demo_test _split_demo_delim _split_demo_array  "%_split_demo_comment%"
+call :split-demo-helper "%_split_demo_comment%" _split_demo_test _split_demo_array _split_demo_delim
 set "_split_demo_test=THIS^^IS^^A^^TEST" & set "_split_demo_delim=^^" & set "_split_demo_comment=poison character, double carret, works"
-call :split-demo-2-helper _split_demo_test _split_demo_delim _split_demo_array "%_split_demo_comment%"
+call :split-demo-helper "%_split_demo_comment%" _split_demo_test _split_demo_array _split_demo_delim
 set "_split_demo_test=THIS&IS&A&TEST" & set "_split_demo_delim=&" & set "_split_demo_comment=poison character, ampersands, works"
-call :split-demo-2-helper _split_demo_test _split_demo_delim _split_demo_array "%_split_demo_comment%"
+call :split-demo-helper "%_split_demo_comment%" _split_demo_test _split_demo_array _split_demo_delim
 set "_split_demo_test=THIS%%IS%%A%%TEST" & set "_split_demo_delim=%%" & set "_split_demo_comment=percent signs, works"
-call :split-demo-2-helper _split_demo_test _split_demo_delim _split_demo_array "%_split_demo_comment%"
+call :split-demo-helper "%_split_demo_comment%" _split_demo_test _split_demo_array _split_demo_delim
 set "_split_demo_test=THIS|IS|A|TEST" & set "_split_demo_delim=|" & set "_split_demo_comment=poison character, pipe, works"
-call :split-demo-2-helper _split_demo_test _split_demo_delim _split_demo_array "%_split_demo_comment%"
+call :split-demo-helper "%_split_demo_comment%" _split_demo_test _split_demo_array _split_demo_delim
 REM set "_split_demo_test=THIS!IS!A!TEST" & set "_split_demo_delim=!" & set "_split_demo_comment=poison character, exclamation mark, breaks the test with infinite loop"
-REM call :split-demo-2-helper _split_demo_test _split_demo_delim _split_demo_array "%_split_demo_comment%"
+REM call :split-demo-helper _split_demo_test _split_demo_delim _split_demo_array "%_split_demo_comment%"
 REM set "_split_demo_test=THIS^!IS^!A^!TEST" & set "_split_demo_delim=^!" & set "_split_demo_comment=poison character, exclamation mark, breaks the test with infinite loop"
-REM call :split-demo-2-helper _split_demo_test _split_demo_delim _split_demo_array "%_split_demo_comment%"
+REM call :split-demo-helper _split_demo_test _split_demo_delim _split_demo_array "%_split_demo_comment%"
 :split-demo-skip-2
 
-GoTo :split-demo-skip-3
+REM GoTo :split-demo-skip-3
 echo.
 echo more tests
 echo.
 
 REM call :split-demo-helper "," "," _split_demo_array "1 char string that contains only the delimiter, should return two empty array element BUT BREAKS TEST WITH INFINIT LOOP"
-call :split-demo-helper "." "," _split_demo_array "1 char string that doesn't contains only the delimiter, should return one array element with input"
-call :split-demo-helper "1234567890" "," _split_demo_array "10 char string that doesn't contains only the delimiter, should return one array element with input"
+call :split-demo-helper "1 char string that doesn't contains only the delimiter, should return one array element with input" "." _split_demo_array ","
+call :split-demo-helper "10 char string that doesn't contains only the delimiter, should return one array element with input" "1234567890" _split_demo_array ","
 :split-demo-skip-3
 
-GoTo :split-demo-skip-4
+REM GoTo :split-demo-skip-4
 echo.
 echo test with long input strings
 echo.
-call :split-demo-helper "1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890" "[]" _split_demo_array "1006 characters long input string"
-call :split-demo-helper "1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890" "[]" _split_demo_array "2014 characters long input string"
-call :split-demo-helper "1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890" "[]" _split_demo_array "4026 characters long input string"
-call :split-demo-helper "1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567892" "[]" _split_demo_array "8150 characters long input string"
+call :split-demo-helper "1006 characters long input string" "1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890" _split_demo_array "[]"
+REM 2014 shouldn't break ??
+call :split-demo-helper "2014 characters long input string" "1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890" _split_demo_array "[]"
+REM 4026 breaks ?
+REM call :split-demo-helper "4026 characters long input string" "1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890" _split_demo_array "[]" 
+GoTo :split-demo-skip-4
+REM 8150 breaks
+REM call :split-demo-helper "8150 characters long input string" "1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567892" _split_demo_array  "[]"
 
-REM GoTo :split-demo-skip-4
+REM these also break
+GoTo :split-demo-skip-4
 :split-demo-skip-max-lenght-test
 echo test 8162 char length
-call :split-demo-helper "1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567892" "[]" _split_demo_array "8162 characters long input string"
+call :split-demo-helper "8162 characters long input string" "1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567892" _split_demo_array "[]"
 GoTo :split-demo-skip-4
 REM broken after this point
 echo test 8163 char length, will break, limit is 8162
-call :split-demo-helper "1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678929" "[]" _split_demo_array "8163 characters long input string"
+call :split-demo-helper "8163 characters long input string" "1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678901234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]1234567890[]12345678929" _split_demo_array "[]"
 :split-demo-skip-4
 
 
 :split-demo-skip-max-element-test
 echo.
 echo max element count test
-call :split-demo-helper ".,.,.,.,.,.,.,.,.,." "," _split_demo_array "10 dot element"
-call :split-demo-helper ".,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,." "," _split_demo_array "100 dot element"
-call :split-demo-helper ".,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,." "," _split_demo_array "1000 dot element"
-call :split-demo-helper ".,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,." "," _split_demo_array "4000 dot element"
-echo 4082 element split
-call :split-demo-helper ".,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,." "," _split_demo_array "4082 dot element"
+REM call :split-demo-helper "10 dot element" ",,,,,,,,,."                _split_demo_array "," 
+call :split-demo-helper "10 dot element" ".,.,.,.,.,.,.,.,.,."       _split_demo_array "," 
+call :split-demo-helper "10 dot element" "a,b,c,d,e,f,g,h,i,j"       _split_demo_array ","
+call :split-demo-helper "10 dot element" ".,,,,,,,,.,"               _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,,,.,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ".,,,,,,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",.,,,,,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,.,,,,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,.,,,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,.,,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,.,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,.,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,,.,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,,,.,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" "a,b,c,d,e,f,g,h,i,j"       _split_demo_array "," 
+call :split-demo-helper "10 dot element" "a,,,,,,,,,"                _split_demo_array ","  
+call :split-demo-helper "10 dot element" ",b,,,,,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,c,,,,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,d,,,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,e,,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,f,,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,g,,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,,h,,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,,,i,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,,,,j"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,,,,"                 _split_demo_array ","
+
+call :split-demo-helper "10 dot element" ".,.,.,.,.,.,.,.,.,." _split_demo_array "," 
+call :split-demo-helper "10 double dot element" "..,..,..,..,..,..,..,..,..,.." _split_demo_array ","
+call :split-demo-helper "10 triple dot element" "...,...,...,...,...,...,...,...,...,..." _split_demo_array ","
+call :split-demo-helper "10 multiple dot element" ".,..,...,....,.....,......,....,...,..,." _split_demo_array ","
+call :split-demo-helper "10 dot with exclamation marks element" "!.,.!.,.!..,.!...,.!..!..,.!....!.,.!!...,.!.!.,.!.,.!" _split_demo_array ","
+
+call :split-demo-helper "100 dot element" ".,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,." _split_demo_array ","
+REM 1000 works but commmented out because it's very long
+REM call :split-demo-helper "1000 dot element" ".,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,." _split_demo_array ","
+REM 4000 works but commmented out because it's very long
+GoTo :split-demo-skip-4.1
+REM call :split-demo-helper "4000 dot element" ".,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,." _split_demo_array ","
+REM call :split-demo-helper "4082 element split" ".,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,." _split_demo_array ","
 :split-demo-skip-4.1
 
+REM GoTo :EOF
 
 
 
@@ -665,12 +559,11 @@ set "_calltest[100]=call test argument1 argument2<echo test"
 set /a _split_demo_functioncalltest_index=0
 :split-demo-functioncalltest-loop
 
-call :split _calltest[%_split_demo_functioncalltest_index%] "call" _split_demo_functioncalltest_split_result
+call :split-demo-helper "testing call function" _calltest[%_split_demo_functioncalltest_index%] _split_demo_functioncalltest_split_result "call" 
 
-call :split _split_demo_functioncalltest_split_result[1] 
 
 set /a _split_demo_functioncalltest_index+=1
-if %_split_demo_functioncalltest_index% GTR 100  GoTo :split-demo-functioncalltest-loop
+if %_split_demo_functioncalltest_index% LEQ 100  GoTo :split-demo-functioncalltest-loop
 
 :split-demo-functioncalltest-skip
 
@@ -690,24 +583,12 @@ REM call myfunction.bat - external call
 REM call %:myfunction% - macro call
 REM call echo - command call
 REM call findstr - program call
+REM call bfw function - BFW call
+REM call "%bfw.root%\lib\XXX\YYY.bat" = bfw lib call
 
 REM split line on "call ", there must always be a space or tab between call and function name (do we really check for tabs ?)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 REM call :split-demo-helper "THIS&IS&A&TEST" "&" _split_demo_array "poison character, ampersands, works now"
-
 
 REM GoTo :split-demo-skip-5
 REM call :split-demo-helper "THIS&IS&A&TEST" "&" _split_demo_array "poison character, ampersands, works now"
@@ -722,31 +603,28 @@ Call :ClearVariablesByPrefix _split_demo
 GoTo :EOF
 
 :split-demo-helper
-
-set "_SDH_input=%~1"
-set "_SDH_delim=%~2"
+set "_SDH_prefix=_SDH"
+set "_SDH_comment=%~1"
+set "_SDH_input=%~2"
 set "_SDH_output=%~3"
+shift & shift & shift
 setlocal enabledelayedexpansion
-echo delimiter :!_SDH_delim!: input string :!_SDH_input!: comment : %~4
-call :split "!_SDH_input!" "!_SDH_delim!" !_SDH_output!
-call :echoarray !_SDH_output! LINENUMBERS VERTICALMODE
-echo.
-endlocal 
-Call :ClearVariablesByPrefix %_SDH_output%
-GoTo :EOF
+:split-demo-helper-args
+set "_SDH_remaining_args=!_SDH_remaining_args! %1"
+if "[%~1]" NEQ "[]" ( shift & GoTo :split-demo-helper-args )
 
-:split-demo-2-helper
 
-set "_SDH_input=%~1"
-set "_SDH_delim=%~2"
-set "_SDH_output=%~3"
-setlocal enabledelayedexpansion
-echo delimiter :!%_SDH_delim%!: input string :!%_SDH_input%!: comment %~4
-call :split "!_SDH_input!" "!_SDH_delim!" !_SDH_output!
+REM echo call :split "!_SDH_input!" !_SDH_output! !_SDH_remaining_args!
+call :split "!_SDH_input!" !_SDH_output! !_SDH_remaining_args!
+REM echo array ubound !%_SDH_output%.ubound!
+if defined !_SDH_remaining_args! set "_SDH_remaining_args=!%_SDH_remaining_args%!"
+if defined !_SDH_input! set "_SDH_input=!%_SDH_input%!"
+if defined !_SDH_comment! set "_SDH_comment=!%_SDH_comment%!"
+echo delimiter :!_SDH_remaining_args!: input string :!_SDH_input!: comment : !_SDH_comment!
 call :echoarray !_SDH_output! LINENUMBERS VERTICALMODE
-echo.
+echo.& echo.
 endlocal 
-Call :ClearVariablesByPrefix %_SDH_output%
+Call :ClearVariablesByPrefix %_SDH_prefix% _SDH_prefix
 GoTo :EOF
 
 
@@ -755,116 +633,6 @@ GoTo :EOF
 ::Usage Call :IterateRange InputArray RangeArray "%Macro%" optional OutputArray
 
 
-::Usage Call :ltrim OutputVariable Input
-:ltrim
-setlocal enabledelayedexpansion
-set "TAB=	"
-set "_ltrim_output=%~1"
-set "_ltrim_input=%~2"
-if defined %~2 ( set "_ltrim_input=!%~2!" ) 
-set /a "_ltrim_index=0"
-:ltrim-loop
-set "_ltrim_char=!_ltrim_input:~%_ltrim_index%,1!
-if "[!_ltrim_char!]" EQU "[%TAB%]" ( set /a "_ltrim_index+=1" & GoTo :ltrim-loop )
-if "[!_ltrim_char!]" EQU "[ ]" ( set /a "_ltrim_index+=1" & GoTo :ltrim-loop )
-set _ltrim_intermediate=!_ltrim_input:~%_ltrim_index%!
-endlocal & set %_ltrim_output%=%_ltrim_intermediate%
-GoTo :EOF
-
-
-
-::Usage Call :IsNumeric Value optional Output
-:IsNumeric
-set "IsNumericInternal=0123456789"
-echo.%1| findstr /r "[^0123456789]" >nul && (
-    if not "[%2]"=="[]" set %2=false
-) || (
-    if not "[%2]"=="[]" set %2=true
-)
-GoTo :EOF
-REM Call :IsNumeric %var% && echo it is not numeric || echo it is numeric
-
-:IF-versus-FINDSTR
-setlocal enabledelayedexpansion
-Set "_IVF_Input=THIS IS a TEST"
-Set "_IVF_Search=IS"
-Set /a _IVF_count=10000
-set "_IVF_callback_label=:IF-versus-FINDSTR-1"
-GoTo :IF-versus-FINDSTR-loop-start
-:IF-versus-FINDSTR-1
-Set "_IVF_Input=THIS IS a TEST with many characters 012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689012345689"
-Set "_IVF_Search=IS"
-Set /a _IVF_count=10000
-set "_IVF_callback_label=:IF-versus-FINDSTR-2"
-GoTo :IF-versus-FINDSTR-loop-start
-:IF-versus-FINDSTR-2
-:IF-versus-FINDSTR-3
-:IF-versus-FINDSTR-4
-GoTo :EOF
-:IF-versus-FINDSTR-loop-start
-Set /a _IVF_index=1
-echo start IF TEST %time% count %_IVF_count% search %_IVF_Search% input %_IVF_Input%
-:IF-versus-FINDSTR-loop
-set "_IVF_buffer=!_IVF_Input:%_IVF_Search%=!
-if !_IVF_Input! EQU !_IVF_buffer! ( set "_IVF_result=true" ) else ( set "_IVF_result=false" )
-Set /a _IVF_index+=1
-if %_IVF_index% LSS %_IVF_count% GoTo :IF-versus-FINDSTR-loop
-echo end IF TEST %time% count %_IVF_count% search %_IVF_Search% input %_IVF_Input%
-:IF-versus-FIND-loop-loop-start
-Set /a _IVF_index=1
-echo start FIND TEST %time% count %_IVF_count% search %_IVF_Search% input %_IVF_Input%
-:IF-versus-FIND-loop-loop
-echo.!_IVF_Input!| find "!_IVF_Search!" >nul && ( set "_IVF_result=true" ) || ( set "_IVF_result=false" )
-Set /a _IVF_index+=1
-if %_IVF_index% LSS %_IVF_count% GoTo :IF-versus-FIND-loop-loop
-echo end FIND TEST %time% count %_IVF_count% search %_IVF_Search% input %_IVF_Input%
-:IF-versus-FINDSTR-loop-loop-loop-start
-Set /a _IVF_index=1
-echo start FINDSTR TEST %time% count %_IVF_count% search %_IVF_Search% input %_IVF_Input%
-:IF-versus-FINDSTR-loop-loop-loop
-echo.!_IVF_Input!| findstr /c:"!_IVF_Search!" >nul && ( set "_IVF_result=true" ) || ( set "_IVF_result=false" )
-Set /a _IVF_index+=1
-if %_IVF_index% LSS %_IVF_count% GoTo :IF-versus-FINDSTR-loop-loop-loop
-echo end FINDSTR TEST %time% count %_IVF_count% search %_IVF_Search% input %_IVF_Input%
-GoTo %_IVF_callback_label%
-endlocal
-GoTo :EOF
-
-
-::Usage Call :GetArgumentString OutputString [SHIFT [X] [/X] [X/]] [DOUBLEQUOTE [']] [DEDUPLICATECARRETS] [TOARRAY] [INCLUDECALLER] %*
-:GetArgumentString
-set "_GAS_prefix=_GAS"
-set "_GAS_Output=%~1" & shift
-setlocal enabledelayedexpansion
-:GetArgumentString-args
-set "_GAS_buffer=%~2"
-if "[%~1]" EQU "[SHIFT]" ( echo.%~2| findstr /r "[^0123456789]" >nul && ( set /a "_GAS_Shift=%~2" & shift & shift & GoTo :GetArgumentString-args ) || ( set /a "_GAS_Shift=0" & shift & GoTo :GetArgumentString-args ) )
-if "[%~1]" EQU "[DOUBLEQUOTE]" ( if "[%_GAS_buffer:~1,1%]" EQU "[]" ( Set "_GAS_QUOTE="" ) else ( Set "_GAS_QUOTE=%_GAS_buffer:~0,1%" ) & shift & GoTo :GetArgumentString-args )
-if "[%~1]" EQU "[DEDUPLICATECARRETS]" ( set "_GAS_DEDUPLICATE_CARRETS=true" & shift & GoTo :GetArgumentString-args )
-if "[%~1]" EQU "[TOARRAY]" ( set "_GAS_ToArray=true" & shift & GoTo :GetArgumentString-args )
-if "[%~1]" EQU "[EXCLUDE]" ( if not defined _GAS_Exclude_ubound ( set /a _GAS_Exclude_ubound=0 ) else ( set /a _GAS_Exclude_ubound+=1 ) 
-if "[%~1]" EQU "[EXCLUDE]" ( set "_GAS_Exclude[%_GAS_Exclude_ubound%]=%_GAS_buffer%" & shift & shift & GoTo :GetArgumentString-args )
-if defined _GAS_ToArray if defined %_GAS_Output%.ubound call set /a _GAS_Output_ubound=%%%_GAS_Output%.ubound%%
-if defined _GAS_ToArray if not defined _GAS_Output_ubound set /a _GAS_Output_ubound=-1
-if not defined _GAS_Shift GoTo :GetArgumentString-loop
-set /a _GAS_shift_index=0
-:GetArgumentString-shift-loop
-shift
-if %_GAS_shift_index% LSS %_GAS_Shift% GoTo :GetArgumentString-shift-loop 
-:GetArgumentString-loop
-if defined _GAS_Exclude.ubound if %_GAS_Exclude_index% LEQ %_GAS_Exclude_ubound% ( if "[!_GAS_Exclude[%_GAS_Exclude_index%]!]" EQU "[%~1]" ( shift & set /a _GAS_Exclude_index=0 & GoTo :GetArgumentString-loop ) else ( set /a _GAS_Exclude_index+=1 & GoTo :GetArgumentString-loop ) )
-if defined _GAS_ToArray if defined _GAS_Output_ubound set /a _GAS_Output_ubound+=1
-if defined _GAS_ToArray set "%_GAS_Output%[%_GAS_Output_ubound%]=%~1"
-set "_GAS_output_buffer=!_GAS_output_buffer! !_GAS_QUOTE!%~2!_GAS_QUOTE!"
-if defined _GAS_ToArray set /a _GAS_Exclude_index=0
-if "[%2]" NEQ "[]" GoTo :GetArgumentString-loop
-if defined _GAS_ToArray set /a %_GAS_Output%.ubound=%_GAS_Output_ubound%
-set /a "%_GAS_Output%=!_GAS_output_buffer!"
-for /F "delims=" %%a in ('set %_GAS_Output%') do (
-	endlocal
-	set "%%a"
-	)
-GoTo :EOF
 
 
 REM _SPLT_count is not being counted, number of total elements added to output
@@ -872,61 +640,114 @@ REM Features to add [TRIM] TRIMLEFT TRIMRIGHT [TRIM] [TRIMLEFT:[-],'"] TRIMRIGHT
 REM [LIMIT] [STARTINDEX] [RANGE] [Nth]
 REM arguments should be [CASESENSITIVE] [etc.] inputstring outputarray delimiter1 delimiter2 ... delimiterN
 REM this will need a startindex probably, to start at a certain position in the string
-::Usage Call :split InputString Delimiter OutputArray optional limit [CASESENSITIVE]
+::Usage Call :split [CASESENSITIVE] [START Index] [Limit ElementCount] InputString OutputArray Delimiter [LEN X]
 :Split
+REM echo args:%*
 set "_Split_prefix=_SPLT"
-set "_SPLT_CaseSensitivity=/i"
-if "[%~1]" EQU "[CASESENSITIVE]" ( set "_SPLT_CaseSensitivity=" & shift )
-set "_SPLT_Input=%~1"
-set "_SPLT_Delimiter=%~2"
-set "_SPLT_Output=%~3"
-shift & shift & shift
-echo.%~1| findstr /r "[^0123456789]" >nul && ( set /a _SPLT_Limit=%~1 & shift )
 setlocal enabledelayedexpansion
 set "_SPLT_localscope=true"
-set "_SPLT_Input_Pointer=_SPLT_Input" 
-set "_SPLT_Delimiter_Pointer=_SPLT_Delimiter"
-if defined !_SPLT_Input! ( set "_SPLT_Input_Pointer=!_SPLT_Input!" )
-if defined !_SPLT_Delimiter! ( set "_SPLT_Delimiter_Pointer=!_SPLT_Delimiter!" )
-REM if defined !_SPLT_Delimiter!.ubound set /a _SPLT_Delimiter_ubound=!%_SPLT_Delimiter%.ubound!
-REM if defined !_SPLT_Delimiter!.ubound set "_SPLT_Delimiter_Pointer=!_SPLT_Delimiter![!%_SPLT_Delimiter%.lbound!]"
+set "_SPLT_CaseSensitivity=/i"
+
+:Split-args
+if "[%~1]" EQU "[CASESENSITIVE]" ( set "_SPLT_CaseSensitivity=" & shift & GoTo :Split-args )
+if "[%~1]" EQU "[LIMIT]" ( set /a _SPLT_StartIndex=%~2 & shift & shift & GoTo :Split-args )
+if "[%~1]" EQU "[START]" ( set /a _SPLT_Limit=%~2 & shift & shift & GoTo :Split-args )
+if "[%~1]" EQU "[TRIM]" ( echo NOT IMPLEMENTED & shift & GoTo :Split-args )
+if "[%~1]" EQU "[TRUNKATE]" ( echo NOT IMPLEMENTED & shift & GoTo :Split-args )
+if "[%~1]" EQU "[NODELIMITERS]" ( set "_SPLT_NoDelimiters=true" & shift & GoTo :Split-args )
+
+set "_SPLT_Input=%~1"
+set "_SPLT_Output=%~2"
+shift & shift
+
+set /a _SPLT_Delimiter.ubound=-1
+:Split-delimiters-args
+
+if "[!%~1.ubound!]" NEQ "[]" ( set "_SPLT_Delimiter_is_array=true" )
+REM set "_SPLT_Buffer=%~1"
+REM if defined _SPLT_Buffer if "[%_SPLT_Buffer:~1,3%]" EQU "[DIM]" if "[%_SPLT_Buffer%]" EQU "[]" ( set /a _SPLT_Delimiter_Dimension=%_SPLT_Buffer:~0,1% )
+REM if defined _SPLT_Buffer if "[%_SPLT_Buffer:~4,1%]" EQU "[]" ( set /a _SPLT_Delimiter_Dimension=%_SPLT_Buffer:~0,1% 2>nul )
+set /a _SPLT_Delimiter.index=0
+if "[!%~1.ubound!]" NEQ "[]" set /a _SPLT_Delimiter_input_array_ubound=!%~1.ubound! 2>nul
+:Split-delimiters-loop-args
+if "[%~1]" EQU "[LEN]" ( set /a _SPLT_Delimiter[%_SPLT_Delimiter.ubound%].len=%~2 & shift & shift & GoTo :Split-delimiters-loop-args )
+if "[%~1]" NEQ "[]" set /a _SPLT_Delimiter.ubound+=1
+if "[%~1]" NEQ "[]" if defined _SPLT_Delimiter_is_array set "_SPLT_Delimiter[%_SPLT_Delimiter.ubound%]=!%~1[%_SPLT_Delimiter.index%]!"
+REM if "[%~1]" NEQ "[]" if defined _SPLT_Delimiter_is_array echo _SPLT_Delimiter_is_array is defined 
+REM if "[%~1]" NEQ "[]" if not defined _SPLT_Delimiter_is_array echo set "_SPLT_Delimiter[%_SPLT_Delimiter.ubound%]=%~1"
+if "[%~1]" NEQ "[]" if not defined _SPLT_Delimiter_is_array set "_SPLT_Delimiter[%_SPLT_Delimiter.ubound%]=%~1"
+REM if "[%~1]" NEQ "[]" if not defined _SPLT_Delimiter_is_array echo _SPLT_Delimiter_is_array is not defined
+if defined _SPLT_Delimiter_is_array set /a _SPLT_Delimiter.index+=1
+if defined _SPLT_Delimiter_is_array if %_SPLT_Delimiter.index% LEQ %_SPLT_Delimiter_input_array_ubound% ( GoTo :Split-delimiters-loop-args )
+set "_SPLT_Delimiter.index=" & set "_SPLT_Delimiter_is_array=" & if "[%~2]" NEQ "[]" ( shift & GoTo :Split-delimiters-args )
+set /a _SPLT_Delimiter.index=0
+
+REM set "_SPLT_Input_Pointer=_SPLT_Input" 
+REM set "_SPLT_Delimiter_Pointer=_SPLT_Delimiter"
+REM if defined !_SPLT_Input! ( set "_SPLT_Input_Pointer=!_SPLT_Input!" )
+REM if defined !_SPLT_Delimiter! ( set "_SPLT_Delimiter_Pointer=!_SPLT_Delimiter!" )
 if defined %_SPLT_Output%.ubound set /a _SPLT_Output_ubound=!%_SPLT_Output%.ubound!
 if not defined _SPLT_Output_ubound set /a _SPLT_Output_ubound=-1
+set "_SPLT_Input_Pointer=_SPLT_Input" & if defined !_SPLT_Input! ( set "_SPLT_Input_Pointer=!_SPLT_Input!" )
 Call :len "%_SPLT_Input_Pointer%" _SPLT_Input_len
-Call :len "%_SPLT_Delimiter_Pointer%" _SPLT_Delimiter_len
-REM if not defined !_SPLT_Delimiter!.ubound GoTo :Split-get-delimiter-len-skip
-REM :Split-get-delimiter-len-loop
-REM FOR EACH DELIMITER, FIND DELIMITER.LEN
-REM :Split-get-delimiter-len-skip
-REM if defined _SPLT_Delimiter_ubound set /a _SPLT_Delimiter_index=0
-REM :Split-delimiter-loop ?
-set /a _SPLT_StartIndex=0
-set /a _SPLT_Index=0
-set "_SPLT_Search=!%_SPLT_Delimiter_Pointer%!"
+if not defined _SPLT_StartIndex set /a _SPLT_StartIndex=0
+REM set _SPLT
+set /a _SPLT_Delimiter.index=0
 :Split-loop
+REM echo :Split-loop
+set /a _SPLT_Index=%_SPLT_StartIndex%
+
+set "_SPLT_Delimiter_Pointer=_SPLT_Delimiter[%_SPLT_Delimiter.index%]" 
+if defined !%_SPLT_Delimiter_Pointer%! ( set "_SPLT_Delimiter_Pointer=!%_SPLT_Delimiter_Pointer%!" )
+set "_SPLT_Delimiter_len=!_SPLT_Delimiter[%_SPLT_Delimiter.index%].len!"
+if not defined _SPLT_Delimiter_len Call :len %_SPLT_Delimiter_Pointer% _SPLT_Delimiter_len
+set "_SPLT_Search=!%_SPLT_Delimiter_Pointer%!"
 set /a _SPLT_remaining_input_len=%_SPLT_Input_len%-%_SPLT_Index%
 if %_SPLT_remaining_input_len% LSS 64 ( set /a _SPLT_Search_Window_len=%_SPLT_remaining_input_len% ) else ( set /a _SPLT_Search_Window_len=64 )
 :Split-substring-pre-loop
-set _SPLT_CurrentWindow=!%_SPLT_Input_Pointer%:~%_SPLT_Index%,%_SPLT_Search_Window_len%!
+REM echo :Split-substring-pre-loop
+set /a _SPLT_Actual_Search_Window_len=%_SPLT_Search_Window_len%+%_SPLT_Delimiter_len%-1
+set "_SPLT_CurrentWindow=!%_SPLT_Input_Pointer%:~%_SPLT_Index%,%_SPLT_Actual_Search_Window_len%!"
 set "_SPLT_CurrentWindowResult=!_SPLT_CurrentWindow:%_SPLT_Search%=!"
-if %_SPLT_CaseSensitivity% !_SPLT_CurrentWindow! EQU !_SPLT_CurrentWindowResult! ( if %_SPLT_Search_Window_len% GEQ %_SPLT_remaining_input_len% ( set /a _SPLT_Index=%_SPLT_Input_len% & GoTo :Split-substring-end ) else ( set /a _SPLT_Index=%_SPLT_Index%+%_SPLT_Search_Window_len%-1 & set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%*2 & GoTo :Split-substring-pre-loop ) )
+if %_SPLT_CaseSensitivity% "!_SPLT_CurrentWindow!" EQU "!_SPLT_CurrentWindowResult!" ( if %_SPLT_Search_Window_len% GEQ %_SPLT_remaining_input_len% ( set /a _SPLT_Index=%_SPLT_Input_len% & GoTo :Split-substring-end ) else ( set /a _SPLT_Index=%_SPLT_Index%+%_SPLT_Search_Window_len%-1 & set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%*2 & GoTo :Split-substring-pre-loop ) )
 set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%/2
 :Split-substring-loop
 set /a _SPLT_Actual_Search_Window_len=%_SPLT_Search_Window_len%+%_SPLT_Delimiter_len%-1
-set _SPLT_CurrentWindow=!%_SPLT_Input_Pointer%:~%_SPLT_Index%,%_SPLT_Actual_Search_Window_len%!
-set "_SPLT_CurrentWindowResult=!_SPLT_CurrentWindow:%_SPLT_Search%=!"
-REM set _SPLT
-if %_SPLT_CaseSensitivity% !_SPLT_CurrentWindow! NEQ !_SPLT_CurrentWindowResult! ( if %_SPLT_Search_Window_len% EQU 1 ( GoTo :Split-substring-end ) else ( set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%/2 ) ) else ( set /a _SPLT_Index=%_SPLT_Index%+%_SPLT_Search_Window_len% )
+set "_SPLT_CurrentWindow=!%_SPLT_Input_Pointer%:~%_SPLT_Index%,%_SPLT_Actual_Search_Window_len%!"
+if defined _SPLT_CurrentWindow ( set "_SPLT_CurrentWindowResult=!_SPLT_CurrentWindow:%_SPLT_Search%=!" ) else ( GoTo :Split-substring-end )
+if %_SPLT_CaseSensitivity% "!_SPLT_CurrentWindow!" NEQ "!_SPLT_CurrentWindowResult!" ( if %_SPLT_Search_Window_len% EQU 1 ( GoTo :Split-substring-end ) else ( set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%/2 ) ) else ( set /a _SPLT_Index=%_SPLT_Index%+%_SPLT_Search_Window_len% )
 GoTo :Split-substring-loop 
 :Split-substring-end
-if %_SPLT_Index% EQU -1 ( set /a _SPLT_Len=%_SPLT_Input_len%-%_SPLT_Index% ) else ( set /a _SPLT_Len=%_SPLT_Index%-%_SPLT_StartIndex% )
+:Split-end
+REM echo :Split-end
+REM save .len of each element
+REM increment ubound if last element position was end of string
+REM save index of each element  .index .delim .len
+
+
+if not defined _SPLT_Result ( set /a _SPLT_Result=%_SPLT_Index% & set "_SPLT_LastDelimiter=!_SPLT_Search!" & set "_SPLT_LastDelimiterLen=%_SPLT_Delimiter_len%" ) else ( if !_SPLT_Index! LSS !_SPLT_Result! ( set /a _SPLT_Result=%_SPLT_Index% & set "_SPLT_LastDelimiter=%_SPLT_Search%" & set "_SPLT_LastDelimiterLen=%_SPLT_Delimiter_len%" ) )
+
+set /a _SPLT_Delimiter.index+=1
+REM echo a2 _SPLT_Delimiter.index %_SPLT_Delimiter.index% _SPLT_Delimiter.ubound %_SPLT_Delimiter.ubound%
+IF %_SPLT_Delimiter.index% LEQ %_SPLT_Delimiter.ubound% GoTo :Split-loop
+
 set /a _SPLT_Output_ubound+=1
-REM echo set "%_SPLT_Output%[%_SPLT_Output_ubound%]=^!%_SPLT_Input_Pointer%:~%_SPLT_StartIndex%,%_SPLT_Len%^!"
+set /a _SPLT_Len=%_SPLT_Index%-%_SPLT_StartIndex%
+REM echo a3 %_SPLT_Input_Pointer%:~%_SPLT_StartIndex%,%_SPLT_Len%
+REM echo set "%_SPLT_Output%[%_SPLT_Output_ubound%]=!%_SPLT_Input_Pointer%:~%_SPLT_StartIndex%,%_SPLT_Len%!"
 set "%_SPLT_Output%[%_SPLT_Output_ubound%]=!%_SPLT_Input_Pointer%:~%_SPLT_StartIndex%,%_SPLT_Len%!"
-REM if %_SPLT_Delimiter_index% LEQ %_SPLT_Delimiter_ubound% GoTo :Split-delimiter-loop
+if not defined _SPLT_NoDelimiters set "%_SPLT_Output%[%_SPLT_Output_ubound%].delimiter=!_SPLT_Search!"
+set "%_SPLT_Output%[%_SPLT_Output_ubound%].len=%_SPLT_LastDelimiterLen%"
+set "%_SPLT_Output%[%_SPLT_Output_ubound%].index=%_SPLT_Index%"
 set /a _SPLT_StartIndex=%_SPLT_Index%+%_SPLT_Delimiter_len%
-set /a _SPLT_Index=%_SPLT_StartIndex%
+
+
+REM echo a5 _SPLT_Index %_SPLT_Index% _SPLT_Input_len %_SPLT_Input_len%
+
+set /a _SPLT_Delimiter.index=0
 if %_SPLT_Index% LSS %_SPLT_Input_len% GoTo :Split-loop
+
+REM echo finished _SPLT_Output_ubound %_SPLT_Output_ubound%
 set /a %_SPLT_Output%.ubound=%_SPLT_Output_ubound%
 for /F "delims=" %%a in ('set %_SPLT_Output%') do (
 	endlocal
@@ -939,6 +760,185 @@ REM thanks to https://stackoverflow.com/questions/49041934/how-to-return-an-arra
 
 
 
+REM REM [NODEREFERENCE] to disable byref
+REM ::Usage Call :GetSubstringIndex [CASESENSITIVE] InputString optional StartIndex optional [OUTPUT OutputIndexVar] Delimiter1 Delimiter2 ... DelimiterN ??... InputStringN SearchStringN StartIndexN Optional OutputIndexVar
+REM ::Usage Call :GetSubstringIndex InputString SearchString optional StartIndex OutputIndexVar ... InputStringN SearchStringN StartIndexN Optional OutputIndexVar
+REM :GetSubstringIndex
+REM set "_GetSubstringIndex_prefix=_GSSI"
+REM setlocal enabledelayedexpansion
+REM set "_GSSI_CaseSensitivity=/i"
+REM :GetSubstringIndex-args
+
+
+
+
+AAA
+AAAXXX
+XXXAAA
+AAAXXXAAA
+
+AAAXXXAAAXXXAAA
+AAAXXXAAAXXX
+AAAXXXXXXAAA
+XXXAAAXXXAAA
+AAAXXXXXX
+XXXAAAXXX
+XXXXXXAAA
+XXXXXX
+
+AAAXXXAAAXXXAAAXXXAAA
+AAAXXXAAAXXXAAAXXX
+AAAXXXAAAXXXXXXAAA
+AAAXXXXXXAAAXXXAAA
+XXXAAAXXXAAAXXXAAA
+AAAXXXAAAXXXXXX
+AAAXXXXXXXXXAAA
+XXXXXXAAAXXXAAA
+XXXAAAXXXAAAXXX
+AAAXXXXXXAAAXXX
+XXXAAAXXXXXXAAA
+XXXXXXXXXAAA
+XXXXXXAAAXXX
+XXXAAAXXXXXX
+AAAXXXXXXXXX
+XXXXXXXXX
+
+AAAXXXAAAXXXAAAXXXAAA
+AAAXXXAAAXXXAAAYYYAAA
+AAAXXXAAAYYYAAAXXXAAA
+AAAYYYAAAXXXAAAXXXAAA
+AAAXXXAAAXXXAAAXXX
+AAAXXXAAAXXXAAAYYY
+AAAXXXAAAYYYAAAXXX
+AAAYYYAAAXXXAAAXXX
+AAAXXXAAAXXXXXXAAA
+AAAXXXAAAXXXYYYAAA
+AAAXXXAAAYYYXXXAAA
+AAAYYYAAAXXXXXXAAA
+AAAXXXXXXAAAXXXAAA
+AAAXXXXXXAAAYYYAAA
+AAAXXXYYYAAAXXXAAA
+AAAYYYXXXAAAXXXAAA
+XXXAAAXXXAAAXXXAAA
+XXXAAAXXXAAAYYYAAA
+XXXAAAYYYAAAXXXAAA
+YYYAAAXXXAAAXXXAAA
+AAAXXXAAAXXXXXX
+AAAXXXAAAXXXYYY
+AAAXXXAAAYYYXXX
+AAAYYYAAAXXXXXX
+AAAXXXXXXXXXAAA
+AAAXXXXXXYYYAAA
+AAAXXXYYYXXXAAA
+AAAYYYXXXXXXAAA
+XXXXXXAAAXXXAAA
+XXXXXXAAAYYYAAA
+XXXYYYAAAXXXAAA
+YYYXXXAAAXXXAAA
+XXXAAAXXXAAAXXX
+XXXAAAXXXAAAYYY
+XXXAAAYYYAAAXXX
+YYYAAAXXXAAAXXX
+AAAXXXXXXAAAXXX
+AAAXXXXXXAAAYYY
+AAAXXXYYYAAAXXX
+AAAYYYXXXAAAXXX
+XXXAAAXXXXXXAAA
+XXXAAAXXXYYYAAA
+XXXAAAYYYXXXAAA
+YYYAAAXXXXXXAAA
+XXXXXXXXXAAA
+XXXXXXYYYAAA
+XXXYYYXXXAAA
+YYYXXXXXXAAA
+XXXXXXAAAXXX
+XXXXXXAAAYYY
+XXXYYYAAAXXX
+YYYXXXAAAXXX
+XXXAAAXXXXXX
+XXXAAAXXXYYY
+XXXAAAYYYXXX
+YYYAAAXXXXXX
+AAAXXXXXXXXX
+AAAXXXXXXYYY
+AAAXXXYYYXXX
+AAAYYYXXXXXX
+XXXXXXXXX
+XXXXXXYYY
+XXXYYYXXX
+YYYXXXXXX
+
+
+
+REM REM _SPLT_count is not being counted, number of total elements added to output
+REM REM Features to add [TRIM] TRIMLEFT TRIMRIGHT [TRIM] [TRIMLEFT:[-],'"] TRIMRIGHT:ABC TRUNKATE:25 NOEMPTY 1D 2D 3D XD ESCAPE:& INCLUDEDELIMITERS REGEX: IGNOREQUOTE:[] RUNMACRO TUPLE OVERLAP
+REM REM [LIMIT] [STARTINDEX] [RANGE] [Nth]
+REM REM arguments should be [CASESENSITIVE] [etc.] inputstring outputarray delimiter1 delimiter2 ... delimiterN
+REM REM this will need a startindex probably, to start at a certain position in the string
+REM ::Usage Call :split InputString Delimiter OutputArray optional limit [CASESENSITIVE]
+REM :Split
+REM set "_Split_prefix=_SPLT"
+REM set "_SPLT_CaseSensitivity=/i"
+REM if "[%~1]" EQU "[CASESENSITIVE]" ( set "_SPLT_CaseSensitivity=" & shift )
+REM set "_SPLT_Input=%~1"
+REM set "_SPLT_Delimiter=%~2"
+REM set "_SPLT_Output=%~3"
+REM shift & shift & shift
+REM echo.%~1| findstr /r "[^0123456789]" >nul || ( set /a _SPLT_Limit=%~1 & shift )
+REM setlocal enabledelayedexpansion
+REM set "_SPLT_localscope=true"
+REM set "_SPLT_Input_Pointer=_SPLT_Input" 
+REM set "_SPLT_Delimiter_Pointer=_SPLT_Delimiter"
+REM if defined !_SPLT_Input! ( set "_SPLT_Input_Pointer=!_SPLT_Input!" )
+REM if defined !_SPLT_Delimiter! ( set "_SPLT_Delimiter_Pointer=!_SPLT_Delimiter!" )
+REM REM if defined !_SPLT_Delimiter!.ubound set /a _SPLT_Delimiter_ubound=!%_SPLT_Delimiter%.ubound!
+REM REM if defined !_SPLT_Delimiter!.ubound set "_SPLT_Delimiter_Pointer=!_SPLT_Delimiter![!%_SPLT_Delimiter%.lbound!]"
+REM if defined %_SPLT_Output%.ubound set /a _SPLT_Output_ubound=!%_SPLT_Output%.ubound!
+REM if not defined _SPLT_Output_ubound set /a _SPLT_Output_ubound=-1
+REM Call :len "%_SPLT_Input_Pointer%" _SPLT_Input_len
+REM Call :len "%_SPLT_Delimiter_Pointer%" _SPLT_Delimiter_len
+REM REM if not defined !_SPLT_Delimiter!.ubound GoTo :Split-get-delimiter-len-skip
+REM REM :Split-get-delimiter-len-loop
+REM REM FOR EACH DELIMITER, FIND DELIMITER.LEN
+REM REM :Split-get-delimiter-len-skip
+REM REM if defined _SPLT_Delimiter_ubound set /a _SPLT_Delimiter_index=0
+REM REM :Split-delimiter-loop ?
+REM set /a _SPLT_StartIndex=0
+REM set /a _SPLT_Index=0
+REM set "_SPLT_Search=!%_SPLT_Delimiter_Pointer%!"
+REM :Split-loop
+REM set /a _SPLT_remaining_input_len=%_SPLT_Input_len%-%_SPLT_Index%
+REM if %_SPLT_remaining_input_len% LSS 64 ( set /a _SPLT_Search_Window_len=%_SPLT_remaining_input_len% ) else ( set /a _SPLT_Search_Window_len=64 )
+REM :Split-substring-pre-loop
+REM set /a _SPLT_Actual_Search_Window_len=%_SPLT_Search_Window_len%+%_SPLT_Delimiter_len%-1
+REM set "_SPLT_CurrentWindow=!%_SPLT_Input_Pointer%:~%_SPLT_Index%,%_SPLT_Actual_Search_Window_len%!"
+REM set "_SPLT_CurrentWindowResult=!_SPLT_CurrentWindow:%_SPLT_Search%=!"
+REM if %_SPLT_CaseSensitivity% "!_SPLT_CurrentWindow!" EQU "!_SPLT_CurrentWindowResult!" ( if %_SPLT_Search_Window_len% GEQ %_SPLT_remaining_input_len% ( set /a _SPLT_Index=%_SPLT_Input_len% & GoTo :Split-substring-end ) else ( set /a _SPLT_Index=%_SPLT_Index%+%_SPLT_Search_Window_len%-1 & set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%*2 & GoTo :Split-substring-pre-loop ) )
+REM set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%/2
+REM :Split-substring-loop
+REM set /a _SPLT_Actual_Search_Window_len=%_SPLT_Search_Window_len%+%_SPLT_Delimiter_len%-1
+REM set "_SPLT_CurrentWindow=!%_SPLT_Input_Pointer%:~%_SPLT_Index%,%_SPLT_Actual_Search_Window_len%!"
+REM set "_SPLT_CurrentWindowResult=!_SPLT_CurrentWindow:%_SPLT_Search%=!"
+REM REM set _SPLT
+REM if %_SPLT_CaseSensitivity% "!_SPLT_CurrentWindow!" NEQ "!_SPLT_CurrentWindowResult!" ( if %_SPLT_Search_Window_len% EQU 1 ( GoTo :Split-substring-end ) else ( set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%/2 ) ) else ( set /a _SPLT_Index=%_SPLT_Index%+%_SPLT_Search_Window_len% )
+REM GoTo :Split-substring-loop 
+REM :Split-substring-end
+REM if %_SPLT_Index% EQU -1 ( set /a _SPLT_Len=%_SPLT_Input_len%-%_SPLT_Index% ) else ( set /a _SPLT_Len=%_SPLT_Index%-%_SPLT_StartIndex% )
+REM set /a _SPLT_Output_ubound+=1
+REM REM echo set "%_SPLT_Output%[%_SPLT_Output_ubound%]=^!%_SPLT_Input_Pointer%:~%_SPLT_StartIndex%,%_SPLT_Len%^!"
+REM set "%_SPLT_Output%[%_SPLT_Output_ubound%]=!%_SPLT_Input_Pointer%:~%_SPLT_StartIndex%,%_SPLT_Len%!"
+REM REM if %_SPLT_Delimiter_index% LEQ %_SPLT_Delimiter_ubound% GoTo :Split-delimiter-loop
+REM set /a _SPLT_StartIndex=%_SPLT_Index%+%_SPLT_Delimiter_len%
+REM set /a _SPLT_Index=%_SPLT_StartIndex%
+REM if %_SPLT_Index% LSS %_SPLT_Input_len% GoTo :Split-loop
+REM set /a %_SPLT_Output%.ubound=%_SPLT_Output_ubound%
+REM for /F "delims=" %%a in ('set %_SPLT_Output%') do (
+	REM endlocal
+	REM set "%%a"
+	REM )
+REM if defined _SPLT_localscope endlocal
+REM Call :ClearVariablesByPrefix %_Split_prefix% _Split_prefix  & exit /b %_SPLT_count%
+REM REM thanks to https://stackoverflow.com/questions/49041934/how-to-return-an-array-of-values-across-endlocal https://stackoverflow.com/a/49042678
 
 
 
@@ -959,108 +959,137 @@ REM thanks to https://stackoverflow.com/questions/49041934/how-to-return-an-arra
 
 
 
+REM REM _SPLT_count is not being counted, number of total elements added to output
+REM REM Features to add [TRIM] TRIMLEFT TRIMRIGHT [TRIM] [TRIMLEFT:[-],'"] TRIMRIGHT:ABC TRUNKATE:25 NOEMPTY 1D 2D 3D XD ESCAPE:& INCLUDEDELIMITERS REGEX: IGNOREQUOTE:[] RUNMACRO TUPLE OVERLAP
+REM REM [LIMIT] [STARTINDEX] [RANGE] [Nth]
+REM REM arguments should be [CASESENSITIVE] [etc.] inputstring outputarray delimiter1 delimiter2 ... delimiterN
+REM REM this will need a startindex probably, to start at a certain position in the string
+REM ::Usage Call :split InputString Delimiter OutputArray optional limit [CASESENSITIVE]
+REM :Split
+REM set "_Split_prefix=_SPLT"
+REM set "_SPLT_CaseSensitivity=/i"
+REM if "[%~1]" EQU "[CASESENSITIVE]" ( set "_SPLT_CaseSensitivity=" & shift )
+REM set "_SPLT_Input=%~1"
+REM set "_SPLT_Delimiter=%~2"
+REM set "_SPLT_Output=%~3"
+REM shift & shift & shift
+REM echo.%~1| findstr /r "[^0123456789]" >nul || ( set /a _SPLT_Limit=%~1 & shift )
+REM setlocal enabledelayedexpansion
+REM set "_SPLT_localscope=true"
+REM set "_SPLT_Input_Pointer=_SPLT_Input" 
+REM set "_SPLT_Delimiter_Pointer=_SPLT_Delimiter"
+REM if defined !_SPLT_Input! ( set "_SPLT_Input_Pointer=!_SPLT_Input!" )
+REM if defined !_SPLT_Delimiter! ( set "_SPLT_Delimiter_Pointer=!_SPLT_Delimiter!" )
+REM REM if defined !_SPLT_Delimiter!.ubound set /a _SPLT_Delimiter_ubound=!%_SPLT_Delimiter%.ubound!
+REM REM if defined !_SPLT_Delimiter!.ubound set "_SPLT_Delimiter_Pointer=!_SPLT_Delimiter![!%_SPLT_Delimiter%.lbound!]"
+REM if defined %_SPLT_Output%.ubound set /a _SPLT_Output_ubound=!%_SPLT_Output%.ubound!
+REM if not defined _SPLT_Output_ubound set /a _SPLT_Output_ubound=-1
+REM Call :len "%_SPLT_Input_Pointer%" _SPLT_Input_len
+REM Call :len "%_SPLT_Delimiter_Pointer%" _SPLT_Delimiter_len
+REM REM if not defined !_SPLT_Delimiter!.ubound GoTo :Split-get-delimiter-len-skip
+REM REM :Split-get-delimiter-len-loop
+REM REM FOR EACH DELIMITER, FIND DELIMITER.LEN
+REM REM :Split-get-delimiter-len-skip
+REM REM if defined _SPLT_Delimiter_ubound set /a _SPLT_Delimiter_index=0
+REM REM :Split-delimiter-loop ?
+REM set /a _SPLT_StartIndex=0
+REM set /a _SPLT_Index=0
+REM set "_SPLT_Search=!%_SPLT_Delimiter_Pointer%!"
+REM :Split-loop
+REM set /a _SPLT_remaining_input_len=%_SPLT_Input_len%-%_SPLT_Index%
+REM if %_SPLT_remaining_input_len% LSS 64 ( set /a _SPLT_Search_Window_len=%_SPLT_remaining_input_len% ) else ( set /a _SPLT_Search_Window_len=64 )
+REM :Split-substring-pre-loop
+REM set /a _SPLT_Actual_Search_Window_len=%_SPLT_Search_Window_len%+%_SPLT_Delimiter_len%-1
+REM set "_SPLT_CurrentWindow=!%_SPLT_Input_Pointer%:~%_SPLT_Index%,%_SPLT_Actual_Search_Window_len%!"
+REM set "_SPLT_CurrentWindowResult=!_SPLT_CurrentWindow:%_SPLT_Search%=!"
+REM if %_SPLT_CaseSensitivity% "!_SPLT_CurrentWindow!" EQU "!_SPLT_CurrentWindowResult!" ( if %_SPLT_Search_Window_len% GEQ %_SPLT_remaining_input_len% ( set /a _SPLT_Index=%_SPLT_Input_len% & GoTo :Split-substring-end ) else ( set /a _SPLT_Index=%_SPLT_Index%+%_SPLT_Search_Window_len%-1 & set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%*2 & GoTo :Split-substring-pre-loop ) )
+REM set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%/2
+REM :Split-substring-loop
+REM set /a _SPLT_Actual_Search_Window_len=%_SPLT_Search_Window_len%+%_SPLT_Delimiter_len%-1
+REM set "_SPLT_CurrentWindow=!%_SPLT_Input_Pointer%:~%_SPLT_Index%,%_SPLT_Actual_Search_Window_len%!"
+REM set "_SPLT_CurrentWindowResult=!_SPLT_CurrentWindow:%_SPLT_Search%=!"
+REM REM set _SPLT
+REM if %_SPLT_CaseSensitivity% "!_SPLT_CurrentWindow!" NEQ "!_SPLT_CurrentWindowResult!" ( if %_SPLT_Search_Window_len% EQU 1 ( GoTo :Split-substring-end ) else ( set /a _SPLT_Search_Window_len=%_SPLT_Search_Window_len%/2 ) ) else ( set /a _SPLT_Index=%_SPLT_Index%+%_SPLT_Search_Window_len% )
+REM GoTo :Split-substring-loop 
+REM :Split-substring-end
+REM if %_SPLT_Index% EQU -1 ( set /a _SPLT_Len=%_SPLT_Input_len%-%_SPLT_Index% ) else ( set /a _SPLT_Len=%_SPLT_Index%-%_SPLT_StartIndex% )
+REM set /a _SPLT_Output_ubound+=1
+REM REM echo set "%_SPLT_Output%[%_SPLT_Output_ubound%]=^!%_SPLT_Input_Pointer%:~%_SPLT_StartIndex%,%_SPLT_Len%^!"
+REM set "%_SPLT_Output%[%_SPLT_Output_ubound%]=!%_SPLT_Input_Pointer%:~%_SPLT_StartIndex%,%_SPLT_Len%!"
+REM REM if %_SPLT_Delimiter_index% LEQ %_SPLT_Delimiter_ubound% GoTo :Split-delimiter-loop
+REM set /a _SPLT_StartIndex=%_SPLT_Index%+%_SPLT_Delimiter_len%
+REM set /a _SPLT_Index=%_SPLT_StartIndex%
+REM if %_SPLT_Index% LSS %_SPLT_Input_len% GoTo :Split-loop
+REM set /a %_SPLT_Output%.ubound=%_SPLT_Output_ubound%
+REM for /F "delims=" %%a in ('set %_SPLT_Output%') do (
+	REM endlocal
+	REM set "%%a"
+	REM )
+REM if defined _SPLT_localscope endlocal
+REM Call :ClearVariablesByPrefix %_Split_prefix% _Split_prefix  & exit /b %_SPLT_count%
+REM REM thanks to https://stackoverflow.com/questions/49041934/how-to-return-an-array-of-values-across-endlocal https://stackoverflow.com/a/49042678
 
-
-
+REM [NODEREFERENCE] to disable byref
+::Usage Call :GetSubstringIndex [CASESENSITIVE] InputString optional StartIndex optional [OUTPUT OutputIndexVar] Delimiter1 Delimiter2 ... DelimiterN ??... InputStringN SearchStringN StartIndexN Optional OutputIndexVar
 ::Usage Call :GetSubstringIndex InputString SearchString optional StartIndex OutputIndexVar ... InputStringN SearchStringN StartIndexN Optional OutputIndexVar
 :GetSubstringIndex
 set "_GetSubstringIndex_prefix=_GSSI"
-set "_GSSI_CaseSensitivity=/i"
-if "[%~1]" EQU "[CASESENSITIVE]" ( set "_GSSI_CaseSensitivity=" & shift )
-set "_GSSI_Input=%~1"
-set "_GSSI_Delimiter=%~2"
-if "[%~3]" NEQ "[]" ( echo.%~3| findstr /r "[^0123456789]" >nul && ( set /a _GSSI_StartIndex=%~3 ) || ( set "_GSSI_Output=%~3" ) )
-if "[%~4]" NEQ "[]" ( echo.%~4| findstr /r "[^0123456789]" >nul && ( set /a _GSSI_StartIndex=%~4 ) || ( set "_GSSI_Output=%~4" ) ) 
-if not defined _GSSI_StartIndex set /a _GSSI_StartIndex=0
 setlocal enabledelayedexpansion
+set "_GSSI_CaseSensitivity=/i"
+:GetSubstringIndex-args
+if "[%~1]" EQU "[CASESENSITIVE]" ( set "_GSSI_CaseSensitivity=" & shift & GoTo :GetSubstringIndex-args )
+if "[%~1]" EQU "[OUTPUT]" ( set "_GSSI_Output=%~2" & shift & shift & GoTo :GetSubstringIndex-args )
+if not defined _GSSI_Input ( set "_GSSI_Input=%~1" & shift & GoTo :GetSubstringIndex-args )
+echo.%~1| findstr /r "[^0123456789]" >nul || ( echo isnum "%~1" & set /a _GSSI_StartIndex=%~1 & shift )
+set /a _GSSI_Delimiter.ubound=-1
+:GetSubstringIndex-delimiters-args
+set "_GSSI_Buffer=%~1"
+REM if defined _GSSI_Buffer if "[%_GSSI_Buffer:~1,3%]" EQU "[DIM]" if "[%_GSSI_Buffer%]" EQU "[]" ( set /a _GSSI_Delimiter_Dimension=%_GSSI_Buffer:~0,1% )
+REM if defined _GSSI_Buffer if "[%_GSSI_Buffer:~4,1%]" EQU "[]" ( set /a _GSSI_Delimiter_Dimension=%_GSSI_Buffer:~0,1% 2>nul )
+if defined %~1.ubound ( set "_GSSI_Delimiter_is_array=true" )
+set /a _GSSI_Delimiter.index=0
+if defined %~1.ubound ( set /a _GSSI_Delimiter_input_array_ubound=!%~1.ubound! 2>nul ) else ( set /a _GSSI_Delimiter_input_array_ubound=-1 )
+:GetSubstringIndex-delimiters-loop-args
+if "[%~1]" NEQ "[]" set /a _GSSI_Delimiter.ubound+=1
+if "[%~1]" NEQ "[]" if defined _GSSI_Delimiter_is_array set "_GSSI_Delimiter[%_GSSI_Delimiter.ubound%]=!%~1[%_GSSI_Delimiter.index%]!"
+REM if "[%~1]" NEQ "[]" if defined _GSSI_Delimiter_is_array echo _GSSI_Delimiter_is_array is defined 
+REM if "[%~1]" NEQ "[]" if not defined _GSSI_Delimiter_is_array echo set "_GSSI_Delimiter[%_GSSI_Delimiter.ubound%]=%~1"
+if "[%~1]" NEQ "[]" if not defined _GSSI_Delimiter_is_array set "_GSSI_Delimiter[%_GSSI_Delimiter.ubound%]=%~1"
+REM if "[%~1]" NEQ "[]" if not defined _GSSI_Delimiter_is_array echo _GSSI_Delimiter_is_array is not defined
+if defined _GSSI_Delimiter_is_array set /a _GSSI_Delimiter.index+=1
+if defined _GSSI_Delimiter_is_array if %_GSSI_Delimiter.index% LEQ %_GSSI_Delimiter_input_array_ubound% ( GoTo :GetSubstringIndex-delimiters-loop-args )
+set "_GSSI_Delimiter.index=" & set "_GSSI_Delimiter_is_array=" & if "[%~2]" NEQ "[]" ( shift & GoTo :GetSubstringIndex-delimiters-args )
+set /a _GSSI_Delimiter.index=0
 set "_GSSI_Input_Pointer=_GSSI_Input" & if defined !_GSSI_Input! ( set "_GSSI_Input_Pointer=!_GSSI_Input!" )
-set "_GSSI_Delimiter_Pointer=_GSSI_Delimiter" & if defined !_GSSI_Delimiter! ( set "_GSSI_Delimiter_Pointer=!_GSSI_Delimiter!" )
 Call :len "%_GSSI_Input_Pointer%" _GSSI_Input_len
-Call :len "%_GSSI_Delimiter_Pointer%" _GSSI_Delimiter_len
-set /a _GSSI_StartIndex=0
-set /a _GSSI_Index=0
-set "_GSSI_Search=!%_GSSI_Delimiter_Pointer%!"
+if not defined _GSSI_StartIndex set /a _GSSI_StartIndex=0
 :GetSubstringIndex-loop
+set /a _GSSI_Index=%_GSSI_StartIndex%
+set "_GSSI_Delimiter_Pointer=_GSSI_Delimiter[%_GSSI_Delimiter.ubound%]" 
+if defined !%_GSSI_Delimiter_Pointer%! ( set "_GSSI_Delimiter_Pointer=!%_GSSI_Delimiter_Pointer%!" )
+Call :len "%_GSSI_Delimiter_Pointer%" _GSSI_Delimiter_len
+set "_GSSI_Search=!%_GSSI_Delimiter_Pointer%!"
 set /a _GSSI_remaining_input_len=%_GSSI_Input_len%-%_GSSI_Index%
 if %_GSSI_remaining_input_len% LSS 64 ( set /a _GSSI_Search_Window_len=%_GSSI_remaining_input_len% ) else ( set /a _GSSI_Search_Window_len=64 )
 :GetSubstringIndex-substring-pre-loop
-set _GSSI_CurrentWindow=!%_GSSI_Input_Pointer%:~%_GSSI_Index%,%_GSSI_Search_Window_len%!
+set /a _GSSI_Actual_Search_Window_len=%_GSSI_Search_Window_len%+%_GSSI_Delimiter_len%-1
+set "_GSSI_CurrentWindow=!%_GSSI_Input_Pointer%:~%_GSSI_Index%,%_GSSI_Actual_Search_Window_len%!"
 set "_GSSI_CurrentWindowResult=!_GSSI_CurrentWindow:%_GSSI_Search%=!"
-if %_GSSI_CaseSensitivity% !_GSSI_CurrentWindow! EQU !_GSSI_CurrentWindowResult! ( if %_GSSI_Search_Window_len% GEQ %_GSSI_remaining_input_len% ( set _GSSI ) )
-REM PROBLEM IS ADD _GSSI_Delimiter_len TO _GSSI_Search_Window_len
-if %_GSSI_CaseSensitivity% !_GSSI_CurrentWindow! EQU !_GSSI_CurrentWindowResult! ( if %_GSSI_Search_Window_len% GEQ %_GSSI_remaining_input_len% ( set /a _GSSI_Index=%_GSSI_Input_len% & GoTo :GetSubstringIndex-substring-end ) else ( set /a _GSSI_Index=%_GSSI_Index%+%_GSSI_Search_Window_len%-1 & set /a _GSSI_Search_Window_len=%_GSSI_Search_Window_len%*2 & GoTo :GetSubstringIndex-substring-pre-loop ) )
+if %_GSSI_CaseSensitivity% "!_GSSI_CurrentWindow!" EQU "!_GSSI_CurrentWindowResult!" ( if %_GSSI_Search_Window_len% GEQ %_GSSI_remaining_input_len% ( set /a _GSSI_Index=%_GSSI_Input_len% & GoTo :GetSubstringIndex-substring-end ) else ( set /a _GSSI_Index=%_GSSI_Index%+%_GSSI_Search_Window_len%-1 & set /a _GSSI_Search_Window_len=%_GSSI_Search_Window_len%*2 & GoTo :GetSubstringIndex-substring-pre-loop ) )
 set /a _GSSI_Search_Window_len=%_GSSI_Search_Window_len%/2
 :GetSubstringIndex-substring-loop
 set /a _GSSI_Actual_Search_Window_len=%_GSSI_Search_Window_len%+%_GSSI_Delimiter_len%-1
-set _GSSI_CurrentWindow=!%_GSSI_Input_Pointer%:~%_GSSI_Index%,%_GSSI_Actual_Search_Window_len%!
+set "_GSSI_CurrentWindow=!%_GSSI_Input_Pointer%:~%_GSSI_Index%,%_GSSI_Actual_Search_Window_len%!"
 set "_GSSI_CurrentWindowResult=!_GSSI_CurrentWindow:%_GSSI_Search%=!"
-if %_GSSI_CaseSensitivity% !_GSSI_CurrentWindow! NEQ !_GSSI_CurrentWindowResult! ( if %_GSSI_Search_Window_len% EQU 1 ( GoTo :GetSubstringIndex-substring-end ) else ( set /a _GSSI_Search_Window_len=%_GSSI_Search_Window_len%/2 ) ) else ( set /a _GSSI_Index=%_GSSI_Index%+%_GSSI_Search_Window_len% )
+if %_GSSI_CaseSensitivity% "!_GSSI_CurrentWindow!" NEQ "!_GSSI_CurrentWindowResult!" ( if %_GSSI_Search_Window_len% EQU 1 ( GoTo :GetSubstringIndex-substring-end ) else ( set /a _GSSI_Search_Window_len=%_GSSI_Search_Window_len%/2 ) ) else ( set /a _GSSI_Index=%_GSSI_Index%+%_GSSI_Search_Window_len% )
 GoTo :GetSubstringIndex-substring-loop 
 :GetSubstringIndex-substring-end
 :GetSubstringIndex-end
-REM if "[%~7]" NEQ "[]" ( shift & shift & shift & shift & shift & GoTo :GetSubstringIndex )
-endlocal & set /a _GSSI_Index=%_GSSI_Index% & if defined _GSSI_Output set /a %_GSSI_Output%=%_GSSI_Index%
+if not defined _GSSI_Result ( set /a _GSSI_Result=%_GSSI_Index% ) else ( if %_GSSI_Index% LSS %_GSSI_Result% set /a _GSSI_Result=%_GSSI_Index% )
+set /a _GSSI_Delimiter.index+=1
+IF %_GSSI_Delimiter.index% LEQ %_GSSI_Delimiter.ubound% GoTo :GetSubstringIndex-loop
+endlocal & set /a _GSSI_Index=%_GSSI_Index% & if "[%_GSSI_Output%]" NEQ "[]" set /a %_GSSI_Output%=%_GSSI_Index%
 Call :ClearVariablesByPrefix %_GetSubstringIndex_prefix% _GetSubstringIndex_prefix & exit /b %_GSSI_Index% 
-
-
-REM old but working GetSubstringIndex
-REM ::Usage Call :GetSubstringIndex InputString SearchString StartIndex Optional OutputIndexVar ... InputStringN SearchStringN StartIndexN Optional OutputIndexVar
-REM :GetSubstringIndex
-REM set "_GetSubstringIndex_prefix=_GSSI"
-REM set _GSSI_Input=%~1
-REM set _GSSI_Search=%~2
-REM set /a _GSSI_StartIndex=%~3 2>nul
-REM set "_GSSI_Output=%~4"
-REM if not defined _GSSI_StartIndex set /a _GSSI_StartIndex=0
-REM setlocal enabledelayedexpansion
-REM if defined %_GSSI_Search% set _GSSI_Search=!%_GSSI_Search%!
-REM set "_GSSI_Input_Pointer=_GSSI_Input"
-REM if defined !_GSSI_Input! (
- REM set "_GSSI_Input_Pointer=%_GSSI_Input%" 
- REM )
-REM Call :len "%_GSSI_Input_Pointer%" _GSSI_Input_len
-REM if defined "%_GSSI_Search%" Call :len "%_GSSI_Search%" _GSSI_Search_len
-REM if not defined "%_GSSI_Search%" Call :len _GSSI_Search _GSSI_Search_len
-REM set /a _GSSI_Input_len-=1
-REM set /a _GSSI_min_search=(%_GSSI_Search_len%*2)
-
-REM REM Start checking from 0 to 5 (times _GSSI_Search_len)
-REM REM then double search len until found, or end of string reached
-REM REM on each doubling, more startindex to end of region known not to contain search term
-REM REM on first found
-REM REM check first half, if not found second half
-REM REM next check half of found then second half of found 
-REM REM until you reach min search len then go to stage 3
-
-REM :GetSubstringIndex-loop
-
-REM REM start searching 64 char of input len, go up if not found, doubling until the rest of the input is searched 
-REM REM probably use findstr instead of string substitution for finding match, at least in stage 1
-REM REM once match is found, narrow down by splitting search in half
-
-REM set /a _GSSI_HalfInputLen=%_GSSI_Search_len%+(%_GSSI_Input_len%/2)
-REM if %_GSSI_HalfInputLen% LEQ %_GSSI_min_search% ( 
-	REM set /a _GSSI_max_search=%_GSSI_StartIndex%+%_GSSI_min_search%+1 & GoTo :GetSubstringIndex-loop2 
-	REM )
-REM set /a _GSSI_Middle=%_GSSI_StartIndex%+%_GSSI_HalfInputLen%
-REM set /a _GSSI_HalfInputLenPLUSSearchLenMINUSOne=%_GSSI_HalfInputLen%+%_GSSI_Search_len%-1
-REM set _GSSI_FirstHalf=!%_GSSI_Input_Pointer%:~%_GSSI_StartIndex%,%_GSSI_HalfInputLenPLUSSearchLenMINUSOne%!
-REM set _GSSI_SecondHalf=!%_GSSI_Input_Pointer%:~%_GSSI_Middle%,%_GSSI_HalfInputLen%!
-REM set _GSSI_FirstResult=!_GSSI_FirstHalf:%_GSSI_Search%=!
-REM set _GSSI_SecondResult=!_GSSI_SecondHalf:%_GSSI_Search%=!
-REM if !_GSSI_FirstHalf! NEQ !_GSSI_FirstResult! ( set /a _GSSI_Input_len=%_GSSI_HalfInputLen% & GoTo :GetSubstringIndex-loop )
-REM if !_GSSI_SecondHalf! NEQ !_GSSI_SecondResult! ( set /a _GSSI_StartIndex=%_GSSI_Middle% & GoTo :GetSubstringIndex-loop )
-REM set /a _GSSI_StartIndex=-1 & GoTo :GetSubstringIndex-end
-REM :GetSubstringIndex-loop2
-REM set _GSSI_FinalSearch=!%_GSSI_Input_Pointer%:~%_GSSI_StartIndex%,%_GSSI_Search_len%!
-REM if !_GSSI_FinalSearch! EQU !_GSSI_Search! GoTo :GetSubstringIndex-end
-REM set /a _GSSI_StartIndex+=1
-REM if %_GSSI_StartIndex% LEQ %_GSSI_max_search% GoTo :GetSubstringIndex-loop2
-REM set /a _GSSI_StartIndex=-1 & GoTo :GetSubstringIndex-end
-REM :GetSubstringIndex-end
-REM if "[%~7]" NEQ "[]" ( shift & shift & shift & shift & shift & GoTo :GetSubstringIndex )
-REM endlocal & set _GSSI_StartIndex=%_GSSI_StartIndex% & if defined _GSSI_Output set /a %_GSSI_Output%=%_GSSI_StartIndex%
-REM Call :ClearVariablesByPrefix %_GetSubstringIndex_prefix% _GetSubstringIndex_prefix & exit /b %_GSSI_StartIndex% 
 
 ::Usage Call :CreateRandomStringPS [NONUMBERS] [NOUPPERCASE] [NOUPPERCASE] [SPACE] [PUNCTUATION] [NOPOISON] [POISON] [EXTENDED] [CONTROL] [RESET] Stringlength1 OutputVariable1 Stringlength2 OutputVariable2 ... StringlengthN OutputVariableN
 ::You can your CLEAR in front of the switches to clear them
@@ -1068,6 +1097,7 @@ REM Call :ClearVariablesByPrefix %_GetSubstringIndex_prefix% _GetSubstringIndex_
 set "_CreateRandomStringPS_prefix=_CRS"
 set "_CRS_SetList=NONUMBERS NOUPPERCASE NOLOWERCASE SPACE PUNCTUATION NOPOISON EXTENDED CONTROL NOPOISON POISON"
 if "[%~1]" EQU "[RESET]" ( for %%a in (%_CRS_SetList%) do ( set "_CRS_%%a=" ) & shift & GoTo :CreateRandomStringPS )
+if "[%~1]" EQU "[OVERRIDE]" ( set "_CRS_%~1= + %~2" & shift & shift & GoTo :CreateRandomStringPS )
 for %%a in (%_CRS_SetList%) do if "[%%a]" EQU "[%~1]" ( set "_CRS_%%a=true" & shift & GoTo :CreateRandomStringPS ) else ( if "[CLEAR%%a]" EQU "[CLEAR%~1]" ( set "_CRS_%%a=" & shift & GoTo :CreateRandomStringPS ) )
 set /a _CRS_Len=%~1
 set "_CRS_Output=%~2"
@@ -1080,6 +1110,7 @@ if defined _CRS_PUNCTUATION if not defined _CRS_NOPOISON ( set "_CRS_CurrentSet=
 if defined _CRS_POISON if not defined _CRS_PUNCTUATION  set "_CRS_CurrentSet=%_CRS_CurrentSet% + 33 + 34 + 37 + 38 + 40 + 41 + 60 + 62 + 94 + 124"
 if defined _CRS_EXTENDED set "_CRS_CurrentSet=%_CRS_CurrentSet% + 128..255"
 if defined _CRS_CONTROL set "_CRS_CurrentSet=%_CRS_CurrentSet% + 0..31 + 127"
+if defined _CRS_OVERRIDE call set "_CRS_CurrentSet=%_CRS_OVERRIDE%"
 for /f "tokens=1* delims=" %%a in ('powershell -command "-join (1..%_CRS_Len% | ForEach-Object { %_CRS_CurrentSet:~3% | Get-Random } | ForEach-Object { [char]$_ })" 2^>nul') do set %_CRS_Output%=%%a
 if "[%~3]" NEQ "[]" if "[%~4]" NEQ "[]" ( shift & shift & GoTo :CreateRandomStringPS )
 Call :ClearVariablesByPrefix %_CreateRandomStringPS_prefix% _CreateRandomStringPS_prefix & GoTo :EOF
@@ -1091,7 +1122,7 @@ if "[%~2]" NEQ "[]" shift & GoTo :ClearVariablesByPrefix
 GoTo :EOF
 
 
-:len <resultVar> <stringVar>
+:len <stringVar> <resultVar>
 (   
     setlocal EnableDelayedExpansion
     (set^ tmp=!%~1!)
@@ -1246,6 +1277,96 @@ shift
 if "[%~1]" NEQ "[]" GoTo :GetIndexArray-arguments
 set /a "%_GIA_output%.ubound=%_GIA_output_ubound%"
 Call :ClearVariablesByPrefix %_GetIndexArray_prefix% _GetIndexArray
+GoTo :EOF
+
+:CopyObject objectname destinationobject
+set "_CopyObject_prefix=_CO"
+set _CO_Input=%~1
+set _CO_Output=%~2
+
+for /f "tokens=1,2* delims==" %%a in ('set %_CO_Input% 2^>nul') do  (
+	setlocal enabledelayedexpansion
+	set "_CO_localscope=true"
+	set _CO_Suffix_buffer_input=%%a
+	set _CO_Suffix_buffer_output=%_CO_Output%!_CO_Suffix_buffer_input:%_CO_Input%=!
+	for /f "tokens=*" %%Z in ('echo.!_CO_Suffix_buffer_output!') do (
+																endlocal 
+																set %%Z=%%b
+																)
+	if defined _CO_localscope endlocal
+	)
+if defined _CO_localscope endlocal
+Call :ClearVariablesByPrefix %_CopyObject_prefix% _CopyObject 
+if "[%~3]" NEQ "[]" if "[%~4]" NEQ "[]" shift & shift & GoTo :CopyObject
+GoTo :EOF
+
+
+
+::Usage Call :ltrim OutputVariable Input
+:ltrim
+setlocal enabledelayedexpansion
+set "TAB=	"
+set "_ltrim_output=%~1"
+set "_ltrim_input=%~2"
+if defined %~2 ( set "_ltrim_input=!%~2!" ) 
+set /a "_ltrim_index=0"
+:ltrim-loop
+set "_ltrim_char=!_ltrim_input:~%_ltrim_index%,1!
+if "[!_ltrim_char!]" EQU "[%TAB%]" ( set /a "_ltrim_index+=1" & GoTo :ltrim-loop )
+if "[!_ltrim_char!]" EQU "[ ]" ( set /a "_ltrim_index+=1" & GoTo :ltrim-loop )
+set _ltrim_intermediate=!_ltrim_input:~%_ltrim_index%!
+endlocal & set %_ltrim_output%=%_ltrim_intermediate%
+GoTo :EOF
+
+::Usage Call :IsNumeric Value optional Output
+:IsNumeric
+set "IsNumericInternal=0123456789"
+echo.%1| findstr /r "[^0123456789]" >nul && (
+    if not "[%2]"=="[]" set %2=false
+) || (
+    if not "[%2]"=="[]" set %2=true
+)
+GoTo :EOF
+REM Call :IsNumeric %var% && echo it is not numeric || echo it is numeric
+
+:argprint
+echo 1%~1 2%~2 3%~3 4%~4 5%~5 6%~6 7%~7 8%~8 9%~9
+GoTo :EOF
+
+REM INCOMPLETE
+::Usage Call :GetArgumentString OutputString [SHIFT [X] [/X] [X/]] [DOUBLEQUOTE [']] [DEDUPLICATECARRETS] [TOARRAY] [INCLUDECALLER] %*
+:GetArgumentString
+set "_GAS_prefix=_GAS"
+set "_GAS_Output=%~1" & shift
+setlocal enabledelayedexpansion
+:GetArgumentString-args
+set "_GAS_buffer=%~2"
+if "[%~1]" EQU "[SHIFT]" ( echo.%~2| findstr /r "[^0123456789]" >nul && ( set /a "_GAS_Shift=0" & shift & GoTo :GetArgumentString-args ) ) || ( set /a "_GAS_Shift=%~2" & shift & shift & GoTo :GetArgumentString-args )
+if "[%~1]" EQU "[DOUBLEQUOTE]" ( if "[%_GAS_buffer:~1,1%]" EQU "[]" ( Set "_GAS_QUOTE="" ) else ( Set "_GAS_QUOTE=%_GAS_buffer:~0,1%" ) & shift & GoTo :GetArgumentString-args )
+if "[%~1]" EQU "[DEDUPLICATECARRETS]" ( set "_GAS_DEDUPLICATE_CARRETS=true" & shift & GoTo :GetArgumentString-args )
+if "[%~1]" EQU "[TOARRAY]" ( set "_GAS_ToArray=true" & shift & GoTo :GetArgumentString-args )
+if "[%~1]" EQU "[EXCLUDE]" ( if not defined _GAS_Exclude_ubound ( set /a _GAS_Exclude_ubound=0 ) else ( set /a _GAS_Exclude_ubound+=1 ) 
+if "[%~1]" EQU "[EXCLUDE]" ( set "_GAS_Exclude[%_GAS_Exclude_ubound%]=%_GAS_buffer%" & shift & shift & GoTo :GetArgumentString-args )
+if defined _GAS_ToArray if defined %_GAS_Output%.ubound call set /a _GAS_Output_ubound=%%%_GAS_Output%.ubound%%
+if defined _GAS_ToArray if not defined _GAS_Output_ubound set /a _GAS_Output_ubound=-1
+if not defined _GAS_Shift GoTo :GetArgumentString-loop
+set /a _GAS_shift_index=0
+:GetArgumentString-shift-loop
+shift
+if %_GAS_shift_index% LSS %_GAS_Shift% GoTo :GetArgumentString-shift-loop 
+:GetArgumentString-loop
+if defined _GAS_Exclude.ubound if %_GAS_Exclude_index% LEQ %_GAS_Exclude_ubound% ( if "[!_GAS_Exclude[%_GAS_Exclude_index%]!]" EQU "[%~1]" ( shift & set /a _GAS_Exclude_index=0 & GoTo :GetArgumentString-loop ) else ( set /a _GAS_Exclude_index+=1 & GoTo :GetArgumentString-loop ) )
+if defined _GAS_ToArray if defined _GAS_Output_ubound set /a _GAS_Output_ubound+=1
+if defined _GAS_ToArray set "%_GAS_Output%[%_GAS_Output_ubound%]=%~1"
+set "_GAS_output_buffer=!_GAS_output_buffer! !_GAS_QUOTE!%~2!_GAS_QUOTE!"
+if defined _GAS_ToArray set /a _GAS_Exclude_index=0
+if "[%2]" NEQ "[]" GoTo :GetArgumentString-loop
+if defined _GAS_ToArray set /a %_GAS_Output%.ubound=%_GAS_Output_ubound%
+set /a "%_GAS_Output%=!_GAS_output_buffer!"
+for /F "delims=" %%a in ('set %_GAS_Output%') do (
+	endlocal
+	set "%%a"
+	)
 GoTo :EOF
 
 

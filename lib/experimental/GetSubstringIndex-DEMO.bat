@@ -581,7 +581,7 @@ set "_calltest[100]=call test argument1 argument2<echo test"
 
 set /a _split_demo_functioncalltest_index=0
 :split-demo-functioncalltest-loop
-echo test _split_demo_functioncalltest_index %_split_demo_functioncalltest_index%
+
 call :split-demo-helper "testing call function" _calltest[%_split_demo_functioncalltest_index%] _split_demo_functioncalltest_split_result "call" 
 
 
