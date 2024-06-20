@@ -293,6 +293,7 @@ Call :ClearVariablesByPrefix %_InsertString_prefix% _InsertString_prefix & GoTo 
 
 :split-demo
 
+GoTo :split-demo-skip-7
 REM GoTo :split-demo-skip-max-lenght-test
 REM GoTo :split-demo-skip-4.1
 
@@ -387,11 +388,9 @@ call :split-demo-helper "8163 characters long input string" "1234567890[]1234567
 :split-demo-skip-max-element-test
 echo.
 echo max element count test
-REM call :split-demo-helper "10 dot element" ",,,,,,,,,."                _split_demo_array "," 
+
 call :split-demo-helper "10 dot element" ".,.,.,.,.,.,.,.,.,."       _split_demo_array "," 
 call :split-demo-helper "10 dot element" "a,b,c,d,e,f,g,h,i,j"       _split_demo_array ","
-call :split-demo-helper "10 dot element" ".,,,,,,,,.,"               _split_demo_array ","
-call :split-demo-helper "10 dot element" ",,,,,,,,.,"                _split_demo_array ","
 call :split-demo-helper "10 dot element" ".,,,,,,,,,"                _split_demo_array ","
 call :split-demo-helper "10 dot element" ",.,,,,,,,,"                _split_demo_array ","
 call :split-demo-helper "10 dot element" ",,.,,,,,,,"                _split_demo_array ","
@@ -401,6 +400,8 @@ call :split-demo-helper "10 dot element" ",,,,,.,,,,"                _split_demo
 call :split-demo-helper "10 dot element" ",,,,,,.,,,"                _split_demo_array ","
 call :split-demo-helper "10 dot element" ",,,,,,,.,,"                _split_demo_array ","
 call :split-demo-helper "10 dot element" ",,,,,,,,.,"                _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,,,,."                _split_demo_array "," 
+call :split-demo-helper "10 dot element" ".,,,,,,,,.,"               _split_demo_array ","
 call :split-demo-helper "10 dot element" "a,,,,,,,,,"                _split_demo_array ","  
 call :split-demo-helper "10 dot element" ",b,,,,,,,,"                _split_demo_array ","
 call :split-demo-helper "10 dot element" ",,c,,,,,,,"                _split_demo_array ","
@@ -411,22 +412,22 @@ call :split-demo-helper "10 dot element" ",,,,,,g,,,"                _split_demo
 call :split-demo-helper "10 dot element" ",,,,,,,h,,"                _split_demo_array ","
 call :split-demo-helper "10 dot element" ",,,,,,,,i,"                _split_demo_array ","
 call :split-demo-helper "10 dot element" ",,,,,,,,,j"                _split_demo_array ","
-call :split-demo-helper "10 dot element" "aa,,,,,,,,,"                _split_demo_array ","  
-call :split-demo-helper "10 dot element" ",bb,,,,,,,,"                _split_demo_array ","
-call :split-demo-helper "10 dot element" ",,cc,,,,,,,"                _split_demo_array ","
-call :split-demo-helper "10 dot element" ",,,dd,,,,,,"                _split_demo_array ","
-call :split-demo-helper "10 dot element" ",,,,ee,,,,,"                _split_demo_array ","
-call :split-demo-helper "10 dot element" ",,,,,ff,,,,"                _split_demo_array ","
-call :split-demo-helper "10 dot element" ",,,,,,gg,,,"                _split_demo_array ","
-call :split-demo-helper "10 dot element" ",,,,,,,hh,,"                _split_demo_array ","
-call :split-demo-helper "10 dot element" ",,,,,,,,ii,"                _split_demo_array ","
-call :split-demo-helper "10 dot element" ",,,,,,,,,jj"                _split_demo_array ","
+call :split-demo-helper "10 dot element" "aa,,,,,,,,,"               _split_demo_array ","  
+call :split-demo-helper "10 dot element" ",bb,,,,,,,,"               _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,cc,,,,,,,"               _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,dd,,,,,,"               _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,ee,,,,,"               _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,ff,,,,"               _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,gg,,,"               _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,,hh,,"               _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,,,ii,"               _split_demo_array ","
+call :split-demo-helper "10 dot element" ",,,,,,,,,jj"               _split_demo_array ","
 call :split-demo-helper "10 dot element" ",,,,,,,,,"                 _split_demo_array ","
-call :split-demo-helper "10 dot element" " , , , , , , , , , "                 _split_demo_array ","
+call :split-demo-helper "10 dot element" " , , , , , , , , , "       _split_demo_array ","
 
-call :split-demo-helper "10 dot element" ".,.,.,.,.,.,.,.,.,." _split_demo_array "," 
-call :split-demo-helper "10 double dot element" "..,..,..,..,..,..,..,..,..,.." _split_demo_array ","
-call :split-demo-helper "10 triple dot element" "...,...,...,...,...,...,...,...,...,..." _split_demo_array ","
+call :split-demo-helper "10 dot element" ".,.,.,.,.,.,.,.,.,."                               _split_demo_array "," 
+call :split-demo-helper "10 double dot element" "..,..,..,..,..,..,..,..,..,.."              _split_demo_array ","
+call :split-demo-helper "10 triple dot element" "...,...,...,...,...,...,...,...,...,..."    _split_demo_array ","
 call :split-demo-helper "10 multiple dot element" ".,..,...,....,.....,......,....,...,..,." _split_demo_array ","
 call :split-demo-helper "10 dot with exclamation marks element" "!.,.!.,.!..,.!...,.!..!..,.!....!.,.!!...,.!.!.,.!.,.!" _split_demo_array ","
 
@@ -443,7 +444,7 @@ REM GoTo :EOF
 
 
 
-
+REM GoTo :split-demo-skip-6
 REM -----------
 REM commands before the call
 REM commands after the call 
@@ -454,6 +455,7 @@ REM double quotes before of after call
 REM -----------
 
 REM GoTo :split-demo-functioncalltest-skip
+
 
 echo.
 echo function call split test
@@ -593,7 +595,7 @@ if %_split_demo_functioncalltest_index% LEQ 100  GoTo :split-demo-functioncallte
 echo.
 echo experimental/debug tests
 echo.
-
+:split-demo-skip-5
 REM :GetFunctionDependencies batchfile outputvar optional functionnames ...
 REM ::returns all dependencies of all or select functions
 REM getfunctionrows
@@ -615,11 +617,113 @@ REM call :split-demo-helper "THIS&IS&A&TEST" "&" _split_demo_array "poison chara
 
 REM GoTo :split-demo-skip-5
 REM call :split-demo-helper "THIS&IS&A&TEST" "&" _split_demo_array "poison character, ampersands, works now"
-:split-demo-skip-5
+:split-demo-skip-6
 REM GoTo :split-demo-skip-6
 REM set "_split_demo_test=THIS&IS&A&TEST" & set "_split_demo_delim=&" & set "_split_demo_comment=poison character, ampersands, works now"
 REM call :split-demo-2-helper _split_demo_test _split_demo_delim _split_demo_array "%_split_demo_comment%"
-:split-demo-skip-6
+:split-demo-skip-7
+
+REM call :split-demo-helper "Simple split, dual delimiter" ",bb,,,,,,,,"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAA"                            _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXX"                         _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAA"                         _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAA"                      _split_demo_array "XXX" "YYY"
+
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAXXXAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAXXX"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXXXXAAA"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAXXXAAA"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXXXX"                      _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAXXX"                      _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXXXXAAA"                      _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXXXX"                         _split_demo_array "XXX" "YYY"
+
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAXXXAAAXXXAAA"          _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAXXXAAAXXX"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAXXXXXXAAA"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXXXXAAAXXXAAA"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAXXXAAAXXXAAA"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAXXXXXX"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXXXXXXXAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXXXXAAAXXXAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAXXXAAAXXX"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXXXXAAAXXX"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAXXXXXXAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXXXXXXXAAA"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXXXXAAAXXX"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAXXXXXX"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXXXXXXX"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXXXXXXX"                      _split_demo_array "XXX" "YYY"
+
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAXXXAAAXXXAAA"          _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAXXXAAAYYYAAA"          _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAYYYAAAXXXAAA"          _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAYYYAAAXXXAAAXXXAAA"          _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAXXXAAAXXX"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAXXXAAAYYY"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAYYYAAAXXX"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAYYYAAAXXXAAAXXX"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAXXXXXXAAA"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAXXXYYYAAA"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAYYYXXXAAA"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAYYYAAAXXXXXXAAA"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXXXXAAAXXXAAA"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXXXXAAAYYYAAA"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXYYYAAAXXXAAA"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAYYYXXXAAAXXXAAA"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAXXXAAAXXXAAA"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAXXXAAAYYYAAA"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAYYYAAAXXXAAA"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "YYYAAAXXXAAAXXXAAA"             _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAXXXXXX"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAXXXYYY"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXAAAYYYXXX"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAYYYAAAXXXXXX"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXXXXXXXAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXXXXYYYAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXYYYXXXAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAYYYXXXXXXAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXXXXAAAXXXAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXXXXAAAYYYAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXYYYAAAXXXAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "YYYXXXAAAXXXAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAXXXAAAXXX"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAXXXAAAYYY"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAYYYAAAXXX"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "YYYAAAXXXAAAXXX"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXXXXAAAXXX"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXXXXAAAYYY"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXYYYAAAXXX"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAYYYXXXAAAXXX"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAXXXXXXAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAXXXYYYAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAYYYXXXAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "YYYAAAXXXXXXAAA"                _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXXXXXXXAAA"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXXXXYYYAAA"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXYYYXXXAAA"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "YYYXXXXXXAAA"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXXXXAAAXXX"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXXXXAAAYYY"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXYYYAAAXXX"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "YYYXXXAAAXXX"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAXXXXXX"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAXXXYYY"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXAAAYYYXXX"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "YYYAAAXXXXXX"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXXXXXXX"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXXXXYYY"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAXXXYYYXXX"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "AAAYYYXXXXXX"                   _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXXXXXXX"                      _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXXXXYYY"                      _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "XXXYYYXXX"                      _split_demo_array "XXX" "YYY"
+call :split-demo-helper "Simple split, dual delimiter" "YYYXXXXXX"                      _split_demo_array "XXX" "YYY"
+
+
+
+
+
 
 Call :ClearVariablesByPrefix _split_demo
 
@@ -804,101 +908,6 @@ REM :GetSubstringIndex-args
 
 
 
-AAA
-AAAXXX
-XXXAAA
-AAAXXXAAA
-
-AAAXXXAAAXXXAAA
-AAAXXXAAAXXX
-AAAXXXXXXAAA
-XXXAAAXXXAAA
-AAAXXXXXX
-XXXAAAXXX
-XXXXXXAAA
-XXXXXX
-
-AAAXXXAAAXXXAAAXXXAAA
-AAAXXXAAAXXXAAAXXX
-AAAXXXAAAXXXXXXAAA
-AAAXXXXXXAAAXXXAAA
-XXXAAAXXXAAAXXXAAA
-AAAXXXAAAXXXXXX
-AAAXXXXXXXXXAAA
-XXXXXXAAAXXXAAA
-XXXAAAXXXAAAXXX
-AAAXXXXXXAAAXXX
-XXXAAAXXXXXXAAA
-XXXXXXXXXAAA
-XXXXXXAAAXXX
-XXXAAAXXXXXX
-AAAXXXXXXXXX
-XXXXXXXXX
-
-AAAXXXAAAXXXAAAXXXAAA
-AAAXXXAAAXXXAAAYYYAAA
-AAAXXXAAAYYYAAAXXXAAA
-AAAYYYAAAXXXAAAXXXAAA
-AAAXXXAAAXXXAAAXXX
-AAAXXXAAAXXXAAAYYY
-AAAXXXAAAYYYAAAXXX
-AAAYYYAAAXXXAAAXXX
-AAAXXXAAAXXXXXXAAA
-AAAXXXAAAXXXYYYAAA
-AAAXXXAAAYYYXXXAAA
-AAAYYYAAAXXXXXXAAA
-AAAXXXXXXAAAXXXAAA
-AAAXXXXXXAAAYYYAAA
-AAAXXXYYYAAAXXXAAA
-AAAYYYXXXAAAXXXAAA
-XXXAAAXXXAAAXXXAAA
-XXXAAAXXXAAAYYYAAA
-XXXAAAYYYAAAXXXAAA
-YYYAAAXXXAAAXXXAAA
-AAAXXXAAAXXXXXX
-AAAXXXAAAXXXYYY
-AAAXXXAAAYYYXXX
-AAAYYYAAAXXXXXX
-AAAXXXXXXXXXAAA
-AAAXXXXXXYYYAAA
-AAAXXXYYYXXXAAA
-AAAYYYXXXXXXAAA
-XXXXXXAAAXXXAAA
-XXXXXXAAAYYYAAA
-XXXYYYAAAXXXAAA
-YYYXXXAAAXXXAAA
-XXXAAAXXXAAAXXX
-XXXAAAXXXAAAYYY
-XXXAAAYYYAAAXXX
-YYYAAAXXXAAAXXX
-AAAXXXXXXAAAXXX
-AAAXXXXXXAAAYYY
-AAAXXXYYYAAAXXX
-AAAYYYXXXAAAXXX
-XXXAAAXXXXXXAAA
-XXXAAAXXXYYYAAA
-XXXAAAYYYXXXAAA
-YYYAAAXXXXXXAAA
-XXXXXXXXXAAA
-XXXXXXYYYAAA
-XXXYYYXXXAAA
-YYYXXXXXXAAA
-XXXXXXAAAXXX
-XXXXXXAAAYYY
-XXXYYYAAAXXX
-YYYXXXAAAXXX
-XXXAAAXXXXXX
-XXXAAAXXXYYY
-XXXAAAYYYXXX
-YYYAAAXXXXXX
-AAAXXXXXXXXX
-AAAXXXXXXYYY
-AAAXXXYYYXXX
-AAAYYYXXXXXX
-XXXXXXXXX
-XXXXXXYYY
-XXXYYYXXX
-YYYXXXXXX
 
 
 
