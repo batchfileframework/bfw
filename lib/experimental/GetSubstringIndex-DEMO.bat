@@ -805,6 +805,20 @@ REM if defined _SPLT_Buffer if "[%_SPLT_Buffer:~1,3%]" EQU "[DIM]" if "[%_SPLT_B
 REM if defined _SPLT_Buffer if "[%_SPLT_Buffer:~4,1%]" EQU "[]" ( set /a _SPLT_Delimiter_Dimension=%_SPLT_Buffer:~0,1% 2>nul )
 set /a _SPLT_Delimiter.index=0
 if "[!%~1.ubound!]" NEQ "[]" set /a _SPLT_Delimiter_input_array_ubound=!%~1.ubound! 2>nul
+
+REM FOr each delimiter 
+REM copyobjects if array
+REM get len if available
+REM trim
+REM trunkate
+REM dimensions of delimiters
+
+REM if "[!%~1.ubound!]" EQU "[]" GoTo :CreateTestArray-delimiter-array-skip
+REM if defined %~1.ubound ( set /a _CTA_Delimiters.ubound-=1 & for /l %%a in (0,1,!%~1.ubound!) do ( set /a _CTA_Delimiters.ubound+=1 & Call :CopyObject %~1[%%a] _CTA_Delimiters[%_CTA_Delimiters.ubound%] ) )
+REM shift & GoTo :CreateTestArray-args 
+REM :CreateTestArray-delimiter-array-skip
+
+
 :Split-delimiters-loop-args
 if "[%~1]" EQU "[LEN]" ( set /a _SPLT_Delimiter[%_SPLT_Delimiter.ubound%].len=%~2 & shift & shift & GoTo :Split-delimiters-loop-args )
 if "[%~1]" NEQ "[]" set /a _SPLT_Delimiter.ubound+=1
@@ -818,6 +832,8 @@ if defined _SPLT_Delimiter_is_array if %_SPLT_Delimiter.index% LEQ %_SPLT_Delimi
 set "_SPLT_Delimiter.index=" & set "_SPLT_Delimiter_is_array=" & if "[%~2]" NEQ "[]" ( shift & GoTo :Split-delimiters-args )
 set /a _SPLT_Delimiter.index=0
 
+REM REBUILD delimiter setup, include LEN check 
+
 REM set "_SPLT_Input_Pointer=_SPLT_Input" 
 REM set "_SPLT_Delimiter_Pointer=_SPLT_Delimiter"
 REM if defined !_SPLT_Input! ( set "_SPLT_Input_Pointer=!_SPLT_Input!" )
@@ -827,12 +843,13 @@ if not defined _SPLT_Output_ubound set /a _SPLT_Output_ubound=-1
 set "_SPLT_Input_Pointer=_SPLT_Input" & if defined !_SPLT_Input! ( set "_SPLT_Input_Pointer=!_SPLT_Input!" )
 Call :len "%_SPLT_Input_Pointer%" _SPLT_Input_len
 if not defined _SPLT_StartIndex set /a _SPLT_StartIndex=0
-REM set _SPLT
+
 set /a _SPLT_Delimiter.index=0
 :Split-loop
-REM echo :Split-loop
+set _SPLT
+echo :Split-loop _SPLT_Delimiter.index %_SPLT_Delimiter.index%
 set /a _SPLT_Index=%_SPLT_StartIndex%
-
+REM IF _SPLT_Index goes over _SPLT_Result, exit loop for this delimiter, make sure to clear _SPLT_Result at the right time
 set "_SPLT_Delimiter_Pointer=_SPLT_Delimiter[%_SPLT_Delimiter.index%]" 
 if defined !%_SPLT_Delimiter_Pointer%! ( set "_SPLT_Delimiter_Pointer=!%_SPLT_Delimiter_Pointer%!" )
 set "_SPLT_Delimiter_len=!_SPLT_Delimiter[%_SPLT_Delimiter.index%].len!"
@@ -860,27 +877,36 @@ REM save .len of each element
 REM increment ubound if last element position was end of string
 REM save index of each element  .index .delim .len
 
-
+echo _SPLT_Result before %_SPLT_Result%
 if not defined _SPLT_Result ( set /a _SPLT_Result=%_SPLT_Index% & set "_SPLT_LastDelimiter=!_SPLT_Search!" & set "_SPLT_LastDelimiterLen=%_SPLT_Delimiter_len%" ) else ( if !_SPLT_Index! LSS !_SPLT_Result! ( set /a _SPLT_Result=%_SPLT_Index% & set "_SPLT_LastDelimiter=%_SPLT_Search%" & set "_SPLT_LastDelimiterLen=%_SPLT_Delimiter_len%" ) )
-
+echo _SPLT_Result after %_SPLT_Result%
 set /a _SPLT_Delimiter.index+=1
 REM echo a2 _SPLT_Delimiter.index %_SPLT_Delimiter.index% _SPLT_Delimiter.ubound %_SPLT_Delimiter.ubound%
 IF %_SPLT_Delimiter.index% LEQ %_SPLT_Delimiter.ubound% GoTo :Split-loop
+set /a _SPLT_Index=%_SPLT_Result%
+
 
 set /a _SPLT_Output_ubound+=1
 set /a _SPLT_Len=%_SPLT_Index%-%_SPLT_StartIndex%
+
+echo _SPLT_Result %_SPLT_Result% cut %_SPLT_StartIndex%,%_SPLT_Len%
+
 REM echo a3 %_SPLT_Input_Pointer%:~%_SPLT_StartIndex%,%_SPLT_Len%
 REM echo set "%_SPLT_Output%[%_SPLT_Output_ubound%]=!%_SPLT_Input_Pointer%:~%_SPLT_StartIndex%,%_SPLT_Len%!"
 set "%_SPLT_Output%[%_SPLT_Output_ubound%]=!%_SPLT_Input_Pointer%:~%_SPLT_StartIndex%,%_SPLT_Len%!"
 if not defined _SPLT_NoDelimiters set "%_SPLT_Output%[%_SPLT_Output_ubound%].delimiter=!_SPLT_Search!"
 set "%_SPLT_Output%[%_SPLT_Output_ubound%].len=%_SPLT_LastDelimiterLen%"
 set "%_SPLT_Output%[%_SPLT_Output_ubound%].index=%_SPLT_Index%"
+echo set /a _SPLT_StartIndex=%_SPLT_Index%+%_SPLT_Delimiter_len%
+
+REM DOn't add delimiter len if no delimiter found (end of line ? , does it really matter ?)
 set /a _SPLT_StartIndex=%_SPLT_Index%+%_SPLT_Delimiter_len%
 
 
 REM echo a5 _SPLT_Index %_SPLT_Index% _SPLT_Input_len %_SPLT_Input_len%
 
 set /a _SPLT_Delimiter.index=0
+echo if %_SPLT_Index% LSS %_SPLT_Input_len% GoTo :Split-loop  AND _SPLT_StartIndex %_SPLT_StartIndex%
 if %_SPLT_Index% LSS %_SPLT_Input_len% GoTo :Split-loop
 
 REM echo finished _SPLT_Output_ubound %_SPLT_Output_ubound%

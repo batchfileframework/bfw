@@ -1,0 +1,511 @@
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!altsnap start at boot AS ADMIN
+altsnap
+advanced -> don't restore fancyzone snapped windows
+increate interzone tolerance
+create fancyzones
+Zsnapmode=1
+enable mouse 5 hotclicking
+InterZone=128
+
+enable sharing & discovery, sharing sans password
+
+increase display 
+graphics settings -> hardware accelerated scheduling on 
+disable nearby share
+
+openshell don' t tab to search
+
+apps dark mode, le script marche pas
+
+24 hour time
+
+ditto
+ditto don't notify (setting -> advanced options -> show startup tooltip message to false)
+ditto make dark
+
+special paste remove URL trackers
+clip.AsciiTextReplaceRegex("[?].*", "" );
+
+return false
+
+virus & thread -> notification settings -> recent activity and scan result -> off
+
+app permission -> account info -> off
+app permission -> contacts -> off
+app permission -> calendar 
+app permission -> phone call
+app permission -> call history
+app permission -> email
+app permission -> tasks 
+app permission -> messaging
+app permission -> other devices
+app permission -> diagnostics
+
+
+redirect notepad++
+notepad++ dark 
+notepad++ disable autocomplete 
+notepad++ map all valid file formats
+install notepad++ plugins 
+associate all file types 
+CTRL+R to bring replace dialog
+paste function name in function list filter
+CTRL+- to go to previous cursor location, using location navigate (it's not working) (it works but not the keybind)
+SHIFT+F2 to go to currently selected function
+add to 
+%APPDATA%\Notepad++\plugins\config\SurroundSelection.ini
+this 
+AdditionalChars=%
+for plugin surroundselection
+WHEN YOU PASTE, YOU LOSE YOUR SELECT, it should be, when you paste, your pasted text is selected
+CTRL+K to delete whole line
+In replace, "In selection" should always be checked
+also probably replace in selection/replace all should be split button like prev/next
+ctrl+R should replace string (ctrl+f dialog) not reload file (which probably loses all changes without asking)
+
+
+---------pas présentement possible
+notepad++ create an additionnal session
+notepad++ session switcher
+notepad++ change default session
+notepad++ change first instance default session
+notepad++ change second instance default session
+notepad++ shortcut to open notepad++ in a new instance
+-----------
+
+
+install rufus
+association, iso to rufus as a context menu option
+
+default mail thunderbird
+default browser firefox
+default map ?????
+
+qttabbar
+
+broken install
+eartrumpet 
+powertoys
+nfo viewer /infekt
+steam
+
+move user folders
+
+gajim stop popup
+move gajim folder
+
+
+firefox
+reopen old tabs and windows on restart
+website appearance to dark
+set firefox theme to dark
+firefox, turn off pocket again
+create profiles
+main
+temporary
+highsecurity
+special1
+special2
+
+new profile
+always show bookmarks toolbar
+clear tutorial bookmarks
+clear tutorial
+clear shortcuts and pocket from new tab screen
+firefox -> settings -> colours -> override colours never
+download button -> uncheck hide when empty
+website appearance -> dark
+privacy -> strict
+privacy -> delete all cookies when closed
+privacy -> tell website not to sell my data
+privacy -> tell website do not track
+privacy -> permission
+location -> block request
+notification -> block request
+autoplay -> block audio and video
+firefox data collection 
+allow firefox to send -> uncheck 
+allow firefox to install studies -> uncheck
+enable https-only mode in all windows
+recover passswords
+enable csv password import in about:config signon.management.page.fileImport.enabled = true
+DNS (I need a provider)
+add the bookmark search keywords
+customize toolbar -> remove extra search
+disable 4th and 5th button
+about:config 
+mousebutton.4th.enabled=false
+mousebutton.5th.enabled=false
+
+Reddit Enhancement Suite https://addons.mozilla.org/en-CA/firefox/addon/reddit-enhancement-suite/
+Copy Tabs https://addons.mozilla.org/en-US/firefox/addon/copy-tabs/
+Copy image as Base64  https://addons.mozilla.org/en-CA/firefox/addon/copy-image-as-base64/
+Tab Manager Plus for Firefox https://addons.mozilla.org/en-US/firefox/addon/tab-manager-plus-for-firefox/
+UMiBO https://addons.mozilla.org/en-CA/firefox/addon/umibo/
+Merge Windows https://addons.mozilla.org/en-CA/firefox/addon/merge-window/
+Augmented Steam https://addons.mozilla.org/en-CA/firefox/addon/augmented-steam/
+Disable YouTube Seek by Number https://addons.mozilla.org/en-US/firefox/addon/youtube-disable-number-seek/
+Ambient Mode Blocker https://addons.mozilla.org/en-US/firefox/addon/ambient-mode-blocker/
+Profile Switcher for Firefox https://addons.mozilla.org/en-US/firefox/addon/profile-switcher/
+Old Reddit Redirect https://addons.mozilla.org/en-US/firefox/addon/old-reddit-redirect/
+cookie autodelete https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/
+Go to Sound Tab https://addons.mozilla.org/en-CA/firefox/addon/go-to-sound-tab/
+uBlock Origin https://addons.mozilla.org/en-CA/firefox/addon/ublock-origin/
+uBlacklist https://addons.mozilla.org/en-CA/firefox/addon/ublacklist/
+Dark Reader https://addons.mozilla.org/en-CA/firefox/addon/darkreader/
+Redirect YouTube Shorts to YouTube https://addons.mozilla.org/en-CA/firefox/addon/redirect-shorts-to-youtube/
+Auto Save HTML https://addons.mozilla.org/en-US/firefox/addon/auto-save-html/
+DownThemAll! https://addons.mozilla.org/en-CA/firefox/addon/downthemall/
+Close Tabs to the Right https://addons.mozilla.org/en-US/firefox/addon/close-tabs-right/
+Add-ons Search Detection https://addons.mozilla.org/en-US/firefox/addon/auto-save-html/
+Undo Close Tab https://addons.mozilla.org/en-CA/firefox/addon/undoclosetabbutton/
+Shortkeys (Custom Keyboard Shortcuts) https://addons.mozilla.org/en-CA/firefox/addon/shortkeys/
+Order Tabs by Domain https://addons.mozilla.org/en-CA/firefox/addon/order-tabs-by-domain/
+Instance Assistant for Lemmy & Kbin https://addons.mozilla.org/en-CA/firefox/addon/lemmy-instance-assistant/
+Don't Accept image/webp https://addons.mozilla.org/en-CA/firefox/addon/dont-accept-webp/
+I still don't care about cookies https://addons.mozilla.org/en-CA/firefox/addon/istilldontcareaboutcookies/
+Close Duplicate Tabs https://addons.mozilla.org/en-US/firefox/addon/close-duplicate-tabs/
+Drag-Select Link Text https://addons.mozilla.org/en-CA/firefox/addon/drag-select-link-text/
+Gesturefy https://addons.mozilla.org/en-CA/firefox/addon/gesturefy/
+Containers On The Go https://addons.mozilla.org/en-CA/firefox/addon/containers-on-the-go/
+Add-on List-o-matic 9000 https://addons.mozilla.org/en-CA/firefox/addon/add-on-list-o-matic-9000/
+
+Drag-Select Link Text https://addons.mozilla.org/en-CA/firefox/addon/drag-select-link-text/
+Print Edit WE https://addons.mozilla.org/en-CA/firefox/addon/print-edit-we/
+Tile Tabs WE https://addons.mozilla.org/en-CA/firefox/addon/tile-tabs-we/
+Zoom Page WE https://addons.mozilla.org/en-CA/firefox/addon/zoom-page-we/
+
+SponsorBlock - Skip Sponsorships on YouTube https://addons.mozilla.org/en-CA/firefox/addon/sponsorblock/
+Bring Back Youtube Download https://addons.mozilla.org/en-CA/firefox/addon/bring-back-youtube-download/
+Video Downloader for Reddit - Redditsave https://addons.mozilla.org/en-CA/firefox/addon/downloader-4-reddit-redditsave/
+
+Open from Clipboard
+Copy Image as Data URL
+Cookie Quick Manager https://addons.mozilla.org/en-US/firefox/addon/cookie-quick-manager/
+Cookie Manager https://addons.mozilla.org/en-CA/firefox/addon/a-cookie-manager/
+
+add search toolbar
+
+am amazon
+ali aliexpress
+eb ebay US
+ebc ebay canada
+kj kijiji
+wk wikipedia
+tb piratebay
+rd site:reddit.com
+lm lemmy search
+sx stack exchange search
+voir mycroft search
+
+unpin pocket
+
+mumble 
+dark theme
+10ms latency
+layout stacked
+uncheck ask on quit while connected
+network reconnect last connected server
+pin mumble
+
+
+steam 
+start location -> library
+24 hour clock
+
+interface task bar uncheck community et big picture
+notify me about new release UNCHECK
+
+xmousebuttoncontrol
+mouse 4/5 ctrl+pageupdown
+{ACTIVATE}{CTRL}{PGUP}
+{ACTIVATE}{CTRL}{PGDN}
+options override mouse speed = 7 + enhance mouse pointer precision
+
+powertoys
+install webview2 
+install .net 6 sdk
+disable awake
+app theme dark
+
+enable keyboard manager
+remap shortcut ctrl+shift+w to ctrl+shift+t
+
+fancyzone
+restore the zones C:\Users\user\AppData\Local\Microsoft\PowerToys\FancyZones\custom-layouts.json
+non primary button to toggle zone activation
+show all zones while dragging
+make dragged window tranparent
+allow child window snapping
+use middle click button to toggle multiple zones spanning
+
+cura 
+add printer
+dark mode
+c
+
+
+everything
+CTRL+F3 
+
+qttabbar
+appearance menu style -> windows xp
+appearance menu style -> text color active -> bright
+appearance menu style -> text color inactive -> less bright
+
+
+Putty
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ADJUST DEFAULT SETTINGS
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!restore sessions
+
+create custom toolbar folder in documents
+taskbartoolbar
+uncheck show text
+uncheck show title
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+FINIR COMMAND FOLDER
+nirsoft linkage path
+mettre les autres dans le PATH
+%windir%\Microsoft.NET\Framework64\v4.0.30319
+%USERPROFILE%\.dotnet\tools
+%programfiles%\Oracle\VirtualBox
+%USERPROFILE%\command
+ajouter les autre application CLI
+script qui arrange COMMAND automatiquement
+installer plugin sketchup
+monter sketchup matrix
+
+tt
+les updates windows importantes
+
+le temps 24H -> time & language -> region -> change data formats -> long time -> 09:40:07  HH:MM:SS pas the AM/PM
+le temps 24H -> time & language -> region -> change data formats -> short date - > 2017-04-05  AAAA-MM-DD
+
+installer ADB
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+inking and typing -> getting to know you (fait)
+
+apps
+powershell -Command "Get-AppxPackage Microsoft.GetHelp | Remove-AppxPackage"
+powershell -Command "Get-AppxPackage Microsoft.YourPhone | Remove-AppxPackage"
+powershell -Command "Get-AppxPackage Microsoft.549981C3F5F10 | Remove-AppxPackage"
+powershell -Command "Get-AppxPackage Microsoft.WindowsMaps | Remove-AppxPackage"
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!nettoyage du start menu
+
+
+install office 2016
+
+nettoyage scheduled tasks
+nettoyage services
+
+Task manager -> select More details by default
+
+security center -> account protection -> not signed in -> dismiss
+security center -> app&browser -> setting to block potentially unwanted app -> dismiss
+
+install explorer++ , copy dans programfiles + link dans start menu
+
+
+firefox, pre-config de profile switcher, profile utilisable avec theme
+
+firefox 
+Don't search for .lan addresses / about:config  browser.fixup.domainsuffixwhitelist.lan  / plus sign, true
+Never complain about self-signed certificates on .lan addresses ?
+about:config
+browser.fixup.domainsuffixwhitelist.lan
+
+
+firefox containers
+firefox language & spelling https://addons.mozilla.org/en-CA/firefox/addon/fran%C3%A7ais-language-pack/
+							https://addons.mozilla.org/en-CA/firefox/addon/dictionnaire-fran%C3%A7ais1/
+							
+firefox bypass-paywalls-firefox-clean
+
+firefox spoof geolocation https://addons.mozilla.org/en-CA/firefox/addon/spoof-geolocation/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search
+lat long 45.501690,-73.567253
+
+
+
+ear trumpet
+Hide normal sound icon : edit group policy -> user configuration -> administrative template -> Start menu and taskbar -> remove the volume control icon 
+
+
+putty 
+window->behaviour->warn before closing window (uncheck)
+terminal-feature-disable application keypadmode
+windows-lines of scoll back add 00
+session save default
+
+everything
+add to default settings, column of type
+general -> es:URL protocol 
+general -> show Everything context menu
+general -> EFU file association
+general -> UI -> single click tray
+general -> keyboard -> show windows hotkey -> ctrl+F3
+
+vlc use only one instance
+
+install losslesscut (difficile)
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!sketchup setup
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!handbrake setup
+
+
+SOUND THEME SYSTEMSHOCK STYLE
+
+
+firefox ublock origin block annoyances 
+
+
+sumatra pdf
+burger menu -> settings -> theme -> dark
+
+freecad dark mode
+tools -> addon manager -> ok -> show addons containing -> preference packs -> dracula -> install
+.STEP ouvrir dans FreeCAD
+
+
+prussa slicer
+
+unpack <PRUSA-INSTALL-DIR>\Prusa3D\PrusaSlicer\resources\profiles
+
+C:\Program Files\PrusaSlicer\resources\profiles
+change view to perspective (K shortcut)
+firmware type marlin 2
+bed size 180x180
+build volume max print height 180mm
+nozzle and bed temp 220/60
+infill 15
+don't ask to open a link
+
+
+windows printers
+remove fax
+remove XPS printer
+
+
+file association
+associate opening pdf with sumatra
+
+losslesscut 
+context menu on videos
+
+disable sticky keys
+disable filter keys
+
+winscp 
+explorer style
+view style is LIST
+don't ask to quit while connected (close -> never ask me again)
+
+deluge
+
+C:\Program Files\Deluge\share\gtk-3.0\settings.ini
+[Settings]
+gtk-application-prefer-dark-theme=true
+
+firefox
+set network.protocol-handler.expose.magnet -> false  in about:config
+click on magnet link
+select C:\Program Files\Deluge\deluge.exe
+
+https://github.com/muriloportugal/DelugeAddTorrent
+in option, set deluge url example  
+https://shodan.ismene.usbx.me/deluge/
+
+firefox
+enable Ctrl+Tab cycles through tabs in recently used order
+
+OBS pas installé
+
+live audio visualizer / spectrum analyser / spectrum waterfall
+
+historical graphing of cpu / memory / temperature
+
+make wiztree darkmode
+disable update checking
+
+
+LoadOnTabSelect3
+set "stopped" by default
+
+
+REG ADD "HKEY_CURRENT_USER\SOFTWARE\Google\SketchUp8\Settings" /v Shortcut_10 /t REG_SZ /d "0 0 0 R selectRectangleTool:" /f
+REG ADD "HKEY_CURRENT_USER\SOFTWARE\Google\SketchUp8\Settings" /v Shortcut_15 /t REG_SZ /d "0 0 0 G Edit/Make Component..." /f
+REG ADD "HKEY_CURRENT_USER\SOFTWARE\Google\SketchUp8\Settings" /v Shortcut_18 /t REG_SZ /d "0 0 0 Q selectRotateTool:" /f
+
+
+install audacity 
+
+sharex
+disable auto uploading to web
+single click to open main window
+double click to edit last screenshot
+by default, answer the question, don't upload to imgur
+add to actions
+losslesscut
+something to speed up playback to 1.3x
+make sure microphone is recording when taking video screenshots
+something to make handbrake resize to under 25MB (24.5MB)
+irfanview
+install sharex integration
+keyboard shortcut to open last screenshot in editor
+saved files should include lexicographic date at beginning of file name ISO8601 format
+screenshot, but don't freeze image, just select the box, then press again at the right time, for the screenshot
+https://www.ghacks.net/2020/10/17/how-to-add-a-hotkey-for-delayed-screenshot-capture-in-sharex/
+saved file names should make sense, start with ISO8601 datehour
+
+firefox
+Confirm before closing multiple tabs -> yes
+
+
+fancyzone and always on top
+stop complaining about admin level windows
+
+
+moved folders
+
+in %userfolder%
+
+mklink /d downloads D:\shodan\Downloads
+
+winscp stop asking about updates
+
+notepad++
+make sure Replace -> In Selection is always on by default
+
+install imhex
+skip tutorial
+enable darkmode
+allow right click on any file to open in imhex
+
+
+disable path lenght limit 260 characters
+
+
+losslesscut  allow multiple instance
+setup exact frame cutting by default (experimental feature)
+
+
+
+replace regedit with totalreg
+find what settings to change and RECORD
+make sure old regedit still usable
+replace regedit the command itself, with totalreg
+
+inkscape
+svg files should open in inkscape
+
+
+virtualbox 
+scaled mode by default
+avec le top et bottom toolbar
+don't capture cursor
