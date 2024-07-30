@@ -784,6 +784,10 @@ setlocal enabledelayedexpansion
 set "_SPLT_localscope=true"
 set "_SPLT_CaseSensitivity=/i"
 
+REM read the input parameters
+
+REM then for each delimiters, get inputs parameters, get len if available
+
 :Split-args
 if "[%~1]" EQU "[CASESENSITIVE]" ( set "_SPLT_CaseSensitivity=" & shift & GoTo :Split-args )
 if "[%~1]" EQU "[LIMIT]" ( set /a _SPLT_StartIndex=%~2 & shift & shift & GoTo :Split-args )
@@ -819,6 +823,8 @@ REM shift & GoTo :CreateTestArray-args
 REM :CreateTestArray-delimiter-array-skip
 
 
+REM input loop before delimiter loop
+
 :Split-delimiters-loop-args
 if "[%~1]" EQU "[LEN]" ( set /a _SPLT_Delimiter[%_SPLT_Delimiter.ubound%].len=%~2 & shift & shift & GoTo :Split-delimiters-loop-args )
 if "[%~1]" NEQ "[]" set /a _SPLT_Delimiter.ubound+=1
@@ -833,6 +839,8 @@ set "_SPLT_Delimiter.index=" & set "_SPLT_Delimiter_is_array=" & if "[%~2]" NEQ 
 set /a _SPLT_Delimiter.index=0
 
 REM REBUILD delimiter setup, include LEN check 
+
+
 
 REM set "_SPLT_Input_Pointer=_SPLT_Input" 
 REM set "_SPLT_Delimiter_Pointer=_SPLT_Delimiter"
