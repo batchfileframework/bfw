@@ -783,10 +783,14 @@ set "_Split_prefix=_SPLT"
 setlocal enabledelayedexpansion
 set "_SPLT_localscope=true"
 set "_SPLT_CaseSensitivity=/i"
-
+set "_SPLT_Output=%~1" & shift
 REM read the input parameters
 
 REM then for each delimiters, get inputs parameters, get len if available
+
+:Split-input-args
+set "_SPLT_Input=%~1"
+
 
 :Split-args
 if "[%~1]" EQU "[CASESENSITIVE]" ( set "_SPLT_CaseSensitivity=" & shift & GoTo :Split-args )
@@ -796,8 +800,8 @@ if "[%~1]" EQU "[TRIM]" ( echo NOT IMPLEMENTED & shift & GoTo :Split-args )
 if "[%~1]" EQU "[TRUNKATE]" ( echo NOT IMPLEMENTED & shift & GoTo :Split-args )
 if "[%~1]" EQU "[NODELIMITERS]" ( set "_SPLT_NoDelimiters=true" & shift & GoTo :Split-args )
 
-set "_SPLT_Input=%~1"
-set "_SPLT_Output=%~2"
+
+
 shift & shift
 
 set /a _SPLT_Delimiter.ubound=-1
